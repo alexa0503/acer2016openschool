@@ -9,10 +9,9 @@ use Carbon\Carbon;
 
 class WechatController extends Controller
 {
-    protected $app_id = 'wx1f984cba30eb34b7';
     public function auth(Request $request)
     {
-        $app_id = $this->app_id;
+        $app_id = env('WECHAT_APPID');
         //$callback_url = $request->session()->get('wechat.redirect_uri');
         $callback_url = $request->getUriForPath('/wechat/callback');
         $url = "http://wx.ompchina.net/sns/oauth2?appid=".$app_id."&redirecturl=".$callback_url."&oauthscope=snsapi_userinfo";
@@ -20,7 +19,7 @@ class WechatController extends Controller
     }
     public function callback(Request $request)
     {
-        $app_id = $this->app_id;
+        $app_id = env('WECHAT_APPID');
         $openid = $request->get('openid');
         $url = "http://wx.ompchina.net/sns/UserInfo?appId={$app_id}&openid={$openid}";
         $data = Helper\HttpClient::get($url);
