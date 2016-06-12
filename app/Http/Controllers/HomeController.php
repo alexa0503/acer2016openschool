@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('web');
-        $this->middleware('wechat.auth');
+        //$this->middleware('wechat.auth');
     }
 
     public function index()

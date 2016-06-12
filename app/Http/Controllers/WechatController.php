@@ -12,10 +12,8 @@ class WechatController extends Controller
     public function auth(Request $request)
     {
         $app_id = env('WECHAT_APPID');
-        //$callback_url = $request->session()->get('wechat.redirect_uri');
         $callback_url = $request->getUriForPath('/wechat/callback');
         $state = '';
-        //$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$app_id."&redirecturl=".$callback_url."&oauthscope=snsapi_userinfo";
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$app_id."&redirect_uri=".$callback_url."&response_type=code&scope=snsapi_userinfo&state=$state#wechat_redirect";
         return redirect($url);
     }
