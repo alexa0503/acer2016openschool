@@ -14,14 +14,26 @@ class WechatController extends Controller
         $app_id = env('WECHAT_APPID');
         //$callback_url = $request->session()->get('wechat.redirect_uri');
         $callback_url = $request->getUriForPath('/wechat/callback');
-        $url = "http://wx.ompchina.net/sns/oauth2?appid=".$app_id."&redirecturl=".$callback_url."&oauthscope=snsapi_userinfo";
+        //$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$app_id."&redirecturl=".$callback_url."&oauthscope=snsapi_userinfo";
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".$app_id."&redirect_uri=".$callback_url."&response_type=code&scope=snsapi_userinfo&state=$state#wechat_redirect";
         return redirect($url);
     }
     public function callback(Request $request)
     {
         $app_id = env('WECHAT_APPID');
-        $openid = $request->get('openid');
-        $url = "http://wx.ompchina.net/sns/UserInfo?appId={$app_id}&openid={$openid}";
+        $secret = env('WECHAT_SECRET');
+        $code = $request->get('code');
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $app_id . "&secret=" . $secret . "&code=$code&grant_type=authorization_code";
+        $data = Helper\HttpClient::get($url);
+        $token = json_decode($data);
+        if (isset($token->errcode) && $token->errcode != 0) {
+            return view('errors/503',['error_msg' => '获取用户信息失败~']);
+        }
+
+        $wechat_token = $token->access_token;
+        $openid = $token->openid;
+
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$wechat_token}&openid={$openid}";
         $data = Helper\HttpClient::get($url);
         $user_data = json_decode($data);
         if(isset($user_data) && isset($user_data->errcode)){
