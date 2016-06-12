@@ -306,11 +306,11 @@ function endGame(url) {
         },
         success: function(json){
             $('.page2').fadeOut(500);
-            if(json.ret !=0 || json.prize == 0){
-                $('.page3').fadeIn(500); //人人有奖
+            if(json && json.ret == 0 && json.prize != 12){
+                $('.page3b').fadeIn(500); //1-11、13 等奖
             }
             else{
-                $('.page3b').fadeIn(500); //1-11、13 等奖
+                $('.page3').fadeIn(500); //人人有奖
             }
             $('.bottomBanner').fadeIn(500);
         },

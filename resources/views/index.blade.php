@@ -135,109 +135,17 @@
                         <div class="overview">
                             <div class="awardList">
                             	<div class="alOuter">
-                                	<div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd1.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd2.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd3.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd4.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd5.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd6.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd7.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd8.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd9.png')}}"></a>
-                                            <span class="abs awdCode">SN1234567890</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd10.png')}}"></a>
-                                            <span class="abs awdCode">SN1234567890</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd11.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd12.png')}}"></a>
-                                            <span class="abs awdCode"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="awardInit">
-                                    	<div class="innerDiv">
-                                        	<span class="abs awdTime">中奖时间：2016.06.06</span>
-                                        	<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd13.png')}}"></a>
-                                            <span class="abs awdCode">SN1234567890</span>
-                                        </div>
-                                    </div>
+@foreach ($lotteries as $lottery)
+@if ($lottery->has_lottery == 1)
+<div class="awardInit">
+	<div class="innerDiv">
+		<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
+		<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}"></a>
+		<span class="abs awdCode"></span>
+	</div>
+</div>
+@endif
+@endforeach
                                 </div>
                                 <div class="clear"></div>
                             </div>

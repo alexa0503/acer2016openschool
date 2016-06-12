@@ -13,6 +13,6 @@ class WechatUser extends Model
     ];
     public function lotteries()
     {
-        return $this->hasMany('App\Lottery');
+        return $this->hasMany('App\Lottery','user_id');
     }
 }

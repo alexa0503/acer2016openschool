@@ -15,9 +15,14 @@ class HomeController extends Controller
         $this->middleware('wechat.auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('index');
+        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+        //var_dump($wechat_user->lotteries());
+        //$lotteries = \App\Lottery::where('');
+        //var_dump($wechat_user->lotteries());
+        //var_dump($request->session()->get('wechat.openid'), $wechat_user->id);
+        return view('index',['lotteries'=>$wechat_user->lotteries]);
     }
 
     //snid提交
@@ -46,7 +51,7 @@ class HomeController extends Controller
                 $lottery->created_time = Carbon::now();
                 $lottery->created_ip = $request->getClientIp();
                 $lottery->save();
-                $request->session->set('lottery.id', $lottery->id);
+                $request->session()->set('lottery.id', $lottery->id);
             }
             else{
                 $result = ['ret'=>1003, 'msg'=>'此SNID已经使用过了~'];
@@ -60,9 +65,8 @@ class HomeController extends Controller
     //抽奖
     public function lottery(Request $request)
     {
-        $result = ['ret'=>0, 'prize'=>rand(1,13), 'msg'=>''];
-        return json_encode($result);
-        if( null != $request->session->set('lottery.id')){
+        $result = ['ret'=>0, 'prize'=>12, 'msg'=>''];
+        if( null != $request->session()->get('lottery.id')){
             $lottery = new Helper\Lottery();
             $prize = $lottery->run();
             $sum = $lottery->getPrizeSum($prize);
@@ -72,7 +76,7 @@ class HomeController extends Controller
             }
             $result['prize'] = $prize;
             //蜘蛛网
-            $lottery = \App\Lottery::find($request->session->set('lottery.id'));
+            $lottery = \App\Lottery::find($request->session()->get('lottery.id'));
             if( in_array($prize, [9,10,13]) ){
                 $prize_code = \App\PrizeCode::where('is_active',0)->where('prize', $prize)->first();
                 $prize_code->status = 1;
@@ -85,6 +89,7 @@ class HomeController extends Controller
             $lottery->save();
         }
         else{
+            $wechat = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
             $lottery = new \App\Lottery();
             $lottery->user_id = $wechat->id;
             $lottery->snid = null;
@@ -96,7 +101,7 @@ class HomeController extends Controller
             $lottery->created_ip = $request->getClientIp();
             $lottery->save();
         }
-        $request->session->set('lottery.id', null);
+        $request->session()->set('lottery.id', null);
         return json_encode($result);
     }
 }
