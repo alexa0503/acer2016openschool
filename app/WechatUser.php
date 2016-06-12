@@ -11,4 +11,8 @@ class WechatUser extends Model
     protected $casts = [
         'options' => 'array',
     ];
+    public function lotteries()
+    {
+        return $this->hasMany('App\Lottery');
+    }
 }

@@ -35,7 +35,7 @@
             <div class="abs snidBlock">
             	<div class="innerDiv">
                 	<input type="tel" class="abs snidTxt">
-                    <a href="javascript:void(0);" class="abs snidBtn" onClick="submitSnid();"><img src="{{asset('assets/images/btn6.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs snidBtn" onClick="submitSnid('{{url("snid")}}');"><img src="{{asset('assets/images/btn6.png')}}"></a>
                     <a href="javascript:void(0);" class="abs snidClose" onClick="snidClose();"><img src="{{asset('assets/images/closeBtn.png')}}"></a>
                 </div>
             </div>
@@ -77,7 +77,7 @@
             <div class="abs earth"></div>
             <div class="abs man"></div>
             <canvas style="position:absolute; left:0; top:0; display:none;" id="touchCanvas" width="640" height="1139"></canvas>
-            <a href="javascript:void(0);" class="abs btn7" onClick="gameStart();"><img src="{{asset('assets/images/btn7.png')}}"></a>
+            <a href="javascript:void(0);" class="abs btn7" onClick="gameStart('{{url("lottery")}}');"><img src="{{asset('assets/images/btn7.png')}}"></a>
         </div>
     </div>
 
@@ -276,10 +276,27 @@
 
 <img src="{{asset('assets/images/logo.png')}}" class="logo">
 <a href="javascript:void(0);" class="bottomBanner" style="display:none;"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
+{!! csrf_field() !!}
 @endsection
 @section('scripts')
 <script>
 $(document).ready(function(){
+    var images = [];
+    images.push("{{asset('assets/images/awdTxt1.png')}}");
+    images.push("{{asset('assets/images/earth.png')}}");
+    images.push("{{asset('assets/images/man1.png')}}");
+    images.push("{{asset('assets/images/man2.png')}}");
+    images.push("{{asset('assets/images/page1Img1.png')}}");
+    images.push("{{asset('assets/images/page3Img1.png')}}");
+    images.push("{{asset('assets/images/page3Img2.png')}}");
+    images.push("{{asset('assets/images/page3Img3.png')}}");
+    images.push("{{asset('assets/images/page4Img1.png')}}");
+    images.push("{{asset('assets/images/ruleBg.png')}}");
+    images.push("{{asset('assets/images/scrollHand.png')}}");
+    images.push("{{asset('assets/images/scrollEnd.png')}}");
+    images.push("{{asset('assets/images/snidPop.png')}}");
+    loadImg(images);
+
     wxData.title = '{{env("WECHAT_SHARE_TITLE")}}';
     wxData.desc = '{{env("WECHAT_SHARE_DESC")}}';
     wxData.link = location.href;
