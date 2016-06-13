@@ -15,4 +15,8 @@ class WechatUser extends Model
     {
         return $this->hasMany('App\Lottery','user_id');
     }
+    public function Info()
+    {
+        return $this->hasOne('App\Info','id');
+    }
 }

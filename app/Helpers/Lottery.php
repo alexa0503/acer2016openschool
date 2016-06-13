@@ -14,8 +14,8 @@ class Lottery
         ['title'=>'蜘蛛网电子礼品兑换券','sum'=>10,'odds'=>10],
         ['title'=>'蜘蛛网电影通兑券','sum'=>200,'odds'=>100],
         ['title'=>'携程网充值礼品卡','sum'=>50,'odds'=>20],
-        ['title'=>'携程网充值礼品卡','sum'=>0,'odds'=>500],
-        ['title'=>'蜘蛛网电子优惠券','sum'=>10000,'odds'=>500],
+        ['title'=>'携程网充值礼品卡','sum'=>0,'odds'=>20],
+        ['title'=>'蜘蛛网电子优惠券','sum'=>10000,'odds'=>20],
     ];
     public function run()
     {

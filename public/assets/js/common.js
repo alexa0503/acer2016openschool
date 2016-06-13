@@ -112,7 +112,7 @@ function submitSnid(url) {
                         canSubmitSnid = true; //解锁
                     }
                 },
-                error: function(){
+                error: function() {
                     alert('提交失败~请重新尝试~');
                     canSubmitSnid = true;
                 }
@@ -298,23 +298,22 @@ function endGame(url) {
     }
 
     window.scroll(0, 0);
-    $.ajax(url,{
+    $.ajax(url, {
         type: 'post',
         dataType: 'json',
         data: {
             _token: $('input[name="_token"]').val()
         },
-        success: function(json){
+        success: function(json) {
             $('.page2').fadeOut(500);
-            if(json && json.ret == 0 && json.prize != 12){
+            if (json && json.ret == 0 && json.prize != 12) {
                 $('.page3b').fadeIn(500); //1-11、13 等奖
-            }
-            else{
+            } else {
                 $('.page3').fadeIn(500); //人人有奖
             }
             $('.bottomBanner').fadeIn(500);
         },
-        error: function(){
+        error: function() {
             alert('请求服务器失败~');
         }
     });
@@ -366,18 +365,39 @@ function submitInfo() {
     //ajax提交信息
     if (canSubmitInfo) {
         canSubmitInfo = false;
-
-        alert('信息提交成功');
-        window.scroll(0, 0);
-        $('.page3b').fadeOut(500);
-        $('.page4').show();
-        $('#scrollbar2').tinyscrollbar();
+        $.ajax(url, {
+            data: {
+                name: iName,
+                mobile: iTel,
+                address: iAddress,
+                _token: $('input[name="_token"]').val()
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function(json){
+                if(json.ret == 0){
+                    alert('信息提交成功');
+                    window.scroll(0, 0);
+                    $('.page3b').fadeOut(500);
+                    $('.page4').show();
+                    $('#scrollbar2').tinyscrollbar();
+                }
+                else{
+                    alert(json.msg);
+                    canSubmitInfo = true;
+                }
+            },
+            error: function(){
+                alert('提交失败，请联系管理员~');
+                canSubmitInfo = true;
+            }
+        });
     }
 }
 
 var canSubmitInfo2 = true;
 
-function submitInfo2() {
+function submitInfo2(url) {
     var iName = $.trim($('.infoTxtB1').val());
     var iTel = $.trim($('.infoTxtB2').val());
     var iAddress = $.trim($('.infoTxtB3').val());
@@ -395,10 +415,33 @@ function submitInfo2() {
     //ajax提交信息
     if (canSubmitInfo2) {
         canSubmitInfo2 = false;
+        $.ajax(url, {
+            data: {
+                name: iName,
+                mobile: iTel,
+                address: iAddress,
+                _token: $('input[name="_token"]').val()
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function(json){
+                if(json.ret == 0){
+                    alert('信息提交成功');
+                    $('.btn15').hide();
+                    $('.infoSubmited2').show();
+                }
+                else{
+                    alert(json.msg);
+                    canSubmitInfo2 = true;
+                }
+            },
+            error: function(){
+                alert('提交失败，请联系管理员~');
+                canSubmitInfo2 = true;
+            }
+        });
 
-        alert('信息提交成功');
-        $('.btn15').hide();
-        $('.infoSubmited2').show();
+
     }
 }
 

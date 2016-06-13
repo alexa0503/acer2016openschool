@@ -104,15 +104,21 @@
                 	<div class="awdTxt abs bgImg awdTxt1"></div>
                     <img src="{{asset('assets/images/ai13.png')}}" class="abs aiImg2">
                     <div class="abs aiTxt2">蜘蛛网 电影优惠券<br><span>SN1234567890</span></div>
-                    <input type="text" class="infoTxt infoTxt1" maxlength="20">
-                    <input type="tel" class="infoTxt infoTxt2" maxlength="11">
-                    <input type="text" class="infoTxt infoTxt3" maxlength="40">
+
 
                     <!--未提交过信息-->
-                    <a href="javascript:void(0);" class="abs btn10" onClick="submitInfo();"><img src="{{asset('assets/images/btn10.png')}}"></a>
+			@if (null == $info)
+			<input type="text" class="infoTxt infoTxt1" maxlength="20">
+			<input type="tel" class="infoTxt infoTxt2" maxlength="11">
+			<input type="text" class="infoTxt infoTxt3" maxlength="40">
+                    <a href="javascript:void(0);" class="abs btn10" onClick="submitInfo('{{url("info")}}');"><img src="{{asset('assets/images/btn10.png')}}"></a>
+			@else
                     <!--提交过信息-->
+			<input type="text" class="infoTxt infoTxt1" maxlength="20" value="{{$info->name}}" disabled="disabled">
+			<input type="tel" class="infoTxt infoTxt2" maxlength="11" value="{{$info->mobile}}" disabled="disabled">
+			<input type="text" class="infoTxt infoTxt3" maxlength="40" value="{{$info->address}}" disabled="disabled">
                     <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited" style="display:none;">
-
+			@endif
                     <a href="javascript:void(0);" class="abs btn11" onClick="playAgain();"><img src="{{asset('assets/images/btn11.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn12" onClick="showAwardRule();"><img src="{{asset('assets/images/btn12.png')}}"></a>
                 </div>
@@ -157,15 +163,19 @@
             <a href="javascript:void(0);" class="abs btn13"><img src="{{asset('assets/images/btn13.png')}}"></a>
             <a href="javascript:void(0);" class="abs btn14" onClick="goHome();"><img src="{{asset('assets/images/btn14.png')}}"></a>
 
-            <input type="text" class="infoTxtB infoTxtB1" maxlength="20">
-			<input type="tel" class="infoTxtB infoTxtB2" maxlength="11">
-			<input type="text" class="infoTxtB infoTxtB3" maxlength="40">
-
             <!--未提交过信息-->
-            <a href="javascript:void(0);" class="abs btn15" onClick="submitInfo2();"><img src="{{asset('assets/images/btn15.png')}}"></a>
+		@if (null == $info)
+		<input type="text" class="infoTxtB infoTxtB1" maxlength="20">
+		<input type="tel" class="infoTxtB infoTxtB2" maxlength="11">
+		<input type="text" class="infoTxtB infoTxtB3" maxlength="40">
+            <a href="javascript:void(0);" class="abs btn15" onClick="submitInfo2('{{url("info")}}');"><img src="{{asset('assets/images/btn15.png')}}"></a>
+		@else
             <!--提交过信息-->
+            <input type="text" class="infoTxtB infoTxtB1" maxlength="20" value="{{$info->name}}" disabled="disabled">
+			<input type="tel" class="infoTxtB infoTxtB2" maxlength="11" value="{{$info->mobile}}" disabled="disabled">
+			<input type="text" class="infoTxtB infoTxtB3" maxlength="40" value="{{$info->address}}" disabled="disabled">
             <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited2" style="display:none;">
-
+		@endif
             <a href="javascript:void(0);" class="abs btn16" onClick="showAwardRule();"><img src="{{asset('assets/images/btn16.png')}}"></a>
         </div>
     </div>
