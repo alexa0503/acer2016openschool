@@ -101,7 +101,8 @@
     	<div class="innerDiv">
             <div class="bgImg page3Img2">
             	<div class="innerDiv">
-                	<div class="awdTxt abs bgImg awdTxt1"></div>
+                	<div class="abs eNumb"></div>
+                	<!--<div class="awdTxt abs bgImg awdTxt1"></div>-->
                     <img src="{{asset('assets/images/ai13.png')}}" class="abs aiImg2">
                     <div class="abs aiTxt2">蜘蛛网 电影优惠券<br><span>SN1234567890</span></div>
 
@@ -200,7 +201,7 @@
 <script>
 $(document).ready(function(){
     var images = [];
-    images.push("{{asset('assets/images/awdTxt1.png')}}");
+    //images.push("{{asset('assets/images/awdTxt1.png')}}");
     images.push("{{asset('assets/images/earth.png')}}");
     images.push("{{asset('assets/images/man1.png')}}");
     images.push("{{asset('assets/images/man2.png')}}");

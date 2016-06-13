@@ -21,6 +21,9 @@ $(document).ready(function() {
     if (wHeight >= 980) {
         //$('.page').css('margin-top',((wHeight-1139)/2-20)+'px');
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
+		$('.page1,.page2').on('touchmove', function(e) {
+			e.preventDefault();
+		});
     }
     $('#touchCanvas').on('touchmove', function(e) {
         e.preventDefault();
@@ -309,7 +312,10 @@ function endGame(url) {
             if (json && json.ret == 0 && json.prize != 12) {
                 $('.page3b').fadeIn(500); //1-11、13 等奖
             } else {
-                $('.page3').fadeIn(500); //人人有奖
+                //$('.page3').fadeIn(500); //人人有奖
+				
+				//测试
+				$('.page3b').fadeIn(500);
             }
             $('.bottomBanner').fadeIn(500);
         },
