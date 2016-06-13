@@ -60,6 +60,7 @@ class WechatController extends Controller
             //$wechat->options = $options;
             $wechat->save();
             $request->session()->set('wechat.openid', $openid);
+            return redirect('/');
         }
     }
 }
