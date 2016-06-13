@@ -21,14 +21,13 @@ $(document).ready(function() {
     if (wHeight >= 980) {
         //$('.page').css('margin-top',((wHeight-1139)/2-20)+'px');
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
-		$('.page1,.page2').on('touchmove', function(e) {
+		$('.page1,.page2,.page3').on('touchmove', function(e) {
 			e.preventDefault();
 		});
     }
-    $('#touchCanvas').on('touchmove', function(e) {
+    $('#touchCanvas,.shareNote,.pageSnid').on('touchmove', function(e) {
         e.preventDefault();
     });
-
     //loadImg();
 });
 
@@ -81,12 +80,18 @@ function snidClose() {
 }
 
 function showRule() {
+	window.scroll(0, 0);
+	$('.page1').fadeOut(500);
     $('.pageRule').show();
     $('#scrollbar').tinyscrollbar();
 }
 
 function closeRule() {
     $('.pageRule').fadeOut(500);
+	$('.page1').fadeIn(500);
+	if (wHeight >= 980) {
+        window.scroll(0, ((1139 - wHeight) / 2 + 20));
+    }
 }
 
 var canSubmitSnid = true; //提交snid码的锁
@@ -312,10 +317,7 @@ function endGame(url) {
             if (json && json.ret == 0 && json.prize != 12) {
                 $('.page3b').fadeIn(500); //1-11、13 等奖
             } else {
-                //$('.page3').fadeIn(500); //人人有奖
-				
-				//测试
-				$('.page3b').fadeIn(500);
+                $('.page3').fadeIn(500); //人人有奖
             }
             $('.bottomBanner').fadeIn(500);
         },
@@ -335,10 +337,12 @@ function endGame(url) {
 }
 
 function showAwardRule() {
+	window.scroll(0, 0);
     $('.pageAwardRule').fadeIn(500);
 }
 
 function closeAwardRule() {
+	window.scroll(0, 0);
     $('.pageAwardRule').fadeOut(500);
 }
 
@@ -463,4 +467,15 @@ function goHome() {
     $('.page4').fadeOut(500);
     $('.bottomBanner').fadeOut(500);
     $('.page1').fadeIn(500);
+	if (wHeight >= 980) {
+        window.scroll(0, ((1139 - wHeight) / 2 + 20));
+    }
 }
+
+function showShareNote(){
+	$('.shareNote').fadeIn(500);
+	}
+	
+function closeShareNote(){
+	$('.shareNote').fadeOut(500);
+	}

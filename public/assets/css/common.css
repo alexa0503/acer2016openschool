@@ -18,7 +18,7 @@ select,input,textarea{font-family:inherit; outline:none; padding:0;}
 .bgImg{ left:0; top:0; position:absolute; width:640px; height:1139px; display:block;}
 
 .page{ position:absolute; left:50%; top:0; margin-left:-320px; width:640px; height:1139px; overflow:hidden;}
-.logo{ left:40px; top:40px; position:fixed;}
+.logo{ left:20px; top:20px; position:fixed;}
 
 .loadingTxt{ width:640px; height:40px; line-height:40px; position:fixed; left:50%; top:50%; margin:-20px 0 0 -320px; font-size:20px; color:#f314a3; text-shadow:2px 0 #FFF,-2px 0 #FFF,0 -2px #FFF,0 2px #FFF; text-align:center;}
 
@@ -117,34 +117,26 @@ select,input,textarea{font-family:inherit; outline:none; padding:0;}
 .btn8{ left:50%; top:505px; margin-left:-106px;}
 .btn9{ left:50%; top:585px; margin-left:-106px;}
 .bottomBanner{ position:fixed; left:50%; bottom:0; margin-left:-320px;}
+.btn17{ left:50%; top:585px; margin-left:-119px;}
+.btn18{ left:178px; top:749px;}
+.btn19{ left:332px; top:749px;}
 
 .awardRule{ background:url(../images/awardRule.png) 0 0 no-repeat; width:613px; height:835px; left:13px; top:105px;}
 .awardRuleCloseBtn{ top:25px; right:25px;}
 
 .page3Img2{ background:url(../images/page3Img2.png) 0 0 no-repeat;}
-.awdTxt1{ background:url(../images/awdTxt1.png) 0 0 no-repeat;}
-.awdTxt2{ background:url(../images/awdTxt2.png) 0 0 no-repeat;}
-.awdTxt3{ background:url(../images/awdTxt3.png) 0 0 no-repeat;}
-.awdTxt4{ background:url(../images/awdTxt4.png) 0 0 no-repeat;}
-.awdTxt5{ background:url(../images/awdTxt5.png) 0 0 no-repeat;}
-.awdTxt6{ background:url(../images/awdTxt6.png) 0 0 no-repeat;}
-.awdTxt7{ background:url(../images/awdTxt7.png) 0 0 no-repeat;}
-.awdTxt8{ background:url(../images/awdTxt8.png) 0 0 no-repeat;}
-.awdTxt9{ background:url(../images/awdTxt9.png) 0 0 no-repeat;}
-.awdTxt10{ background:url(../images/awdTxt10.png) 0 0 no-repeat;}
-.awdTxt11{ background:url(../images/awdTxt11.png) 0 0 no-repeat;}
-.awdTxt12{ background:url(../images/awdTxt12.png) 0 0 no-repeat;}
-.awdTxt13{ background:url(../images/awdTxt13.png) 0 0 no-repeat;}
 .aiImg2{ left:390px; top:260px;}
 .aiTxt2{ width:280px; height:30px; line-height:30px; color:#073dc1; font-size:20px; text-align:left; left:90px; top:355px;}
-.infoTxt{ width:220px; height:30px; line-height:30px; padding:0 15px; color:#333; font-size:18px; position:absolute; left:212px; background:none; border:none;}
-.infoTxt1{ top:555px;}
-.infoTxt2{ top:597px;}
-.infoTxt3{ top:638px;}
-.btn10{ left:250px; top:695px;}
-.infoSubmited{ left:50%; top:695px; margin-left:-75px;}
+.infoTxt{ width:255px; height:30px; line-height:30px; padding:0 15px; color:#333; font-size:18px; position:absolute; left:206px; background:none; border:none;}
+.infoTxt1{ top:629px;}
+.infoTxt2{ top:678px;}
+.infoTxt3{ top:726px;}
+.btn10{ left:50%; top:785px; margin-left:-73px;}
+.infoSubmited{ left:50%; top:785px; margin-left:-75px;}
 .btn11{ left:50%; top:815px; margin-left:-138px;}
-.btn12{ left:50%; top:875px; margin-left:-138px;}
+.btn12{ left:50%; top:845px; margin-left:-74px;}
+.btn20{ left:92px; top:453px;}
+.btn21{ left:388px; top:471px;}
 
 /*page4*/
 .page4{ background:url(../images/page4Img1.png) 0 0 no-repeat;}
@@ -170,5 +162,6 @@ select,input,textarea{font-family:inherit; outline:none; padding:0;}
 .btn15{ left:250px; top:808px;}
 .btn16{ left:250px; top:867px;}
 .infoSubmited2{ left:50%; top:808px; margin-left:-75px;}
+.awdImgBlock{ position:absolute; left:0; top:0; width:238px; height:160px;}
 
-
+.shareNote{ left:50%; top:0; margin-left:-320px; position:fixed;}

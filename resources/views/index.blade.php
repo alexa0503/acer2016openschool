@@ -91,7 +91,9 @@
                     <img src="{{asset('assets/images/ai12.png')}}" class="abs aiImg">
                     <div class="abs aiTxt">携程旅行 优惠大礼包</div>
                     <a href="##" class="abs btn8"><img src="{{asset('assets/images/btn8.png')}}"></a>
-                    <a href="javascript:void(0);" class="abs btn9" onClick="showAwardRule();"><img src="{{asset('assets/images/btn9.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs btn17" onClick="showShareNote();"><img src="{{asset('assets/images/btn17.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs btn18" onClick="playAgain();"><img src="{{asset('assets/images/btn18.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs btn19" onClick="showAwardRule();"><img src="{{asset('assets/images/btn19.png')}}"></a>
                 </div>
             </div>
         </div>
@@ -99,7 +101,8 @@
 
     <div class="page page3b" style="display:none;">
     	<div class="innerDiv">
-            <div class="bgImg page3Img2">
+            <div class="bgImg page3Img2"></div>
+            <div class="bgImg page3Img3">
             	<div class="innerDiv">
                 	<div class="abs eNumb"></div>
                 	<!--<div class="awdTxt abs bgImg awdTxt1"></div>-->
@@ -112,7 +115,8 @@
 			<input type="text" class="infoTxt infoTxt1" maxlength="20">
 			<input type="tel" class="infoTxt infoTxt2" maxlength="11">
 			<input type="text" class="infoTxt infoTxt3" maxlength="40">
-                    <a href="javascript:void(0);" class="abs btn10" onClick="submitInfo('{{url("info")}}');"><img src="{{asset('assets/images/btn10.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs btn10" onClick="submitInfo('{{url("info")}}');"><img src="{{asset('assets/images/btn15.png')}}"></a>
+                    <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited" style="display:none;">
 			@else
                     <!--提交过信息-->
 			<input type="text" class="infoTxt infoTxt1" maxlength="20" value="{{$info->name}}" disabled="disabled">
@@ -120,8 +124,9 @@
 			<input type="text" class="infoTxt infoTxt3" maxlength="40" value="{{$info->address}}" disabled="disabled">
                     <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited">
 			@endif
-                    <a href="javascript:void(0);" class="abs btn11" onClick="playAgain();"><img src="{{asset('assets/images/btn11.png')}}"></a>
-                    <a href="javascript:void(0);" class="abs btn12" onClick="showAwardRule();"><img src="{{asset('assets/images/btn12.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs btn20" onClick="showShareNote();"><img src="{{asset('assets/images/btn20.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs btn21" onClick="playAgain();"><img src="{{asset('assets/images/btn21.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs btn12" onClick="showAwardRule();"><img src="{{asset('assets/images/btn16.png')}}"></a>
                 </div>
             </div>
         </div>
@@ -146,8 +151,8 @@
 @if ($lottery->has_lottery == 1)
 <div class="awardInit">
 	<div class="innerDiv">
+    	<div class="awdImgBlock" style="background:url({{asset('assets/images/awd'.$lottery->prize.'.png')}}) 0 0 no-repeat;"></div>
 		<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
-		<img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}" class="abs awdImg">
 		<span class="abs awdCode"></span>
 	</div>
 </div>
@@ -161,7 +166,7 @@
                 </div>
             </div>
 
-            <a href="javascript:void(0);" class="abs btn13"><img src="{{asset('assets/images/btn13.png')}}"></a>
+            <a href="javascript:void(0);" class="abs btn13" onClick="showShareNote();"><img src="{{asset('assets/images/btn13.png')}}"></a>
             <a href="javascript:void(0);" class="abs btn14" onClick="goHome();"><img src="{{asset('assets/images/btn14.png')}}"></a>
 
             <!--未提交过信息-->
@@ -170,6 +175,7 @@
 		<input type="tel" class="infoTxtB infoTxtB2" maxlength="11">
 		<input type="text" class="infoTxtB infoTxtB3" maxlength="40">
             <a href="javascript:void(0);" class="abs btn15" onClick="submitInfo2('{{url("info")}}');"><img src="{{asset('assets/images/btn15.png')}}"></a>
+            <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited2" style="display:none;">
 		@else
             <!--提交过信息-->
             <input type="text" class="infoTxtB infoTxtB1" maxlength="20" value="{{$info->name}}" disabled="disabled">
@@ -195,6 +201,9 @@
 
 <img src="{{asset('assets/images/logo.png')}}" class="logo">
 <a href="javascript:void(0);" class="bottomBanner" style="display:none;"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
+
+<img src="{{asset('assets/images/shareNote.png')}}" class="shareNote" onClick="closeShareNote();" style="display:none;">
+
 {!! csrf_field() !!}
 @endsection
 @section('scripts')
