@@ -21,7 +21,7 @@ $(document).ready(function() {
     if (wHeight >= 980) {
         //$('.page').css('margin-top',((wHeight-1139)/2-20)+'px');
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
-		$('.page1,.page2,.page3').on('touchmove', function(e) {
+		$('.page1,.page2').on('touchmove', function(e) {
 			e.preventDefault();
 		});
     }
@@ -80,7 +80,7 @@ function snidClose() {
 }
 
 function showRule() {
-	window.scroll(0, 0);
+	//window.scroll(0, 0);
 	$('.page1').fadeOut(500);
     $('.pageRule').show();
     $('#scrollbar').tinyscrollbar();
@@ -305,7 +305,7 @@ function endGame(url) {
         gameType = 1;
     }
 
-    window.scroll(0, 0);
+    //window.scroll(0, 0);
     $.ajax(url, {
         type: 'post',
         dataType: 'json',
@@ -337,12 +337,12 @@ function endGame(url) {
 }
 
 function showAwardRule() {
-	window.scroll(0, 0);
+	//window.scroll(0, 0);
     $('.pageAwardRule').fadeIn(500);
 }
 
 function closeAwardRule() {
-	window.scroll(0, 0);
+	//window.scroll(0, 0);
     $('.pageAwardRule').fadeOut(500);
 }
 
@@ -387,7 +387,7 @@ function submitInfo() {
             success: function(json){
                 if(json.ret == 0){
                     alert('信息提交成功');
-                    window.scroll(0, 0);
+                    //window.scroll(0, 0);
                     $('.page3b').fadeOut(500);
                     $('.page4').show();
                     $('#scrollbar2').tinyscrollbar();
@@ -456,7 +456,7 @@ function submitInfo2(url) {
 }
 
 function showList() {
-    window.scroll(0, 0);
+    //window.scroll(0, 0);
     $('.page1').fadeOut(500);
     $('.page4').show();
     $('.bottomBanner').fadeIn(500);
