@@ -117,7 +117,7 @@
 			<input type="text" class="infoTxt infoTxt1" maxlength="20" value="{{$info->name}}" disabled="disabled">
 			<input type="tel" class="infoTxt infoTxt2" maxlength="11" value="{{$info->mobile}}" disabled="disabled">
 			<input type="text" class="infoTxt infoTxt3" maxlength="40" value="{{$info->address}}" disabled="disabled">
-                    <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited" style="display:none;">
+                    <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited">
 			@endif
                     <a href="javascript:void(0);" class="abs btn11" onClick="playAgain();"><img src="{{asset('assets/images/btn11.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn12" onClick="showAwardRule();"><img src="{{asset('assets/images/btn12.png')}}"></a>
@@ -174,7 +174,7 @@
             <input type="text" class="infoTxtB infoTxtB1" maxlength="20" value="{{$info->name}}" disabled="disabled">
 			<input type="tel" class="infoTxtB infoTxtB2" maxlength="11" value="{{$info->mobile}}" disabled="disabled">
 			<input type="text" class="infoTxtB infoTxtB3" maxlength="40" value="{{$info->address}}" disabled="disabled">
-            <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited2" style="display:none;">
+            <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited2">
 		@endif
             <a href="javascript:void(0);" class="abs btn16" onClick="showAwardRule();"><img src="{{asset('assets/images/btn16.png')}}"></a>
         </div>
