@@ -105,7 +105,7 @@ class HomeController extends Controller
                 $lottery = \App\Lottery::find($session->get('lottery.id'));
                 if (in_array($prize, [9, 10, 13])) {
                     $prize_code = \App\PrizeCode::where('is_active', 0)->where('prize', $prize)->first();
-                    $prize_code->status = 1;
+                    $prize_code->is_active = 1;
                     $prize_code->save();
                     $lottery->prize_code_id = $prize_code->id;
                 }
