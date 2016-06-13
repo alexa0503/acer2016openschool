@@ -146,7 +146,7 @@
 <div class="awardInit">
 	<div class="innerDiv">
 		<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
-		<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}"></a>
+		<img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}" class="abs awdImg">
 		<span class="abs awdCode"></span>
 	</div>
 </div>
