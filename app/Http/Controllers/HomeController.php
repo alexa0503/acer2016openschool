@@ -93,64 +93,17 @@ class HomeController extends Controller
     public function lottery()
     {
         $result = ['ret' => 0, 'prize' => [], 'msg' => ''];
-        $prize_id = 12;
-        $_prize_code = null;
-        $session = \Request::session();
-        \DB::beginTransaction();
-        try {
-            $prize_type = $session->get('lottery.id') == null ? 1 : 0;
-            $lottery = new Helper\Lottery();
-            $prize_id = $lottery->run($prize_type);
-            //$prize_id = 1;
-            if (null == $session->get('lottery.id')) {
-                $wechat = \App\WechatUser::where('open_id', $session->get('wechat.openid'))->first();
-                $lottery = new \App\Lottery();
-                $lottery->user_id = $wechat->id;
-                $lottery->snid = null;
-                $lottery->prize_code_id = null;
-                $lottery->created_time = Carbon::now();
-                $lottery->created_ip = \Request::getClientIp();
-            } else {
-                $lottery = \App\Lottery::find($session->get('lottery.id'));
-            }
-            //蜘蛛网
-            if (in_array($prize_id, [9, 10, 13])) {
-                if ($prize_id == 9) {
-                    $code_type = 1;
-                } elseif ($prize_id == 10) {
-                    $code_type = 2;
-                } else {
-                    $code_type = 3;
-                }
-                $prize_code_model = \App\PrizeCode::where('is_active', 0)->where('type', $code_type);
-                if ($prize_code_model->count() > 0) {
-                    $prize_code = $prize_code_model->first();
-                    $prize_code->is_active = 1;
-                    $prize_code->save();
-                    $lottery->prize_code_id = $prize_code->id;
-                    $_prize_code = $prize_code->prize_code;
-                } else {
-                    $prize_id = 12;
-                }
-            }
-            $lottery->prize = $prize_id;
-            $lottery->prize_type = $prize_type;
-            $lottery->lottery_time = Carbon::now();
-            $lottery->has_lottery = 1;
-            $lottery->save();
-            $prize = \App\Prize::find($prize_id);
-            $prize->save();
-            $session->set('lottery.id', null);
-            \DB::commit();
-        } catch (Exception $e) {
-            $result = ['ret' => 1001, 'msg' => $e->getMessage()];
-            \DB::rollBack();
-        }
+        $lottery = new Helper\Lottery();
+        $lottery->run();
+        $prize_code = $lottery->getCode();
+        $prize_id = $lottery->getPrizeId();
+        //$lottery->record();
+
         $prize = \App\Prize::find($prize_id);
         $result['prize']['id'] = $prize_id;
         $result['prize']['title'] = $prize->title;
         $result['prize']['imgUrl'] = asset('assets/images/ai'.$prize_id.'.png');
-        $result['prize']['code'] = $_prize_code;
+        $result['prize']['code'] = $prize_code;
 
         return json_encode($result);
     }

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://dev.maestro.com.cn/campaign/may/public/'),
+    'url' => env('APP_URL', 'http://acer2016summer.himyweb.com/'),
 
     /*
     |--------------------------------------------------------------------------

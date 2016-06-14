@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{env("PAGE_TITLE")}}</title>
     <link rel="stylesheet" href="{{asset('assets/css/common.css')}}">
     <script>
@@ -43,7 +44,7 @@ var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "//hm.baidu.com/hm.js?409597573fc6f07354aa60faa56b7cf6";
-  var s = document.getElementsByTagName("script")[0]; 
+  var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>

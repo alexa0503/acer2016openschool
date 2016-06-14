@@ -224,6 +224,11 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
     var images = [];
     //images.push("{{asset('assets/images/awdTxt1.png')}}");
     images.push("{{asset('assets/images/earth.png')}}");
