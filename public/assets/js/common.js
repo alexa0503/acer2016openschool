@@ -118,9 +118,15 @@ function submitSnid(url) {
                 success: function(json) {
                     if (json.ret == 0) {
                         //ajax验证成功
+						if (wHeight >= 980) {
+							window.scroll(0, ((1139 - wHeight) / 2 + 20));
+						}
                         goPage2b();
                     } else {
 						//测试
+						if (wHeight >= 980) {
+							window.scroll(0, ((1139 - wHeight) / 2 + 20));
+						}
 						goPage2b();
 						
                         /*alert(json.msg);
@@ -277,6 +283,7 @@ function gameStart(url) { //点击按钮后开始游戏
     $('#touchCanvas').show();
     $('.page2Img2').removeClass('page2Img2Act1').addClass('page2Img2Act2');
     $('.page2Img1').addClass('page2Img1Act');
+	$('.colddownTime').fadeIn(500);
     startGame();
 	colddown=setInterval(function(){
 		var tt=parseInt($('.colddownTime font').html());
@@ -333,13 +340,13 @@ function endGame(url) {
             if (json && json.ret == 0 && json.prize != 12) {
 				setTimeout(function(){
 					$('.page3b').fadeIn(500); //1-11、13 等奖
-					},1000);
+					},10);
             } else {
 				setTimeout(function(){
 					$('.page3').fadeIn(500); //人人有奖
-					},1000);
+					},10);
             }
-			setTimeout(function(){$('.page2').fadeOut(500);window.scroll(0,0);$('.bottomBanner').fadeIn(500);},1000);
+			setTimeout(function(){$('.page2').fadeOut(500);window.scroll(0,0);$('.bottomBanner').fadeIn(500);},10);
         },
         error: function() {
             //alert('请求服务器失败~');

@@ -78,7 +78,7 @@
             <img src="{{asset('assets/images/page2Img2.png')}}" class="abs page2Img2 page2Img2Act1">
             <img src="{{asset('assets/images/page2Img1.png')}}" class="abs page2Img1">
             <div class="abs earth"></div>
-            <p class="colddownTime"><font>10</font> s</p>
+            <p class="colddownTime" style="display:none;"><font>10</font> s</p>
             <div class="abs man"></div>
             <canvas style="position:absolute; left:0; top:0; display:none;" id="touchCanvas" width="640" height="1139"></canvas>
             <a href="javascript:void(0);" class="abs btn7" onClick="gameStart('{{url("lottery")}}');"><img src="{{asset('assets/images/btn7.png')}}"></a>
