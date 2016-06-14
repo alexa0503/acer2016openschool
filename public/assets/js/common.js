@@ -333,13 +333,13 @@ function endGame(url) {
             if (json && json.ret == 0 && json.prize != 12) {
 				setTimeout(function(){
 					$('.page3b').fadeIn(500); //1-11、13 等奖
-					},2000);
+					},1000);
             } else {
 				setTimeout(function(){
 					$('.page3').fadeIn(500); //人人有奖
-					},2000);
+					},1000);
             }
-			setTimeout(function(){$('.page2').fadeOut(500);window.scroll(0,0);$('.bottomBanner').fadeIn(500);},2000);
+			setTimeout(function(){$('.page2').fadeOut(500);window.scroll(0,0);$('.bottomBanner').fadeIn(500);},1000);
         },
         error: function() {
             //alert('请求服务器失败~');
