@@ -151,9 +151,9 @@
 @if ($lottery->has_lottery == 1)
 <div class="awardInit">
 	<div class="innerDiv">
-    	<div class="awdImgBlock" style="background:url({{asset('assets/images/awd'.$lottery->prize.'.png')}}) 0 0 no-repeat;"></div>
-		<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
-		<span class="abs awdCode"></span>
+    	<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
+		<a href="javascript:void(0);" onclick="showCode(this);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}"></a>
+		<span class="abs awdCode">SN1234567890</span>
 	</div>
 </div>
 @endif
@@ -194,6 +194,13 @@
                 	<a href="javascript:void(0);" class="abs awardRuleCloseBtn" onClick="closeAwardRule();"><img src="{{asset('assets/images/closeBtn.png')}}"></a>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <div class="page pageCode" style="display:none;">
+    	<div class="innerDiv">
+            <p class="snCode abs"></p>
+            <a href="javascript:void(0);" onclick="closeCode();" class="abs codeClose"><img src="{{asset('assets/images/closeBtn.png')}}"></a>
         </div>
     </div>
 

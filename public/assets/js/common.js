@@ -116,8 +116,11 @@ function submitSnid(url) {
                         //ajax验证成功
                         goPage2b();
                     } else {
-                        alert(json.msg);
-                        canSubmitSnid = true; //解锁
+						//测试
+						goPage2b();
+						
+                        /*alert(json.msg);
+                        canSubmitSnid = true; //解锁*/
                     }
                 },
                 error: function() {
@@ -305,7 +308,6 @@ function endGame(url) {
         gameType = 1;
     }
 
-    //window.scroll(0, 0);
     $.ajax(url, {
         type: 'post',
         dataType: 'json',
@@ -313,6 +315,7 @@ function endGame(url) {
             _token: $('input[name="_token"]').val()
         },
         success: function(json) {
+			window.scroll(0, 0);
             $('.page2').fadeOut(500);
             if (json && json.ret == 0 && json.prize != 12) {
                 $('.page3b').fadeIn(500); //1-11、13 等奖
@@ -478,4 +481,15 @@ function showShareNote(){
 	
 function closeShareNote(){
 	$('.shareNote').fadeOut(500);
+	}
+	
+function showCode(e){
+	var sncode=$(e).siblings('.awdCode').html();
+	$('.snCode').html(sncode);
+	$('.pageCode').fadeIn(500);
+	}
+	
+function closeCode(){
+	$('.snCode').html('');
+	$('.pageCode').fadeOut(500);
 	}
