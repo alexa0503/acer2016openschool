@@ -1,5 +1,5 @@
 /* Global Setting */
-body{margin:0; padding:0;text-align:left; font-size:12px; font-family:'Microsoft YaHei',Arial; background:url(../images/bg.png) center top no-repeat;}
+body{margin:0; padding:0;text-align:left; font-size:12px; font-family:'Microsoft YaHei',Arial; background:url(../images/bg.png) center top fixed no-repeat;}
 table{border-collapse:collapse;}
 td,th{padding:0;}
 ul,li,dd,dl,dt{margin:0; padding:0; list-style:none; word-break:break-all;}
@@ -19,11 +19,12 @@ select,input,textarea{font-family:inherit; outline:none; padding:0;}
 
 .page{ position:absolute; left:50%; top:0; margin-left:-320px; width:640px; height:1139px; overflow:hidden;}
 .logo{ left:20px; top:20px; position:fixed;}
+.logo2{ left:20px; top:20px; position:absolute;}
 
 .loadingTxt{ width:640px; height:40px; line-height:40px; position:fixed; left:50%; top:50%; margin:-20px 0 0 -320px; font-size:20px; color:#f314a3; text-shadow:2px 0 #FFF,-2px 0 #FFF,0 -2px #FFF,0 2px #FFF; text-align:center;}
 
 /*page1*/
-.page1Img1{ background:url(../images/page1Img1.png) 0 0 no-repeat; height:432px;}
+.page1Img1{ background:url(../images/page1Img1.png) 0 0 no-repeat; height:432px; top:40px;}
 .page1Img2{ background:url(../images/page1Img2.png) 0 0 no-repeat;}
 .page1Img11{ left:143px; top:411px;}
 .page1Img12{ left:237px; top:395px;}
@@ -55,17 +56,21 @@ select,input,textarea{font-family:inherit; outline:none; padding:0;}
 #scrollbar .track{ background:#810093; height:100%; position:relative; width:2px;}
 #scrollbar .thumb{ background:url(../images/scrollHand.png) 0 0 no-repeat; cursor: pointer; left:-6px; position:absolute; top:0; width:15px;}
 #scrollbar .end{ background:url(../images/scrollEnd.png) center bottom no-repeat; width:15px; height:17px; position:absolute; left:0; bottom:-5px;}
-.btn5{ top:910px; left:50%; margin-left:-110px;}
+.btn5{ top:895px; left:50%; margin-left:-110px; z-index:20;}
+.bottomBanner2{ position:fixed; left:50%; bottom:0; margin-left:-320px; z-index:10;}
 
 /*page2*/
+.colddownTime{ width:100px; font-size:40px; color:#dd18ba; position:fixed; top:10px; right:10px; text-align:right; text-shadow:#FFF 3px 0 3px,#FFF 0 3px 3px,#FFF -3px 0 3px,#FFF 0 -3px 3px;}
 .earth{ background:url(../images/earth.png) 0 0 no-repeat; width:2172px; height:2264px; left:-741px; top:520px; -webkit-transform-origin:1061px 1145px;}
 .man{ left:107px; top:558px;}
-.man1{ background:url(../images/man1.png) 0 0 no-repeat; width:238px; height:276px; -webkit-animation:man1 1s steps(11) infinite;}
+.man1{ background:url(../images/man1.png) 0 0 no-repeat; width:238px; height:276px;}
+.man1Act{-webkit-animation:man1 1s steps(11) infinite;}
 @-webkit-keyframes man1{
 0%{ background-position:0 0;}
 100%{ background-position:-2618px 0;}
 }
-.man2{ background:url(../images/man2.png) 0 0 no-repeat; width:238px; height:276px; -webkit-animation:man2 1.5s steps(21) infinite;}
+.man2{ background:url(../images/man2.png) 0 0 no-repeat; width:238px; height:276px;}
+.man2Act{-webkit-animation:man2 1.5s steps(21) infinite;}
 @-webkit-keyframes man2{
 0%{ background-position:0 0;}
 100%{ background-position:-4998px 0;}

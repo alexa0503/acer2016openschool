@@ -10,7 +10,7 @@
 	<div class="page page1" style="display:none;">
     	<div class="innerDiv">
             <div class="abs earthPage1"></div>
-            <div class="abs manPage1 man1"></div>
+            <div class="abs manPage1 man1 man1Act"></div>
             <div class="bgImg page1Img1">
             	<div class="innerDiv">
                 	<img src="{{asset('assets/images/page1Img11.png')}}" class="abs page1Img11">
@@ -27,6 +27,7 @@
                     <a href="javascript:void(0);" onClick="showList();"><img src="{{asset('assets/images/btn4.png')}}"></a>
                 </div>
             </div>
+            <img src="{{asset('assets/images/logo.png')}}" class="logo">
         </div>
     </div>
 
@@ -62,7 +63,9 @@
                     </div>
                 </div>
             </div>
+            <a href="javascript:void(0);" class="bottomBanner2"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
             <a href="javascript:void(0);" class="abs btn5" onClick="closeRule();"><img src="{{asset('assets/images/btn5.png')}}"></a>
+            <img src="{{asset('assets/images/logo.png')}}" class="logo2">
         </div>
     </div>
 
@@ -75,9 +78,11 @@
             <img src="{{asset('assets/images/page2Img2.png')}}" class="abs page2Img2 page2Img2Act1">
             <img src="{{asset('assets/images/page2Img1.png')}}" class="abs page2Img1">
             <div class="abs earth"></div>
+            <p class="colddownTime"><font>10</font> s</p>
             <div class="abs man"></div>
             <canvas style="position:absolute; left:0; top:0; display:none;" id="touchCanvas" width="640" height="1139"></canvas>
             <a href="javascript:void(0);" class="abs btn7" onClick="gameStart('{{url("lottery")}}');"><img src="{{asset('assets/images/btn7.png')}}"></a>
+            <img src="{{asset('assets/images/logo.png')}}" class="logo">
         </div>
     </div>
 
@@ -96,6 +101,7 @@
                     <a href="javascript:void(0);" class="abs btn19" onClick="showAwardRule();"><img src="{{asset('assets/images/btn19.png')}}"></a>
                 </div>
             </div>
+            <img src="{{asset('assets/images/logo.png')}}" class="logo">
         </div>
     </div>
 
@@ -129,6 +135,7 @@
                     <a href="javascript:void(0);" class="abs btn12" onClick="showAwardRule();"><img src="{{asset('assets/images/btn16.png')}}"></a>
                 </div>
             </div>
+            <img src="{{asset('assets/images/logo.png')}}" class="logo2">
         </div>
     </div>
 
@@ -184,6 +191,7 @@
             <img src="{{asset('assets/images/infoSubmited.png')}}" class="abs infoSubmited2">
 		@endif
             <a href="javascript:void(0);" class="abs btn16" onClick="showAwardRule();"><img src="{{asset('assets/images/btn16.png')}}"></a>
+            <img src="{{asset('assets/images/logo.png')}}" class="logo2">
         </div>
     </div>
 
@@ -205,8 +213,6 @@
     </div>
 
 </div>
-
-<img src="{{asset('assets/images/logo.png')}}" class="logo">
 <a href="javascript:void(0);" class="bottomBanner" style="display:none;"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
 
 <img src="{{asset('assets/images/shareNote.png')}}" class="shareNote" onClick="closeShareNote();" style="display:none;">

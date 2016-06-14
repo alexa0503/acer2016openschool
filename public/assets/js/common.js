@@ -21,7 +21,7 @@ $(document).ready(function() {
     if (wHeight >= 980) {
         //$('.page').css('margin-top',((wHeight-1139)/2-20)+'px');
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
-		$('.page1,.page2').on('touchmove', function(e) {
+		$('.page1,.page2,.page3').on('touchmove', function(e) {
 			e.preventDefault();
 		});
     }
@@ -56,7 +56,8 @@ function goPage1() {
 
 function goPage2a() {
     gameType = 1;
-    $('.man').addClass('man1');
+	$('.man').removeClass('man1Act').removeClass('man2Act');
+    $('.man').addClass('man1').addClass('man1Act');
     $('.page1').fadeOut(500);
     $('.page2').fadeIn(500);
     earthZr();
@@ -64,7 +65,8 @@ function goPage2a() {
 
 function goPage2b() {
     gameType = 2;
-    $('.man').addClass('man2');
+	$('.man').removeClass('man1Act').removeClass('man2Act');
+    $('.man').addClass('man2').addClass('man2Act');
     $('.page1').fadeOut(500);
     $('.pageSnid').fadeOut(500);
     $('.page2').fadeIn(500);
@@ -83,11 +85,13 @@ function showRule() {
 	//window.scroll(0, 0);
 	$('.page1').fadeOut(500);
     $('.pageRule').show();
+	//$('.bottomBanner').fadeIn(500);
     $('#scrollbar').tinyscrollbar();
 }
 
 function closeRule() {
     $('.pageRule').fadeOut(500);
+	//$('.bottomBanner').fadeOut(500);
 	$('.page1').fadeIn(500);
 	if (wHeight >= 980) {
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
@@ -142,11 +146,12 @@ var gameType = 1;
 var canTouch = true; //是否可以触摸
 var cTick = true; //触摸后 释放前开关
 var cSpeedSetp = 1; //行走间隔 1-120
-var cTime = 10; //游戏时间 10s
+var cTime = 10.5; //游戏时间 10s
 var ctimeout; //倒计时timeout
 var cStep = 0; //触摸次数 20次一圈
 var c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20;
 var earthZrTime; //地球自转time
+var colddown;//倒计时
 function addSpeed() {
     if (canTouch) {
         if (cTick) {
@@ -273,6 +278,13 @@ function gameStart(url) { //点击按钮后开始游戏
     $('.page2Img2').removeClass('page2Img2Act1').addClass('page2Img2Act2');
     $('.page2Img1').addClass('page2Img1Act');
     startGame();
+	colddown=setInterval(function(){
+		var tt=parseInt($('.colddownTime font').html());
+		if(tt>0){
+			tt=tt-1;
+			}
+		$('.colddownTime font').html(tt);
+		},1000);
     ctimeout = setTimeout(function() {
         endGame(url);
     }, cTime * 1000);
@@ -281,6 +293,9 @@ function gameStart(url) { //点击按钮后开始游戏
 function endGame(url) {
     canTouch = false;
     clearInterval(earthZrTime);
+	clearInterval(colddown);
+	$('.man1').removeClass('man1Act');
+	$('.man2').removeClass('man2Act');
     clearTimeout(c1);
     clearTimeout(c2);
     clearTimeout(c3);
@@ -315,17 +330,20 @@ function endGame(url) {
             _token: $('input[name="_token"]').val()
         },
         success: function(json) {
-			window.scroll(0, 0);
-            $('.page2').fadeOut(500);
             if (json && json.ret == 0 && json.prize != 12) {
-                $('.page3b').fadeIn(500); //1-11、13 等奖
+				setTimeout(function(){
+					$('.page3b').fadeIn(500); //1-11、13 等奖
+					},2000);
             } else {
-                $('.page3').fadeIn(500); //人人有奖
+				setTimeout(function(){
+					$('.page3').fadeIn(500); //人人有奖
+					},2000);
             }
-            $('.bottomBanner').fadeIn(500);
+			setTimeout(function(){$('.page2').fadeOut(500);window.scroll(0,0);$('.bottomBanner').fadeIn(500);},2000);
         },
         error: function() {
-            alert('请求服务器失败~');
+            //alert('请求服务器失败~');
+			$('.page3').fadeIn(500); //人人有奖
         }
     });
     /*
