@@ -128,7 +128,7 @@ function submitSnid(url) {
 							window.scroll(0, ((1139 - wHeight) / 2 + 20));
 						}
 						goPage2b();
-						
+
                         /*alert(json.msg);
                         canSubmitSnid = true; //解锁*/
                     }
@@ -346,11 +346,14 @@ function endGame(url) {
 					$('.page3').fadeIn(500); //人人有奖
 					},10);
             }
+            wxData.title = '夏日大作战，拯救你的夏天！';
+            wxData.desc = '我已夺得超赞豪礼，这才是解暑的正确方式！更有新西兰冰雪游等你赢！';
+            wxShare();
 			setTimeout(function(){$('.page2').fadeOut(500);window.scroll(0,0);$('.bottomBanner').fadeIn(500);},10);
         },
         error: function() {
             //alert('请求服务器失败~');
-			$('.page3').fadeIn(500); //人人有奖
+		$('.page3').fadeIn(500); //人人有奖
         }
     });
     /*
@@ -503,17 +506,17 @@ function goHome() {
 function showShareNote(){
 	$('.shareNote').fadeIn(500);
 	}
-	
+
 function closeShareNote(){
 	$('.shareNote').fadeOut(500);
 	}
-	
+
 function showCode(e){
 	var sncode=$(e).siblings('.awdCode').html();
 	$('.snCode').html(sncode);
 	$('.pageCode').fadeIn(500);
 	}
-	
+
 function closeCode(){
 	$('.snCode').html('');
 	$('.pageCode').fadeOut(500);
