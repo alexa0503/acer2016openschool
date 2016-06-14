@@ -19,6 +19,7 @@ class CreateLotteriesTable extends Migration
             $table->string('snid',60)->index()->nullable();
             $table->boolean('has_lottery')->index();
             $table->smallInteger('prize')->index();
+            $table->smallInteger('prize_type')->index();
             $table->integer('prize_code_id')->unsigned()->nullable();
             $table->foreign('prize_code_id')->references('id')->on('prize_codes');
             $table->dateTime('lottery_time')->index()->nullable();

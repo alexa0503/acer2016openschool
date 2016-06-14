@@ -16,8 +16,10 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
-
+        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))
+            ->with(['lotteries' => function ($query) {
+                $query->orderBy('created_time', 'desc');
+            }],'info')->first();
         return view('index', ['lotteries' => $wechat_user->lotteries, 'info' => $wechat_user->info]);
     }
 
@@ -28,21 +30,22 @@ class HomeController extends Controller
         $snid = $request->get('snid');
         if (null == $snid) {
             $result = ['ret' => 1001, 'msg' => '请输入SNID'];
-
             return json_encode($result);
         }
 
         $url = env('SNID_API');
         $response = Helper\HttpClient::post($url, ['snid' => $snid]);
         if ($response == 1) {
-            $count = \App\Lottery::where('snid', $snid)->count();
-            if ($count == 0) {
-                $wechat = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+            $row = \App\Lottery::where('snid', $snid);
+            $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+            //未使用或者当前用户使用未被兑换
+            if ($row->count() == 0 || $row->first()->user_id == $wechat_user->id) {
                 $lottery = new \App\Lottery();
-                $lottery->user_id = $wechat->id;
+                $lottery->user_id = $wechat_user->id;
                 $lottery->snid = $snid;
                 $lottery->has_lottery = 0;
                 $lottery->prize = 0;
+                $lottery->prize_type = 0;
                 $lottery->prize_code_id = null;
                 $lottery->lottery_time = null;
                 $lottery->created_time = Carbon::now();
@@ -87,48 +90,67 @@ class HomeController extends Controller
         return json_encode($result);
     }
     //抽奖
-    public function lottery(Request $request)
+    public function lottery()
     {
-        $result = ['ret' => 0, 'prize' => 12, 'msg' => ''];
-        if (null != $request->session()->get('lottery.id')) {
-            \DB::transaction(function(){
-                $session = \Request::session();
-                $lottery = new Helper\Lottery();
-                $prize = $lottery->run();
-                $sum = $lottery->getPrizeSum($prize);
-                $count = \App\Lottery::where('prize', $prize)->count();
-                if ($count >= $sum) {
-                    $prize = 12;
-                }
-                $result['prize'] = $prize;
-                //蜘蛛网
+        $result = ['ret' => 0, 'prize' => [], 'msg' => ''];
+        $prize_id = 12;
+        $_prize_code = null;
+        $session = \Request::session();
+        \DB::beginTransaction();
+        try {
+            $prize_type = $session->get('lottery.id') == null ? 1 : 0;
+            $lottery = new Helper\Lottery();
+            $prize_id = $lottery->run($prize_type);
+            //$prize_id = 1;
+            if (null == $session->get('lottery.id')) {
+                $wechat = \App\WechatUser::where('open_id', $session->get('wechat.openid'))->first();
+                $lottery = new \App\Lottery();
+                $lottery->user_id = $wechat->id;
+                $lottery->snid = null;
+                $lottery->prize_code_id = null;
+                $lottery->created_time = Carbon::now();
+                $lottery->created_ip = \Request::getClientIp();
+            } else {
                 $lottery = \App\Lottery::find($session->get('lottery.id'));
-                if (in_array($prize, [9, 10, 13])) {
-                    $prize_code = \App\PrizeCode::where('is_active', 0)->where('prize', $prize)->first();
+            }
+            //蜘蛛网
+            if (in_array($prize_id, [9, 10, 13])) {
+                if ($prize_id == 9) {
+                    $code_type = 1;
+                } elseif ($prize_id == 10) {
+                    $code_type = 2;
+                } else {
+                    $code_type = 3;
+                }
+                $prize_code_model = \App\PrizeCode::where('is_active', 0)->where('type', $code_type);
+                if ($prize_code_model->count() > 0) {
+                    $prize_code = $prize_code_model->first();
                     $prize_code->is_active = 1;
                     $prize_code->save();
                     $lottery->prize_code_id = $prize_code->id;
+                    $_prize_code = $prize_code->prize_code;
+                } else {
+                    $prize_id = 12;
                 }
-                $lottery->prize = $prize;
-                $lottery->lottery_time = Carbon::now();
-                $lottery->has_lottery = 1;
-                $lottery->save();
-            });
-
-        } else {
-            $wechat = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
-            $lottery = new \App\Lottery();
-            $lottery->user_id = $wechat->id;
-            $lottery->snid = null;
-            $lottery->has_lottery = 1;
-            $lottery->prize = 12;
-            $lottery->prize_code_id = null;
+            }
+            $lottery->prize = $prize_id;
+            $lottery->prize_type = $prize_type;
             $lottery->lottery_time = Carbon::now();
-            $lottery->created_time = Carbon::now();
-            $lottery->created_ip = $request->getClientIp();
+            $lottery->has_lottery = 1;
             $lottery->save();
+            $prize = \App\Prize::find($prize_id);
+            $prize->save();
+            $session->set('lottery.id', null);
+            \DB::commit();
+        } catch (Exception $e) {
+            $result = ['ret' => 1001, 'msg' => $e->getMessage()];
+            \DB::rollBack();
         }
-        $request->session()->set('lottery.id', null);
+        $prize = \App\Prize::find($prize_id);
+        $result['prize']['id'] = $prize_id;
+        $result['prize']['title'] = $prize->title;
+        $result['prize']['imgUrl'] = asset('assets/images/ai'.$prize_id.'.png');
+        $result['prize']['code'] = $_prize_code;
 
         return json_encode($result);
     }

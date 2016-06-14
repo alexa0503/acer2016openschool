@@ -14,7 +14,7 @@ class CreatePrizeCodesTable extends Migration
     {
         Schema::create('prize_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->smallInteger('prize')->index();
+            $table->smallInteger('type')->index();
             $table->string('prize_code',60);
             $table->boolean('is_active')->index();
             $table->dateTime('created_time')->index();

@@ -112,10 +112,10 @@
             	<div class="innerDiv">
                 	<div class="abs eNumb"></div>
                 	<!--<div class="awdTxt abs bgImg awdTxt1"></div>-->
-                    <img src="{{asset('assets/images/ai13.png')}}" class="abs aiImg2">
-                    <div class="abs aiTxt2">蜘蛛网 电影优惠券<br><span>SN1234567890</span></div>
-
-
+			<div id="prizeInfo">
+	                    <!--<img src="{{asset('assets/images/ai13.png')}}" class="abs aiImg2">
+	                    <div class="abs aiTxt2">蜘蛛网 电影优惠券<br><span>SN1234567890</span></div>-->
+			</div>
                     <!--未提交过信息-->
 			@if (null == $info)
 			<input type="text" class="infoTxt infoTxt1" maxlength="20">
@@ -159,8 +159,10 @@
 <div class="awardInit">
 	<div class="innerDiv">
     	<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
-		<a href="javascript:void(0);" onclick="showCode(this);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}"></a>
-		<span class="abs awdCode">SN1234567890</span>
+		<a href="javascript:void(0);" @if ( null != $lottery->prize_code_id )onclick="showCode(this);"@endif class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}"></a>
+		@if ( null != $lottery->prize_code_id )
+		<span class="abs awdCode">{{ $lottery->prizeCode->prize_code }}</span>
+		@endif
 	</div>
 </div>
 @endif
@@ -204,7 +206,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="page pageCode" style="display:none;">
     	<div class="innerDiv">
             <p class="snCode abs"></p>

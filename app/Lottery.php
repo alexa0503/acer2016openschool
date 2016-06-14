@@ -14,6 +14,6 @@ class Lottery extends Model
     }
     public function prizeCode()
     {
-        return $this->hasOne('App\PrizeCode');
+        return $this->belongsTo('App\PrizeCode');
     }
 }

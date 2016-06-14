@@ -21,9 +21,9 @@ $(document).ready(function() {
     if (wHeight >= 980) {
         //$('.page').css('margin-top',((wHeight-1139)/2-20)+'px');
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
-		$('.page1,.page2,.page3,.pageRule').on('touchmove', function(e) {
-			e.preventDefault();
-		});
+        $('.page1,.page2,.page3,.pageRule').on('touchmove', function(e) {
+            e.preventDefault();
+        });
     }
     $('#touchCanvas,.shareNote,.pageSnid').on('touchmove', function(e) {
         e.preventDefault();
@@ -56,7 +56,7 @@ function goPage1() {
 
 function goPage2a() {
     gameType = 1;
-	$('.man').removeClass('man1Act').removeClass('man2Act');
+    $('.man').removeClass('man1Act').removeClass('man2Act');
     $('.man').addClass('man1').addClass('man1Act');
     $('.page1').fadeOut(500);
     $('.page2').fadeIn(500);
@@ -65,7 +65,7 @@ function goPage2a() {
 
 function goPage2b() {
     gameType = 2;
-	$('.man').removeClass('man1Act').removeClass('man2Act');
+    $('.man').removeClass('man1Act').removeClass('man2Act');
     $('.man').addClass('man2').addClass('man2Act');
     $('.page1').fadeOut(500);
     $('.pageSnid').fadeOut(500);
@@ -82,18 +82,18 @@ function snidClose() {
 }
 
 function showRule() {
-	//window.scroll(0, 0);
-	$('.page1').fadeOut(500);
+    //window.scroll(0, 0);
+    $('.page1').fadeOut(500);
     $('.pageRule').show();
-	//$('.bottomBanner').fadeIn(500);
+    //$('.bottomBanner').fadeIn(500);
     $('#scrollbar').tinyscrollbar();
 }
 
 function closeRule() {
     $('.pageRule').fadeOut(500);
-	//$('.bottomBanner').fadeOut(500);
-	$('.page1').fadeIn(500);
-	if (wHeight >= 980) {
+    //$('.bottomBanner').fadeOut(500);
+    $('.page1').fadeIn(500);
+    if (wHeight >= 980) {
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
     }
 }
@@ -118,16 +118,16 @@ function submitSnid(url) {
                 success: function(json) {
                     if (json.ret == 0) {
                         //ajax验证成功
-						if (wHeight >= 980) {
-							window.scroll(0, ((1139 - wHeight) / 2 + 20));
-						}
+                        if (wHeight >= 980) {
+                            window.scroll(0, ((1139 - wHeight) / 2 + 20));
+                        }
                         goPage2b();
                     } else {
-						//测试
-						if (wHeight >= 980) {
-							window.scroll(0, ((1139 - wHeight) / 2 + 20));
-						}
-						goPage2b();
+                        //测试
+                        if (wHeight >= 980) {
+                            window.scroll(0, ((1139 - wHeight) / 2 + 20));
+                        }
+                        goPage2b();
 
                         /*alert(json.msg);
                         canSubmitSnid = true; //解锁*/
@@ -157,7 +157,7 @@ var ctimeout; //倒计时timeout
 var cStep = 0; //触摸次数 20次一圈
 var c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20;
 var earthZrTime; //地球自转time
-var colddown;//倒计时
+var colddown; //倒计时
 function addSpeed() {
     if (canTouch) {
         if (cTick) {
@@ -283,15 +283,15 @@ function gameStart(url) { //点击按钮后开始游戏
     $('#touchCanvas').show();
     $('.page2Img2').removeClass('page2Img2Act1').addClass('page2Img2Act2');
     $('.page2Img1').addClass('page2Img1Act');
-	$('.colddownTime').fadeIn(500);
+    $('.colddownTime').fadeIn(500);
     startGame();
-	colddown=setInterval(function(){
-		var tt=parseInt($('.colddownTime font').html());
-		if(tt>0){
-			tt=tt-1;
-			}
-		$('.colddownTime font').html(tt);
-		},1000);
+    colddown = setInterval(function() {
+        var tt = parseInt($('.colddownTime font').html());
+        if (tt > 0) {
+            tt = tt - 1;
+        }
+        $('.colddownTime font').html(tt);
+    }, 1000);
     ctimeout = setTimeout(function() {
         endGame(url);
     }, cTime * 1000);
@@ -300,9 +300,9 @@ function gameStart(url) { //点击按钮后开始游戏
 function endGame(url) {
     canTouch = false;
     clearInterval(earthZrTime);
-	clearInterval(colddown);
-	$('.man1').removeClass('man1Act');
-	$('.man2').removeClass('man2Act');
+    clearInterval(colddown);
+    $('.man1').removeClass('man1Act');
+    $('.man2').removeClass('man2Act');
     clearTimeout(c1);
     clearTimeout(c2);
     clearTimeout(c3);
@@ -337,23 +337,35 @@ function endGame(url) {
             _token: $('input[name="_token"]').val()
         },
         success: function(json) {
-            if (json && json.ret == 0 && json.prize != 12) {
-				setTimeout(function(){
-					$('.page3b').fadeIn(500); //1-11、13 等奖
-					},10);
+            if (json && json.ret == 0 && json.prize.id != 12) {
+                setTimeout(function() {
+                    //{{asset('assets/images/ai13.png')}}
+                    var html = '<img src="'+json.prize.imgUrl+'" class="abs aiImg2"><div class="abs aiTxt2">'+json.prize.title;
+                    if( json.prize.code != null ){
+                        html += '<br><span>'+json.prize.code+'</span>';
+                    }
+                    html += '</div>';
+                    //var html = json.html;
+                    $('#prizeInfo').html(html)
+                    $('.page3b').fadeIn(500); //1-11、13 等奖
+                }, 10);
             } else {
-				setTimeout(function(){
-					$('.page3').fadeIn(500); //人人有奖
-					},10);
+                setTimeout(function() {
+                    $('.page3').fadeIn(500); //人人有奖
+                }, 10);
             }
             wxData.title = '夏日大作战，拯救你的夏天！';
             wxData.desc = '我已夺得超赞豪礼，这才是解暑的正确方式！更有新西兰冰雪游等你赢！';
             wxShare();
-			setTimeout(function(){$('.page2').fadeOut(500);window.scroll(0,0);$('.bottomBanner').fadeIn(500);},10);
+            setTimeout(function() {
+                $('.page2').fadeOut(500);
+                window.scroll(0, 0);
+                $('.bottomBanner').fadeIn(500);
+            }, 10);
         },
         error: function() {
             //alert('请求服务器失败~');
-		$('.page3').fadeIn(500); //人人有奖
+            $('.page3').fadeIn(500); //人人有奖
         }
     });
     /*
@@ -368,12 +380,12 @@ function endGame(url) {
 }
 
 function showAwardRule() {
-	//window.scroll(0, 0);
+    //window.scroll(0, 0);
     $('.pageAwardRule').fadeIn(500);
 }
 
 function closeAwardRule() {
-	//window.scroll(0, 0);
+    //window.scroll(0, 0);
     $('.pageAwardRule').fadeOut(500);
 }
 
@@ -415,20 +427,19 @@ function submitInfo() {
             },
             type: 'post',
             dataType: 'json',
-            success: function(json){
-                if(json.ret == 0){
+            success: function(json) {
+                if (json.ret == 0) {
                     alert('信息提交成功');
                     //window.scroll(0, 0);
                     $('.page3b').fadeOut(500);
                     $('.page4').show();
                     $('#scrollbar2').tinyscrollbar();
-                }
-                else{
+                } else {
                     alert(json.msg);
                     canSubmitInfo = true;
                 }
             },
-            error: function(){
+            error: function() {
                 alert('提交失败，请联系管理员~');
                 canSubmitInfo = true;
             }
@@ -465,18 +476,17 @@ function submitInfo2(url) {
             },
             type: 'post',
             dataType: 'json',
-            success: function(json){
-                if(json.ret == 0){
+            success: function(json) {
+                if (json.ret == 0) {
                     alert('信息提交成功');
                     $('.btn15').hide();
                     $('.infoSubmited2').show();
-                }
-                else{
+                } else {
                     alert(json.msg);
                     canSubmitInfo2 = true;
                 }
             },
-            error: function(){
+            error: function() {
                 alert('提交失败，请联系管理员~');
                 canSubmitInfo2 = true;
             }
@@ -498,26 +508,26 @@ function goHome() {
     $('.page4').fadeOut(500);
     $('.bottomBanner').fadeOut(500);
     $('.page1').fadeIn(500);
-	if (wHeight >= 980) {
+    if (wHeight >= 980) {
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
     }
 }
 
-function showShareNote(){
-	$('.shareNote').fadeIn(500);
-	}
+function showShareNote() {
+    $('.shareNote').fadeIn(500);
+}
 
-function closeShareNote(){
-	$('.shareNote').fadeOut(500);
-	}
+function closeShareNote() {
+    $('.shareNote').fadeOut(500);
+}
 
-function showCode(e){
-	var sncode=$(e).siblings('.awdCode').html();
-	$('.snCode').html(sncode);
-	$('.pageCode').fadeIn(500);
-	}
+function showCode(e) {
+    var sncode = $(e).siblings('.awdCode').html();
+    $('.snCode').html(sncode);
+    $('.pageCode').fadeIn(500);
+}
 
-function closeCode(){
-	$('.snCode').html('');
-	$('.pageCode').fadeOut(500);
-	}
+function closeCode() {
+    $('.snCode').html('');
+    $('.pageCode').fadeOut(500);
+}
