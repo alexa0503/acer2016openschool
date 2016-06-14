@@ -21,7 +21,7 @@ $(document).ready(function() {
     if (wHeight >= 980) {
         //$('.page').css('margin-top',((wHeight-1139)/2-20)+'px');
         window.scroll(0, ((1139 - wHeight) / 2 + 20));
-		$('.page1,.page2,.page3').on('touchmove', function(e) {
+		$('.page1,.page2,.page3,.pageRule').on('touchmove', function(e) {
 			e.preventDefault();
 		});
     }
