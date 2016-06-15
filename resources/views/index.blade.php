@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <a href="javascript:void(0);" class="bottomBanner2"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
+            <a href="http://touch.acer.com.cn/summer2016/" class="bottomBanner2"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
             <a href="javascript:void(0);" class="abs btn5" onClick="closeRule();"><img src="{{asset('assets/images/btn5.png')}}"></a>
             <img src="{{asset('assets/images/logo.png')}}" class="logo2">
         </div>
@@ -215,7 +215,7 @@
     </div>
 
 </div>
-<a href="javascript:void(0);" class="bottomBanner" style="display:none;"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
+<a href="http://touch.acer.com.cn/summer2016/" class="bottomBanner" style="display:none;"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
 
 <img src="{{asset('assets/images/shareNote.png')}}" class="shareNote" onClick="closeShareNote();" style="display:none;">
 
