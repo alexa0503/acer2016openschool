@@ -98,12 +98,13 @@ class HomeController extends Controller
         $prize_code = $lottery->getCode();
         $prize_id = $lottery->getPrizeId();
         //$lottery->record();
-
-        $prize = \App\Prize::find($prize_id);
         $result['prize']['id'] = $prize_id;
-        $result['prize']['title'] = $prize->title;
-        $result['prize']['imgUrl'] = asset('assets/images/ai'.$prize_id.'.png');
-        $result['prize']['code'] = $prize_code;
+        if( $prize_id != 0){
+            $prize = \App\Prize::find($prize_id);
+            $result['prize']['title'] = $prize->title;
+            $result['prize']['imgUrl'] = asset('assets/images/ai'.$prize_id.'.png');
+            $result['prize']['code'] = $prize_code;
+        }
 
         return json_encode($result);
     }

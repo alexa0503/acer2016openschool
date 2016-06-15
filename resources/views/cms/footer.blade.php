@@ -1,4 +1,3 @@
-
 <div id="footer" class="clearfix sidebar-page right-sidebar-page">
     <!-- Start #footer  -->
     <p class="pull-left">

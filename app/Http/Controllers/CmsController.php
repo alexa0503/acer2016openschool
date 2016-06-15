@@ -37,9 +37,15 @@ class CmsController extends Controller
      * 微信授权用户
      * @return mixed
      */
-    public function wechat()
+    public function wechat($id = null)
     {
-        $wechat_users = DB::table('wechat_users')->paginate(20);
+        if( $id == null ){
+            $wechat_users = DB::table('wechat_users')->paginate(20);
+        }
+        else{
+            $wechat_users = DB::table('wechat_users')->where('id', $id)->paginate(20);
+        }
+
         return view('cms/wechat_user',['wechat_users' => $wechat_users]);
     }
 
@@ -65,20 +71,33 @@ class CmsController extends Controller
     }
     /**
      * @return mixed
-     * 照片查看
+     * 查看
      */
-    public function photos()
+    public function lotteries()
     {
-        $photos = DB::table('photos')->paginate(20);
-        return view('cms/photos', ['photos' => $photos]);
+        $prize = \Request::get('prize');
+        if( empty($prize) ){
+            $lotteries = \App\Lottery::paginate(20);
+        }
+        else{
+            $lotteries = \App\Lottery::where('prize', $prize)->paginate(20);
+        }
+
+        $prizes = \App\Prize::all();
+        return view('cms/lotteries', ['lotteries' => $lotteries,'prizes'=>$prizes]);
+    }
+    public function prizes()
+    {
+        $prizes = \App\Prize::paginate(20);
+        return view('cms/prizes', ['prizes'=>$prizes]);
     }
 
     /**
-     * 照片导出
+     * 导出
      */
-    public function photosExport()
+    public function lotteriesExport()
     {
-        $filename = 'wechat'.date('YmdHis');
+        $filename = 'lottery'.date('YmdHis');
         $collection = \App\Photo::all();
         $data = $collection->map(function($item){
             return [

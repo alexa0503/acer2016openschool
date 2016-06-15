@@ -61,12 +61,14 @@ Route::get('/cms/users', 'CmsController@users');
 Route::get('/cms/account', 'CmsController@account');
 Route::post('/cms/account', 'CmsController@accountPost');
 Route::get('/cms/wechat', 'CmsController@wechat');
+Route::get('/cms/wechat/{id}', 'CmsController@wechat');
 Route::get('/cms/user/logs', 'CmsController@userLogs');
-Route::get('/cms/wechat/export', 'CmsController@wechatExport');
-Route::get('/cms/photos', 'CmsController@photos');
-Route::get('/cms/photos/export', 'CmsController@photosExport');
+//Route::get('/cms/wechat/export', 'CmsController@wechatExport');
+Route::get('/cms/lotteries', 'CmsController@lotteries');
+//Route::get('/cms/lotteries/export', 'CmsController@lotteriesExport');
 Route::get('/cms/sessions', 'CmsController@sessions');
 Route::get('/cms/session/{id}', 'CmsController@sessions');
+Route::get('/cms/prizes', 'CmsController@prizes');
 
 //wechat auth
 Route::any('/wechat/auth', 'WechatController@auth');

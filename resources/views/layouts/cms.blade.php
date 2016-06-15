@@ -12,6 +12,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="application-name" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Import google fonts - Heading first/ text second -->
     <link href="{{asset('assets/cms/css/font.css')}}" rel='stylesheet' type='text/css'>
     <!-- Css files -->
@@ -95,6 +96,11 @@
 @yield('scripts')
 <script>
     $().ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $.get('/cms/user/logs',function (data) {
             $('#userLogs').html(data);
         })
