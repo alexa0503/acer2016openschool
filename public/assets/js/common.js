@@ -346,14 +346,24 @@ function endGame(url) {
                     }
                     html += '</div>';
                     //var html = json.html;
-                    $('#prizeInfo').html(html)
+                    $('#prizeInfo').html(html);
                     $('.page3b').fadeIn(500); //1-11、13 等奖
                 }, 10);
-            } else {
-                setTimeout(function() {
-                    $('.page3').fadeIn(500); //人人有奖
+            } else if(json.prize.id == 12) {
+				//测试
+				setTimeout(function() {
+                    $('.page5').fadeIn(500); //未中奖
                 }, 10);
-            }
+				
+                /*setTimeout(function() {
+                    $('.page3').fadeIn(500); //人人有奖
+                }, 10);*/
+            } else{
+				setTimeout(function() {
+                    $('.page5').fadeIn(500); //未中奖
+                }, 10);
+				}
+			
             wxData.title = '夏日大作战，拯救你的夏天！';
             wxData.desc = '我已夺得超赞豪礼，这才是解暑的正确方式！更有新西兰冰雪游等你赢！';
             wxShare();
@@ -365,7 +375,7 @@ function endGame(url) {
         },
         error: function() {
             //alert('请求服务器失败~');
-            $('.page3').fadeIn(500); //人人有奖
+            $('.page5').fadeIn(500); //未中奖
         }
     });
     /*

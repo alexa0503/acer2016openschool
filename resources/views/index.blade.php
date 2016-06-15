@@ -104,6 +104,17 @@
             <img src="{{asset('assets/images/logo.png')}}" class="logo">
         </div>
     </div>
+    
+    <div class="page page5" style="display:none;">
+    	<div class="innerDiv">
+			<div class="bgImg page3Img3"></div>
+        	<div class="abs eNumb"></div>
+            <a href="javascript:void(0);" class="abs btn22" onClick="showShareNote();"><img src="{{asset('assets/images/btn22.png')}}"></a>
+			<a href="javascript:void(0);" class="abs btn18b" onClick="playAgain();"><img src="{{asset('assets/images/btn18.png')}}"></a>
+			<a href="javascript:void(0);" class="abs btn19b" onClick="showAwardRule();"><img src="{{asset('assets/images/btn19.png')}}"></a>
+            <img src="{{asset('assets/images/logo.png')}}" class="logo">
+        </div>
+    </div>
 
     <div class="page page3b" style="display:none;">
     	<div class="innerDiv">

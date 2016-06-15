@@ -174,3 +174,10 @@ select,input,textarea{font-family:inherit; outline:none; padding:0;}
 .pageCode{ background:url(../images/codeBg.png) 0 0 no-repeat;}
 .codeClose{ top:208px; right:50px;}
 .snCode{ padding:0; width:556px; height:80px; line-height:80px; text-align:center; font-size:60px; color:#dd18ba; left:43px; top:286px;}
+
+/*page5*/
+.page5{ background:url(../images/page5Img1.png) 0 0 no-repeat;}
+.btn22{ top:607px; left:50%; margin-left:-102px;}
+.btn18b{ left:178px; top:750px;}
+.btn19b{ left:332px; top:750px;}
+
