@@ -337,7 +337,7 @@ function endGame(url) {
             _token: $('input[name="_token"]').val()
         },
         success: function(json) {
-            if (json && json.ret == 0 && json.prize.id != 12) {
+            if (json && json.ret == 0 && json.prize.id != 0 && json.prize.id != 12) {
                 setTimeout(function() {
                     //{{asset('assets/images/ai13.png')}}
                     var html = '<img src="'+json.prize.imgUrl+'" class="abs aiImg2"><div class="abs aiTxt2">'+json.prize.title;
@@ -349,12 +349,12 @@ function endGame(url) {
                     $('#prizeInfo').html(html);
                     $('.page3b').fadeIn(500); //1-11、13 等奖
                 }, 10);
-            } else if(json.prize.id == 12) {
+            } else if(json && json.ret == 0 && json.prize.id == 12) {
 				//测试
 				setTimeout(function() {
                     $('.page5').fadeIn(500); //未中奖
                 }, 10);
-				
+
                 /*setTimeout(function() {
                     $('.page3').fadeIn(500); //人人有奖
                 }, 10);*/
@@ -363,7 +363,7 @@ function endGame(url) {
                     $('.page5').fadeIn(500); //未中奖
                 }, 10);
 				}
-			
+
             wxData.title = '夏日大作战，拯救你的夏天！';
             wxData.desc = '我已夺得超赞豪礼，这才是解暑的正确方式！更有新西兰冰雪游等你赢！';
             wxShare();

@@ -91,6 +91,26 @@ class CmsController extends Controller
         $prizes = \App\Prize::paginate(20);
         return view('cms/prizes', ['prizes'=>$prizes]);
     }
+    public function prizeUpdate($id)
+    {
+        $prize = \App\Prize::find($id);
+        $prize->seed_min = \Request::input('seed_min');
+        $prize->seed_max = \Request::input('seed_max');
+        $prize->save();
+        $result = [
+            'ret'=> 0,
+            'data'=> [
+                'seed_min'=> $prize->seed_min,
+                'seed_max'=> $prize->seed_max
+            ],
+        ];
+        return json_encode($result);
+    }
+    public function lotteryConfigs()
+    {
+        $lottery_configs = \App\LotteryConfigs::paginate(20);
+        return view('cms/lottery_configs', ['lottery_configs'=>$lottery_configs]);
+    }
 
     /**
      * 导出

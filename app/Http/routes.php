@@ -69,6 +69,7 @@ Route::get('/cms/lotteries', 'CmsController@lotteries');
 Route::get('/cms/sessions', 'CmsController@sessions');
 Route::get('/cms/session/{id}', 'CmsController@sessions');
 Route::get('/cms/prizes', 'CmsController@prizes');
+Route::get('/cms/prize/update/{id}', 'CmsController@prizeUpdate');
 
 //wechat auth
 Route::any('/wechat/auth', 'WechatController@auth');

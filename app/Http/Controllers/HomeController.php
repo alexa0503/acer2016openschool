@@ -18,7 +18,7 @@ class HomeController extends Controller
     {
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))
             ->with(['lotteries' => function ($query) {
-                $query->orderBy('created_time', 'desc');
+                $query->where('prize', '!=', 0)->orderBy('created_time', 'desc');
             }],'info')->first();
         return view('index', ['lotteries' => $wechat_user->lotteries, 'info' => $wechat_user->info]);
     }

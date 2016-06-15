@@ -36,13 +36,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($prizes as $prize)
+                                    @foreach ($lottery_configs as $lottery_config)
                                     <tr>
-                                        <td>{{$prize->id}}</td>
-                                        <td>{{$prize->title}}</td>
-                                        <td>{{$prize->seed_min}}</td>
-                                        <td>{{$prize->seed_max}}</td>
-                                        <td><a href="{{ url('cms/prize/update/'.$prize->id) }}" title="点击更改" class="btn btn-info btn-sm update">修改</a></td>
+                                        <td>{{$lottery_config->id}}</td>
+                                        <td>{{$lottery_config->title}}</td>
+                                        <td>{{$lottery_config->seed_min}}</td>
+                                        <td>{{$lottery_config->seed_max}}</td>
+                                        <td><a href="{{ url('cms/prize/update/'.$lottery_config->id) }}" title="点击更改" class="btn btn-info btn-sm update">修改</a></td>
                                     </tr>
                                     @endforeach
                                     </tbody>
@@ -50,7 +50,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12">
                                         <div class="dataTables_paginate paging_bootstrap" id="basic-datatables_paginate">
-                                            {!! $prizes->links() !!}
+                                            {!! $lottery_configs->links() !!}
                                         </div>
                                     </div>
                                 </div>
