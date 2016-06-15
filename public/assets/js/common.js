@@ -102,7 +102,7 @@ var canSubmitSnid = true; //提交snid码的锁
 function submitSnid(url) {
     var snid = $.trim($('.snidTxt').val());
     if (snid == '') {
-        alert('请输入SNID码');
+        //alert('请输入SNID码');
         return false;
     } else {
         if (canSubmitSnid) {
@@ -406,13 +406,13 @@ function submitInfo() {
     var iAddress = $.trim($('.infoTxt3').val());
     var pattern = /^1[3456789]\d{9}$/;
     if (iName == '') {
-        alert('请输入姓名');
+        //alert('请输入姓名');
         return false;
     } else if (iTel == '' || !pattern.test(iTel)) {
-        alert('请输入正确的手机号码');
+        //alert('请输入正确的手机号码');
         return false;
     } else if (iAddress == '') {
-        alert('请输入地址');
+        //alert('请输入地址');
         return false;
     }
     //ajax提交信息
@@ -429,7 +429,7 @@ function submitInfo() {
             dataType: 'json',
             success: function(json) {
                 if (json.ret == 0) {
-                    alert('信息提交成功');
+                    //alert('信息提交成功');
                     //window.scroll(0, 0);
                     $('.page3b').fadeOut(500);
                     $('.page4').show();
@@ -455,13 +455,13 @@ function submitInfo2(url) {
     var iAddress = $.trim($('.infoTxtB3').val());
     var pattern = /^1[3456789]\d{9}$/;
     if (iName == '') {
-        alert('请输入姓名');
+        //alert('请输入姓名');
         return false;
     } else if (iTel == '' || !pattern.test(iTel)) {
-        alert('请输入正确的手机号码');
+        //alert('请输入正确的手机号码');
         return false;
     } else if (iAddress == '') {
-        alert('请输入地址');
+        //alert('请输入地址');
         return false;
     }
     //ajax提交信息
@@ -478,7 +478,7 @@ function submitInfo2(url) {
             dataType: 'json',
             success: function(json) {
                 if (json.ret == 0) {
-                    alert('信息提交成功');
+                    //alert('信息提交成功');
                     $('.btn15').hide();
                     $('.infoSubmited2').show();
                 } else {
