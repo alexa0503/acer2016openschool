@@ -87,12 +87,12 @@ class Lottery
         if( $prize->id == 12 ){
             return;
         }
-        $this->prize_id = $prize->id;
         //当日奖项设置
         $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize->id);
         if( $prize_config_model->count() == 0 ){
             return;
         }
+        $this->prize_id = $prize->id;
         //判断该用户是否中过此奖项
         $count2 = \App\Lottery::where('user_id', $wechat_user->id)
         ->where('prize', $prize->id)
