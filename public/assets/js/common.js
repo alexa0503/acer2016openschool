@@ -124,13 +124,13 @@ function submitSnid(url) {
                         goPage2b();
                     } else {
                         //测试
-                        if (wHeight >= 980) {
+                        /*if (wHeight >= 980) {
                             window.scroll(0, ((1139 - wHeight) / 2 + 20));
                         }
-                        goPage2b();
+                        goPage2b();*/
 
-                        /*alert(json.msg);
-                        canSubmitSnid = true; //解锁*/
+                        alert(json.msg);
+                        canSubmitSnid = true; //解锁
                     }
                 },
                 error: function() {
@@ -340,29 +340,24 @@ function endGame(url) {
             if (json && json.ret == 0 && json.prize.id != 0 && json.prize.id != 12) {
                 setTimeout(function() {
                     //{{asset('assets/images/ai13.png')}}
-                    var html = '<img src="'+json.prize.imgUrl+'" class="abs aiImg2"><div class="abs aiTxt2">'+json.prize.title;
-                    if( json.prize.code != null ){
-                        html += '<br><span>'+json.prize.code+'</span>';
+                    var html = '<img src="' + json.prize.imgUrl + '" class="abs aiImg2"><div class="abs aiTxt2">' + json.prize.title;
+                    if (json.prize.code != null) {
+                        html += '<br><span>' + json.prize.code + '</span>';
                     }
                     html += '</div>';
                     //var html = json.html;
                     $('#prizeInfo').html(html);
                     $('.page3b').fadeIn(500); //1-11、13 等奖
                 }, 10);
-            } else if(json && json.ret == 0 && json.prize.id == 12) {
-				//测试
-				setTimeout(function() {
-                    $('.page5').fadeIn(500); //未中奖
-                }, 10);
-
-                /*setTimeout(function() {
+            } else if (json && json.ret == 0 && json.prize.id == 12) {
+                setTimeout(function() {
                     $('.page3').fadeIn(500); //人人有奖
-                }, 10);*/
-            } else{
-				setTimeout(function() {
+                }, 10);
+            } else {
+                setTimeout(function() {
                     $('.page5').fadeIn(500); //未中奖
                 }, 10);
-				}
+            }
 
             wxData.title = '夏日大作战，拯救你的夏天！';
             wxData.desc = '我已夺得超赞豪礼，这才是解暑的正确方式！更有新西兰冰雪游等你赢！';
