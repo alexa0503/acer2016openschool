@@ -70,52 +70,9 @@ class CmsController extends Controller
         return view('cms/sessions', ['sessions' => $sessions]);
     }
     /**
-     * @return mixed
-     * 查看
-     */
-    public function lotteries()
-    {
-        $prize = \Request::get('prize');
-        if( empty($prize) ){
-            $lotteries = \App\Lottery::paginate(20);
-        }
-        else{
-            $lotteries = \App\Lottery::where('prize', $prize)->paginate(20);
-        }
-
-        $prizes = \App\Prize::all();
-        return view('cms/lotteries', ['lotteries' => $lotteries,'prizes'=>$prizes]);
-    }
-    public function prizes()
-    {
-        $prizes = \App\Prize::paginate(20);
-        return view('cms/prizes', ['prizes'=>$prizes]);
-    }
-    public function prizeUpdate($id)
-    {
-        $prize = \App\Prize::find($id);
-        $prize->seed_min = \Request::input('seed_min');
-        $prize->seed_max = \Request::input('seed_max');
-        $prize->save();
-        $result = [
-            'ret'=> 0,
-            'data'=> [
-                'seed_min'=> $prize->seed_min,
-                'seed_max'=> $prize->seed_max
-            ],
-        ];
-        return json_encode($result);
-    }
-    public function lotteryConfigs()
-    {
-        $lottery_configs = \App\LotteryConfigs::paginate(20);
-        return view('cms/lottery_configs', ['lottery_configs'=>$lottery_configs]);
-    }
-
-    /**
      * 导出
      */
-    public function lotteriesExport()
+    public function export()
     {
         $filename = 'lottery'.date('YmdHis');
         $collection = \App\Photo::all();
@@ -163,39 +120,5 @@ class CmsController extends Controller
     {
         $logs = \App\UserLog::limit(30)->offset(0)->orderBy('create_time', 'DESC')->get();
         return view('cms/userLogs',['logs' => $logs]);
-    }
-
-    /**
-     * 微信用户导出
-     */
-    public function wechatExport()
-    {
-        $filename = 'wechat'.date('YmdHis');
-        $collection = \App\WechatUser::all();
-        $data = $collection->map(function($item){
-            return [
-                $item->id,
-                $item->open_id,
-                json_decode($item->nick_name),
-                $item->head_img,
-                $item->gender,
-                $item->country,
-                $item->province,
-                $item->city,
-                $item->create_time,
-                $item->create_ip,
-            ];
-        });
-        Excel::create($filename, function($excel) use($data) {
-            $excel->setTitle('微信用户');
-            // Chain the setters
-            $excel->setCreator('Alexa');
-            // Call them separately
-            $excel->setDescription('授权用户');
-            $excel->sheet('Sheet', function($sheet) use($data) {
-                $sheet->row(1, array('ID','openid','昵称','头像','性别','国家','省份','城市','授权时间','授权IP'));
-                $sheet->fromArray($data, null, 'A2', false, false);
-            });
-        })->download('xlsx');
     }
 }

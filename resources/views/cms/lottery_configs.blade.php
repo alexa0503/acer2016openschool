@@ -19,19 +19,24 @@
                         <!-- col-lg-12 start here -->
                         <div class="panel panel-default">
                             <!-- Start .panel -->
-                            <div class="panel-body" style="min-height:600px;">
+                            <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-12 col-xs-12 ">
-                                    <h5 class="label label-primary">分布值为0~10000 为0时表示不可中奖 区间范围为中奖几率</h5>
+                                    <div class="col-md-6 col-xs-12 ">
+                                        <div class="dataTables_length" id="responsive-datatables_length">
+                                        <h5 class="label label-primary">几率请输入小数，为1时几率为100%</h5></div>
+                                    </div>
+                                    <div class="col-md-6 col-xs-12">
+                                        <div id="responsive-datatables_filter" class="dataTables_filter" style="text-align:right"><a class="btn btn-warning add">+增加</a></div>
+
                                     </div>
                                 </div>
                                 <table id="basic-datatables" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>名称</th>
-                                        <th>分布最小值</th>
-                                        <th>分布最大值</th>
+                                        <th>开始时间</th>
+                                        <th>结束时间</th>
+                                        <th>几率</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -39,10 +44,10 @@
                                     @foreach ($lottery_configs as $lottery_config)
                                     <tr>
                                         <td>{{$lottery_config->id}}</td>
-                                        <td>{{$lottery_config->title}}</td>
-                                        <td>{{$lottery_config->seed_min}}</td>
-                                        <td>{{$lottery_config->seed_max}}</td>
-                                        <td><a href="{{ url('cms/prize/update/'.$lottery_config->id) }}" title="点击更改" class="btn btn-info btn-sm update">修改</a></td>
+                                        <td>{{$lottery_config->start_time}}</td>
+                                        <td>{{$lottery_config->shut_time}}</td>
+                                        <td>{{$lottery_config->win_odds}}</td>
+                                        <td><a href="{{ url('cms/lottery/config/update/'.$lottery_config->id) }}" title="点击更改" class="btn btn-info btn-sm update">修改</a></td>
                                     </tr>
                                     @endforeach
                                     </tbody>
@@ -74,22 +79,26 @@ $(document).ready(function() {
         var url = obj.attr('href');
         var tr = obj.parent('td').parent('tr').find('td');
         if( obj.text() == '修改' ){
-            tr.eq(2).html('<input value="'+tr.eq(2).text()+'" name="seed_min" class="input-sm" />');
-            tr.eq(3).html('<input value="'+tr.eq(3).text()+'" name="seed_max" class="input-sm" />');
+            tr.eq(1).html('<input value="'+tr.eq(1).text()+'" name="start_time" class="input-sm" />');
+            tr.eq(2).html('<input value="'+tr.eq(2).text()+'" name="shut_time" class="input-sm" />');
+            tr.eq(3).html('<input value="'+tr.eq(3).text()+'" name="win_odds" class="input-sm" />');
             obj.removeClass('btn-info').addClass('btn-warning').text('更新');
         }
         else{
             var data = {
-                'seed_min':tr.find('input[name="seed_min"]').val(),
-                'seed_max':tr.find('input[name="seed_max"]').val()
+                'start_time':tr.find('input[name="start_time"]').val(),
+                'shut_time':tr.find('input[name="shut_time"]').val(),
+                'win_odds':tr.find('input[name="win_odds"]').val()
             };
             $.ajax(url, {
                 dataType: 'json',
-                data:data,
+                data: data,
+                type: 'post',
                 success: function(json){
                     if(json.ret == 0){
-                        tr.eq(2).html(json.data.seed_min);
-                        tr.eq(3).html(json.data.seed_max);
+                        tr.eq(1).html(json.data.start_time);
+                        tr.eq(2).html(json.data.shut_time);
+                        tr.eq(3).html(json.data.win_odds);
                         obj.removeClass('btn-warning').addClass('btn-info').text('修改');
                     }
                 },
@@ -100,6 +109,49 @@ $(document).ready(function() {
         }
 
         //alert('')
+        return false;
+    })
+    $('.timepicker').timepicker({
+       upArrowStyle: 'fa fa-angle-up',
+       downArrowStyle: 'fa fa-angle-down',
+       showSeconds: true,
+       showMeridian: false,
+   });
+    $('.add').click(function(){
+        //var obj = $(this);
+        var html = '<tr><td>--</td>';
+        html += '<td><input value="" name="start_time" class="input-sm timepicker" type="text" /></td>';
+        html += '<td><input value="" name="shut_time" class="input-sm timepicker" type="text" /></td>';
+        html += '<td><input value="" name="win_odds" class="input-sm" /></td>';
+        html += '<td><button class="btn btn-warning">提交</button></td></tr>';
+        var url = '{{url("cms/lottery/config/add")}}';
+        var obj = $('#basic-datatables').find('tbody').append(html);
+        obj.find('input.timepicker').timepicker({
+           upArrowStyle: 'fa fa-angle-up',
+           downArrowStyle: 'fa fa-angle-down',
+           showSeconds: true,
+           showMeridian: false
+       });
+        obj.find('button').click(function(){
+            var tr = $(this).parent('td').parent('tr').find('td');
+            var data = {
+                'start_time':tr.find('input[name="start_time"]').val(),
+                'shut_time':tr.find('input[name="shut_time"]').val(),
+                'win_odds':tr.find('input[name="win_odds"]').val()
+            }
+            $.ajax(url, {
+                dataType: 'json',
+                data:data,
+                type: 'post',
+                success: function(json){
+                    location.reload();
+                },
+                error: function(){
+                    alert('服务器异常，请求失败~');
+                }
+            });
+            //alert(1);
+        });
         return false;
     })
 });

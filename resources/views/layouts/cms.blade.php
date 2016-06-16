@@ -91,6 +91,7 @@
 <!-- Other plugins ( load only nessesary plugins for every page) -->
 <script src="{{asset('assets/cms/plugins/charts/sparklines/jquery.sparkline.js')}}"></script>
 <script src="{{asset('assets/cms/js/jquery.dynamic.js')}}"></script>
+<script src="{{asset('assets/cms/plugins/forms/bootstrap-timepicker/bootstrap-timepicker.js')}}"></script>
 <script src="{{asset('assets/cms/js/main.js')}}"></script>
 <script src="{{asset('assets/cms/js/pages/blank.js')}}"></script>
 @yield('scripts')

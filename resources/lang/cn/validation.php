@@ -29,7 +29,7 @@ return [
     ],
     'boolean'              => ':attribute field must be true or false.',
     'confirmed'            => ':attribute confirmation does not match.',
-    'date'                 => ':attribute is not a valid date.',
+    'date'                 => ':attribute 必须是个有效的日期.',
     'date_format'          => ':attribute does not match the format :format.',
     'different'            => ':attribute and :other must be different.',
     'digits'               => ':attribute must be :digits digits.',
@@ -110,7 +110,11 @@ return [
 
     'attributes' => [
         'password'=>'密码',
-        'repeat-password'=>'重复密码'
+        'repeat-password'=>'重复密码',
+        'lottery_date'=>'日期',
+        'prize_num'=>'奖品数量',
+        'prize'=>'奖品',
+        'type'=>'方式',
     ],
 
 ];

@@ -32,6 +32,11 @@ Route::get('/wx/share', function(){
     ];
     return json_encode(array_merge($share, $config));
 });
+
+
+//wechat auth
+Route::any('/wechat/auth', 'WechatController@auth');
+Route::any('/wechat/callback', 'WechatController@callback');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -63,17 +68,22 @@ Route::post('/cms/account', 'CmsController@accountPost');
 Route::get('/cms/wechat', 'CmsController@wechat');
 Route::get('/cms/wechat/{id}', 'CmsController@wechat');
 Route::get('/cms/user/logs', 'CmsController@userLogs');
-//Route::get('/cms/wechat/export', 'CmsController@wechatExport');
-Route::get('/cms/lotteries', 'CmsController@lotteries');
-//Route::get('/cms/lotteries/export', 'CmsController@lotteriesExport');
 Route::get('/cms/sessions', 'CmsController@sessions');
 Route::get('/cms/session/{id}', 'CmsController@sessions');
-Route::get('/cms/prizes', 'CmsController@prizes');
-Route::get('/cms/prize/update/{id}', 'CmsController@prizeUpdate');
+//抽奖部分管理
+Route::get('/cms/lotteries', 'CmsLotteryController@lotteries');
+Route::get('/cms/prizes', 'CmsLotteryController@prizes');
+Route::post('/cms/prize/update/{id}', 'CmsLotteryController@prizeUpdate');//
+Route::get('/cms/lottery/configs', 'CmsLotteryController@lotteryConfigs');
+Route::post('cms/lottery/config/update/{id}', 'CmsLotteryController@lotteryConfigUpdate');
+Route::post('cms/lottery/config/add', 'CmsLotteryController@lotteryConfigAdd');
+Route::get('cms/prize/configs', 'CmsLotteryController@prizeConfigs');
+Route::get('cms/prize/config/update/{id}', 'CmsLotteryController@prizeConfig');
+Route::post('cms/prize/config/update/{id}', 'CmsLotteryController@prizeConfigUpdate');
+Route::get('cms/prize/config/add', 'CmsLotteryController@prizeConfigAdd');
+Route::post('cms/prize/config/add', 'CmsLotteryController@prizeConfigStore');
+Route::get('cms/prize/codes', 'CmsLotteryController@prizeCodes');
 
-//wechat auth
-Route::any('/wechat/auth', 'WechatController@auth');
-Route::any('/wechat/callback', 'WechatController@callback');
 
 //初始化后台帐号
 Route::get('cms/account/init', function(){

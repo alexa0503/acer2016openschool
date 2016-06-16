@@ -8,7 +8,7 @@
                 <!-- Start .page-content-inner -->
                 <div id="page-header" class="clearfix">
                     <div class="page-header">
-                        <h2>奖品查看</h2>
+                        <h2>奖券查看</h2>
                         <span class="txt"></span>
                     </div>
 
@@ -20,29 +20,22 @@
                         <div class="panel panel-default">
                             <!-- Start .panel -->
                             <div class="panel-body" style="min-height:600px;">
-                                <div class="row">
-                                    <div class="col-md-12 col-xs-12 ">
-                                    <h5 class="label label-primary">分布值为0~10000 为0时表示不可中奖 区间范围为中奖几率</h5>
-                                    </div>
-                                </div>
                                 <table id="basic-datatables" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>名称</th>
-                                        <th>分布最小值</th>
-                                        <th>分布最大值</th>
-                                        <th>操作</th>
+                                        <th>类型</th>
+                                        <th>奖券</th>
+                                        <th>状态</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($prizes as $prize)
+                                    @foreach ($prize_codes as $prize_code)
                                     <tr>
-                                        <td>{{$prize->id}}</td>
-                                        <td>{{$prize->title}}</td>
-                                        <td>{{$prize->seed_min}}</td>
-                                        <td>{{$prize->seed_max}}</td>
-                                        <td><a href="{{ url('cms/prize/update/'.$prize->id) }}" title="点击更改" class="btn btn-info btn-sm update">修改</a></td>
+                                        <td>{{$prize_code->id}}</td>
+                                        <td>@if ($prize_code->type == 1)蜘蛛网电子礼品兑换券@elseif($prize_code->type == 2)蜘蛛网电影通兑券@else蜘蛛网电子优惠券 @endif</td>
+                                        <td>{{$prize_code->prize_code}}</td>
+                                        <td>{{$prize_code->is_active==1?'已用':'未用'}}</td>
                                     </tr>
                                     @endforeach
                                     </tbody>
@@ -50,7 +43,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12">
                                         <div class="dataTables_paginate paging_bootstrap" id="basic-datatables_paginate">
-                                            {!! $prizes->links() !!}
+                                            {!! $prize_codes->links() !!}
                                         </div>
                                     </div>
                                 </div>

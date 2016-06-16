@@ -8,4 +8,8 @@ class PrizeConfig extends Model
 {
     //
     public $timestamps = false;
+    public function prizeInfo()
+    {
+        return $this->belongsTo('App\Prize', 'prize');
+    }
 }
