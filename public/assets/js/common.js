@@ -423,6 +423,9 @@ function submitInfo() {
     //ajax提交信息
     if (canSubmitInfo) {
         canSubmitInfo = false;
+		$('.infoTxt1').prop('disabled','disabled');
+		$('.infoTxt2').prop('disabled','disabled');
+		$('.infoTxt3').prop('disabled','disabled');
         $.ajax(url, {
             data: {
                 name: iName,
@@ -441,6 +444,9 @@ function submitInfo() {
                     $('#scrollbar2').tinyscrollbar();
                 } else {
                     alert(json.msg);
+					$('.infoTxt1').prop('disabled','false');
+					$('.infoTxt2').prop('disabled','false');
+					$('.infoTxt3').prop('disabled','false');
                     canSubmitInfo = true;
                 }
             },
@@ -472,6 +478,9 @@ function submitInfo2(url) {
     //ajax提交信息
     if (canSubmitInfo2) {
         canSubmitInfo2 = false;
+		$('.infoTxtB1').prop('disabled','disabled');
+		$('.infoTxtB2').prop('disabled','disabled');
+		$('.infoTxtB3').prop('disabled','disabled');
         $.ajax(url, {
             data: {
                 name: iName,
@@ -488,6 +497,9 @@ function submitInfo2(url) {
                     $('.infoSubmited2').show();
                 } else {
                     alert(json.msg);
+					$('.infoTxtB1').prop('disabled','false');
+					$('.infoTxtB2').prop('disabled','false');
+					$('.infoTxtB3').prop('disabled','false');
                     canSubmitInfo2 = true;
                 }
             },
