@@ -104,7 +104,7 @@
             <img src="{{asset('assets/images/logo.png')}}" class="logo">
         </div>
     </div>
-    
+
     <div class="page page5" style="display:none;">
     	<div class="innerDiv">
 			<div class="bgImg page3Img4"></div>
@@ -178,6 +178,17 @@
 </div>
 @endif
 @endforeach
+@if (null != $lottery_ctrip)
+<div class="awardInit">
+	<div class="innerDiv">
+    	<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
+		<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}"></a>
+		@if ( null != $lottery->prize_code_id )
+		<span class="abs awdCode">{{ $lottery->prizeCode->prize_code }}</span>
+		@endif
+	</div>
+</div>
+@endif
                                 </div>
                                 <div class="clear"></div>
                             </div>

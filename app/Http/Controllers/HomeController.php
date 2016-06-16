@@ -18,9 +18,10 @@ class HomeController extends Controller
     {
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))
             ->with(['lotteries' => function ($query) {
-                $query->where('prize', '!=', 0)->orderBy('created_time', 'desc');
+                $query->where('prize', '!=', 12)->where('prize', '!=', 0)->orderBy('created_time', 'desc');
             }],'info')->first();
-        return view('index', ['lotteries' => $wechat_user->lotteries, 'info' => $wechat_user->info]);
+        $lottery = \App\Lottery::where('prize', 12)->where('user_id',$wechat_user->id)->first();
+        return view('index', ['lotteries' => $wechat_user->lotteries, 'lottery_ctrip'=>$lottery, 'info' => $wechat_user->info]);
     }
 
     //snid提交
