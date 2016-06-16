@@ -173,4 +173,6 @@ class CmsLotteryController extends Controller
         $prize_codes = \App\PrizeCode::paginate(20);
         return view('cms/prize_codes', ['prize_codes'=>$prize_codes]);
     }
+
+        
 }

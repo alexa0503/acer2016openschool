@@ -20,11 +20,11 @@
                         <div class="panel panel-default">
                             <!-- Start .panel -->
                             <div class="panel-body">
+                                <!--
                                 <div class="row">
                                     <div class="col-md-2 col-xs-12 ">
-                                        <!--
                                         <div class="dataTables_length" id="responsive-datatables_length"><label><span><select name="responsive-datatables_length" aria-controls="responsive-datatables" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></span></label>
-                                        </div>-->
+                                        </div>
                                     </div>
                                     <div class="col-md-10 col-xs-12">
                                         <div id="responsive-datatables_filter" class="dataTables_filter">
@@ -33,37 +33,27 @@
                                             </form>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <table id="basic-datatables" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>缩略图</th>
-                                        <th>类别</th>
+                                        <th>微信昵称</th>
                                         <th>姓名</th>
                                         <th>手机</th>
                                         <th>地址</th>
-                                        <th>点赞</th>
                                         <th>创建时间</th>
-                                        <!--<th>创建IP</th>-->
-                                        <th>状态</th>
-                                        <th>操作</th>
+                                        <th>创建IP</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach ($infos as $info)
                                     <tr>
-                                        <td><a href="{{url('/share',['id'=>$info->id])}}" target="_blank">{{ $info->id }}</a></td>
-                                        <td>@if ($info->thumb)<a href="{{ $info->thumb }}"><img src="{{ $info->thumb }}" width="100" height="100" /></a>@else 暂无预览 @endif</td>
-                                        <td>{{ $info->file_type == 0 ? '图片' : '视频' }}</td>
+                                        <td><a href="{{url('cms/wechat',['id'=>$info->user->id])}}">{{ json_decode($info->user->nick_name) }}</a></td>
                                         <td>{{ $info->name }}</td>
                                         <td>{{ $info->mobile }}</td>
                                         <td>{{ $info->address }}</td>
-                                        <td>{{ $info->like_num }}</td>
                                         <td>{{ $info->created_time }}</td>
-                                        <!--<td>{{ $info->created_ip }}</td>-->
-                                        <td><a href="{{ url('cms/info/update/status/'.$info->id) }}" title="点击更改" class="label label-info update">{{ $info->status == 0 ? '隐藏' : '正常' }}</a></td>
-                                        <td><a href="{{ url('cms/info/delete/'.$info->id) }}" class="label label-info delete">删除</a></td>
+                                        <td>{{ $info->created_ip }}</td>
                                     </tr>
                                     @endforeach
                                     </tbody>

@@ -48,7 +48,11 @@ class CmsController extends Controller
 
         return view('cms/wechat_user',['wechat_users' => $wechat_users]);
     }
-
+    public function infos()
+    {
+        $infos = \App\Info::paginate(20);
+        return view('cms/infos', ['infos'=>$infos]);
+    }
     /**
      * 账户管理
      */

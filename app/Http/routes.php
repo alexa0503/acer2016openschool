@@ -70,6 +70,7 @@ Route::get('/cms/wechat/{id}', 'CmsController@wechat');
 Route::get('/cms/user/logs', 'CmsController@userLogs');
 Route::get('/cms/sessions', 'CmsController@sessions');
 Route::get('/cms/session/{id}', 'CmsController@sessions');
+Route::get('cms/infos', 'CmsController@infos');
 //抽奖部分管理
 Route::get('/cms/lotteries', 'CmsLotteryController@lotteries');
 Route::get('/cms/prizes', 'CmsLotteryController@prizes');
