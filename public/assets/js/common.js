@@ -102,7 +102,7 @@ var canSubmitSnid = true; //提交snid码的锁
 function submitSnid(url) {
     var snid = $.trim($('.snidTxt').val());
     if (snid == '') {
-        //alert('请输入SNID码');
+        showAlert('请输入SNID码');
         return false;
     } else {
         if (canSubmitSnid) {
@@ -129,12 +129,12 @@ function submitSnid(url) {
                         }
                         goPage2b();*/
 
-                        alert(json.msg);
+                        showAlert(json.msg);
                         canSubmitSnid = true; //解锁
                     }
                 },
                 error: function() {
-                    alert('提交失败~请重新尝试~');
+                    showAlert('提交失败~请重新尝试~');
                     canSubmitSnid = true;
                 }
 
@@ -369,7 +369,7 @@ function endGame(url) {
             }, 10);
         },
         error: function() {
-            //alert('请求服务器失败~');
+            showAlert('请求服务器失败~');
             $('.page5').fadeIn(500); //未中奖
         }
     });
@@ -411,18 +411,21 @@ function submitInfo() {
     var iAddress = $.trim($('.infoTxt3').val());
     var pattern = /^1[3456789]\d{9}$/;
     if (iName == '') {
-        //alert('请输入姓名');
+        showAlert('请输入姓名');
         return false;
     } else if (iTel == '' || !pattern.test(iTel)) {
-        //alert('请输入正确的手机号码');
+        showAlert('请输入正确的手机号码');
         return false;
     } else if (iAddress == '') {
-        //alert('请输入地址');
+        showAlert('请输入地址');
         return false;
     }
     //ajax提交信息
     if (canSubmitInfo) {
         canSubmitInfo = false;
+		$('.infoTxt1').prop('disabled','disabled');
+		$('.infoTxt2').prop('disabled','disabled');
+		$('.infoTxt3').prop('disabled','disabled');
         $.ajax(url, {
             data: {
                 name: iName,
@@ -434,18 +437,21 @@ function submitInfo() {
             dataType: 'json',
             success: function(json) {
                 if (json.ret == 0) {
-                    //alert('信息提交成功');
+                    showAlert('信息提交成功');
                     //window.scroll(0, 0);
                     $('.page3b').fadeOut(500);
                     $('.page4').show();
                     $('#scrollbar2').tinyscrollbar();
                 } else {
-                    alert(json.msg);
+                    showAlert(json.msg);
+					$('.infoTxt1').prop('disabled','false');
+					$('.infoTxt2').prop('disabled','false');
+					$('.infoTxt3').prop('disabled','false');
                     canSubmitInfo = true;
                 }
             },
             error: function() {
-                alert('提交失败，请联系管理员~');
+                showAlert('提交失败，请联系管理员~');
                 canSubmitInfo = true;
             }
         });
@@ -460,18 +466,21 @@ function submitInfo2(url) {
     var iAddress = $.trim($('.infoTxtB3').val());
     var pattern = /^1[3456789]\d{9}$/;
     if (iName == '') {
-        //alert('请输入姓名');
+        showAlert('请输入姓名');
         return false;
     } else if (iTel == '' || !pattern.test(iTel)) {
-        //alert('请输入正确的手机号码');
+        showAlert('请输入正确的手机号码');
         return false;
     } else if (iAddress == '') {
-        //alert('请输入地址');
+        showAlert('请输入地址');
         return false;
     }
     //ajax提交信息
     if (canSubmitInfo2) {
         canSubmitInfo2 = false;
+		$('.infoTxtB1').prop('disabled','disabled');
+		$('.infoTxtB2').prop('disabled','disabled');
+		$('.infoTxtB3').prop('disabled','disabled');
         $.ajax(url, {
             data: {
                 name: iName,
@@ -483,16 +492,19 @@ function submitInfo2(url) {
             dataType: 'json',
             success: function(json) {
                 if (json.ret == 0) {
-                    //alert('信息提交成功');
+                    showAlert('信息提交成功');
                     $('.btn15').hide();
                     $('.infoSubmited2').show();
                 } else {
-                    alert(json.msg);
+                    showAlert(json.msg);
+					$('.infoTxtB1').prop('disabled','false');
+					$('.infoTxtB2').prop('disabled','false');
+					$('.infoTxtB3').prop('disabled','false');
                     canSubmitInfo2 = true;
                 }
             },
             error: function() {
-                alert('提交失败，请联系管理员~');
+                showAlert('提交失败，请联系管理员~');
                 canSubmitInfo2 = true;
             }
         });
@@ -536,3 +548,14 @@ function closeCode() {
     $('.snCode').html('');
     $('.pageCode').fadeOut(500);
 }
+
+function showAlert(e){
+	$('.alertBlock p').html(e);
+	$('.alertBg').fadeIn(500);
+	$('.alertBlock').fadeIn(500);
+	}
+
+function closeAlert(){
+	$('.alertBg').fadeOut(500);
+	$('.alertBlock').fadeOut(500);
+	}

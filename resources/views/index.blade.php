@@ -107,8 +107,8 @@
     
     <div class="page page5" style="display:none;">
     	<div class="innerDiv">
-			<div class="bgImg page3Img3"></div>
-        	<div class="abs eNumb"></div>
+			<div class="bgImg page3Img4"></div>
+        	<div class="abs eNumb" style="left:397px; top:185px;"></div>
             <a href="javascript:void(0);" class="abs btn22" onClick="showShareNote();"><img src="{{asset('assets/images/btn22.png')}}"></a>
 			<a href="javascript:void(0);" class="abs btn18b" onClick="playAgain();"><img src="{{asset('assets/images/btn18.png')}}"></a>
 			<a href="javascript:void(0);" class="abs btn19b" onClick="showAwardRule();"><img src="{{asset('assets/images/btn19.png')}}"></a>
@@ -229,6 +229,14 @@
 <a href="http://touch.acer.com.cn/summer2016/" class="bottomBanner" style="display:none;"><img src="{{asset('assets/images/bottomBanner.png')}}"></a>
 
 <img src="{{asset('assets/images/shareNote.png')}}" class="shareNote" onClick="closeShareNote();" style="display:none;">
+
+<div class="alertBg" style="display:none;"></div>
+<div class="alertBlock" style="display:none;">
+	<div class="innerDiv">
+    	<p></p>
+        <a href="javascript:void(0);" class="abs btn23" onClick="closeAlert();"><img src="{{asset('assets/images/btn23.png')}}"></a>
+    </div>
+</div>
 
 {!! csrf_field() !!}
 @endsection
