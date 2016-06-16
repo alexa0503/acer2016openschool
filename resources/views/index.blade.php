@@ -95,7 +95,7 @@
                 	<div class="abs eNumb"></div>
                     <img src="{{asset('assets/images/ai12.png')}}" class="abs aiImg">
                     <div class="abs aiTxt">携程旅行 优惠大礼包</div>
-                    <a href="##" class="abs btn8"><img src="{{asset('assets/images/btn8.png')}}"></a>
+                    <a href="https://contents.ctrip.com/activitysetupapp/mkt/index/Acer?popup=close" class="abs btn8"><img src="{{asset('assets/images/btn8.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn17" onClick="showShareNote();"><img src="{{asset('assets/images/btn17.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn18" onClick="playAgain();"><img src="{{asset('assets/images/btn18.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn19" onClick="showAwardRule();"><img src="{{asset('assets/images/btn19.png')}}"></a>
@@ -182,7 +182,7 @@
 <div class="awardInit">
 	<div class="innerDiv">
     	<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery_ctrip->lottery_time))}}</span>
-		<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery_ctrip->prize.'.png')}}"></a>
+		<a href="https://contents.ctrip.com/activitysetupapp/mkt/index/Acer?popup=close" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery_ctrip->prize.'.png')}}"></a>
 	</div>
 </div>
 @endif

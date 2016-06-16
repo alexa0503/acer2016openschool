@@ -35,8 +35,10 @@ class HomeController extends Controller
             return json_encode($result);
         }
 
-        $url = env('SNID_API');
-        $response = Helper\HttpClient::post($url, ['snid' => $snid]);
+        #测试
+        //$url = env('SNID_API');
+        //$response = Helper\HttpClient::post($url, ['snid' => $snid]);
+        $response = 1;
         if ($response == 1) {
             $row = \App\Lottery::where('snid', $snid);
             $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
