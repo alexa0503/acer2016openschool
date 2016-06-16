@@ -20,8 +20,9 @@ class HomeController extends Controller
             ->with(['lotteries' => function ($query) {
                 $query->where('prize', '!=', 12)->where('prize', '!=', 0)->orderBy('created_time', 'desc');
             }],'info')->first();
-        $lottery = \App\Lottery::where('prize', 12)->where('user_id',$wechat_user->id)->first();
-        return view('index', ['lotteries' => $wechat_user->lotteries, 'lottery_ctrip'=>$lottery, 'info' => $wechat_user->info]);
+        $lottery_ctrip = \App\Lottery::where('prize', 12)->where('user_id',$wechat_user->id)->first();
+
+        return view('index', ['lotteries' => $wechat_user->lotteries, 'lottery_ctrip'=>$lottery_ctrip, 'info' => $wechat_user->info]);
     }
 
     //snid提交

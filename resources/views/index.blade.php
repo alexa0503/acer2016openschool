@@ -181,11 +181,8 @@
 @if (null != $lottery_ctrip)
 <div class="awardInit">
 	<div class="innerDiv">
-    	<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery->lottery_time))}}</span>
-		<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery->prize.'.png')}}"></a>
-		@if ( null != $lottery->prize_code_id )
-		<span class="abs awdCode">{{ $lottery->prizeCode->prize_code }}</span>
-		@endif
+    	<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery_ctrip->lottery_time))}}</span>
+		<a href="javascript:void(0);" class="abs awdImg"><img src="{{asset('assets/images/awd'.$lottery_ctrip->prize.'.png')}}"></a>
 	</div>
 </div>
 @endif
