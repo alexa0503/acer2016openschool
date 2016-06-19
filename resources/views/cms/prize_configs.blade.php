@@ -39,7 +39,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
-                                        <div id="responsive-datatables_filter" class="dataTables_filter" style="text-align:right"><a class="btn btn-warning add" href="{{url('prize/config/add')}}">+增加</a></div>
+                                        <div id="responsive-datatables_filter" class="dataTables_filter" style="text-align:right"><a class="btn btn-warning add" href="{{url('cms/prize/config/add')}}">+增加</a></div>
 
                                     </div>
                                 </div>
