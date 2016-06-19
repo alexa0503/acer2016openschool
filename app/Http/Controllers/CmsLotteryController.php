@@ -100,26 +100,11 @@ class CmsLotteryController extends Controller
         else{
             $date = date('Y-m-d', strtotime(\Request::get('date')));
         }
-
-        $dates = [
-            '2016-06-14',
-            '2016-06-15',
-            '2016-06-16',
-            '2016-06-17',
-            '2016-06-18',
-            '2016-06-19',
-            '2016-06-20',
-            '2016-06-21',
-            '2016-06-22',
-            '2016-06-23',
-            '2016-06-24',
-            '2016-06-25',
-            '2016-06-26',
-            '2016-06-27',
-            '2016-06-28',
-            '2016-06-29',
-            '2016-06-30',
-        ];
+        $dates = [];
+        $timestamp = time();
+        for( $i=0; $i<60; $i++){
+            $dates[] = date('Y-m-d', strtotime('+'.$i.' day', $timestamp));
+        }
         $prize_configs = \App\PrizeConfig::where('lottery_date', $date)->paginate(20);
         return view('cms/prize_configs', ['prize_configs'=>$prize_configs,'dates'=>$dates]);
     }
@@ -174,5 +159,5 @@ class CmsLotteryController extends Controller
         return view('cms/prize_codes', ['prize_codes'=>$prize_codes]);
     }
 
-        
+
 }
