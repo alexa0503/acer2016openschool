@@ -6,17 +6,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{env("PAGE_TITLE")}}</title>
-    <link rel="stylesheet" href="{{asset('assets/css/common.css')}}">
+    <link rel="stylesheet" href="{{cdn('assets/css/common.css')}}">
     <script>
         var wxData = {};
         var wxShareUrl = '{{url("wx/share")}}';
     </script>
-    <script src="{{asset('assets/js/jquery-1.9.1.min.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.imgpreload.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.tinyscrollbar.min.js')}}"></script>
+    <script src="{{cdn('assets/js/jquery-1.9.1.min.js')}}"></script>
+    <script src="{{cdn('assets/js/jquery.imgpreload.js')}}"></script>
+    <script src="{{cdn('assets/js/jquery.tinyscrollbar.min.js')}}"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script src="{{asset('assets/js/wx.js')}}"></script>
-    <script src="{{asset('assets/js/common.js')}}"></script>
+    <script src="{{cdn('assets/js/wx.js')}}"></script>
+    <script src="{{cdn('assets/js/common.js')}}"></script>
     <!--移动端版本兼容 -->
     <script type="text/javascript">
         var phoneWidth = parseInt(window.screen.width);

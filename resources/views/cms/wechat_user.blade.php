@@ -24,8 +24,9 @@
                                 <table id="basic-datatables" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>头像</th>
-                                        <th>昵称</th>
+                                        <th>ID/昵称</th>
                                         <th>国家</th>
                                         <th>省份/城市</th>
                                         <th>授权时间</th>
@@ -35,7 +36,8 @@
                                     <tbody>
                                     @foreach ($wechat_users as $user)
                                     <tr>
-                                        <td><img class="img-thumbnail" width="100" height="100" src="{{ $user->head_img }}" /></td>
+                                    <td>{{ $user->id }}</td>
+                                        <td><img title="{{$user->open_id}}" class="img-thumbnail" width="100" height="100" src="{{ $user->head_img }}" /></td>
                                         <td>{{ json_decode($user->nick_name) }}</td>
                                         <td>{{ $user->country }}</td>
                                         <td>{{ $user->province }}/{{ $user->city }}</td>
