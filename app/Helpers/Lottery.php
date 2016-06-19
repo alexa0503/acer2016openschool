@@ -60,7 +60,7 @@ class Lottery
         }
 
         //获取时间配置,当前为分配时间则不中奖,发默认奖
-        $config = \App\LotteryConfig::where('start_time','<=',$time)->where('shut_time','>',$time)->first();
+        $config = \App\LotteryConfig::where('start_time','<=',$time)->where('shut_time','>',$time)->sharedLock()->first();
         if( $config == null ){
             return;
         }
@@ -75,7 +75,7 @@ class Lottery
 
         $seed = rand(1, 10000);
         //奖项分布情况,计算出中几等奖
-        $prize_model = \App\Prize::where('seed_min', '<=', $seed)->where('seed_max', '>=', $seed);
+        $prize_model = \App\Prize::where('seed_min', '<=', $seed)->where('seed_max', '>=', $seed)->sharedLock();
         //无配置情况
         if( $prize_model->count() == 0 ){
             return;
@@ -88,14 +88,21 @@ class Lottery
             return;
         }
         //当日奖项设置
-        $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize->id);
+        $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize->id)->sharedLock();
         if( $prize_config_model->count() == 0 ){
-            return;
+            //如果此奖品奖池为空则分配最低等奖奖池
+            $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize','!=',12 )->where('prize_num','>', \DB::raw('win_num'))->orderby('prize','desc')->sharedLock();
+            if( $prize_config_model->count() == 0){
+                return;
+            }
+            $prize_config = $prize_config_model->first();
+            $prize = \App\Prize::find($prize_config->prize);
         }
-        $this->prize_id = $prize->id;
+
         //判断该用户是否中过此奖项
         $count2 = \App\Lottery::where('user_id', $wechat_user->id)
         ->where('prize', $prize->id)
+        ->sharedLock()
         ->sharedLock()
         ->count();
         if( $count2 > 0){
@@ -103,11 +110,13 @@ class Lottery
             return;
         }
         //奖池情况
-        $prize_config = $prize_config_model->first();
+        if( $prize_config == null)
+            $prize_config = $prize_config_model->first();
         if( $prize_config->prize_num <= $prize_config->win_num ){
             return;
         }
         $this->prize_config_id = $prize_config->id;
+        $this->prize_id = $prize->id;
         return;
     }
     public function record()

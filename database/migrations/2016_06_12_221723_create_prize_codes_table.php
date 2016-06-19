@@ -17,8 +17,6 @@ class CreatePrizeCodesTable extends Migration
             $table->smallInteger('type')->index();
             $table->string('prize_code',60);
             $table->boolean('is_active')->index();
-            $table->dateTime('created_time')->index();
-            $table->string('created_ip',120)->nullable();
         });
     }
 
