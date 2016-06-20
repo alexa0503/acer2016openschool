@@ -11,7 +11,7 @@ Route::any('/wechat', 'WechatController@serve');
 */
 Route::get('/', 'HomeController@index');
 Route::post('snid', 'HomeController@snid');
-Route::post('lottery', 'HomeController@lottery');
+Route::any('lottery', 'HomeController@lottery');
 Route::post('info', 'HomeController@info');
 Route::get('/wx/share', function(){
     $url = urldecode(Request::get('url'));
@@ -32,6 +32,16 @@ Route::get('/wx/share', function(){
     ];
     return json_encode(array_merge($share, $config));
 });
+/*
+Route::get('logout',function(){
+    Request::session()->set('wechat.openid',null);
+    return redirect('/');
+});
+Route::get('login',function(){
+    Request::session()->set('wechat.openid','o2-sBj0oOQJCIq6yR7I9HtrqxZcY');
+    return redirect('/');
+});
+*/
 
 
 //wechat auth

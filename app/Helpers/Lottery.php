@@ -96,7 +96,15 @@ class Lottery
                 return;
             }
             $prize_config = $prize_config_model->first();
+            $this->prize_config_id = $prize_config->id;
             $prize = \App\Prize::find($prize_config->prize);
+        }
+        else{
+            $prize_config = $prize_config_model->first();
+            if( $prize_config->prize_num <= $prize_config->win_num ){
+                return;
+            }
+            $this->prize_config_id = $prize_config->id;
         }
 
         //判断该用户是否中过此奖项
@@ -109,13 +117,9 @@ class Lottery
             $this->prize_id = 0;
             return;
         }
-        //奖池情况
-        if( $prize_config == null)
-            $prize_config = $prize_config_model->first();
-        if( $prize_config->prize_num <= $prize_config->win_num ){
-            return;
-        }
-        $this->prize_config_id = $prize_config->id;
+
+
+
         $this->prize_id = $prize->id;
         return;
     }

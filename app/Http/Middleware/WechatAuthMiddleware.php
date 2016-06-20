@@ -17,7 +17,7 @@ class WechatAuthMiddleware
     {
         $request->session()->set('wechat.redirect_uri', $request->getUri());
         if( env('APP_ENV') == 'local' ){
-            $request->session()->set('wechat.openid','obz_jjhqgaFVI0W7QuR31W26Q68o');
+            $request->session()->set('wechat.openid','o2-sBj0oOQJCIq6yR7I9HtrqxZcY');
         }
         if( null == $request->session()->get('wechat.openid') && $request->getClientIp() != '127.0.0.1'){
             return redirect('/wechat/auth');
