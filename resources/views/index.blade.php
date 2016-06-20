@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <a href="http://touch.acer.com.cn/summer2016/" class="bottomBanner2"><img src="{{cdn('assets/images/bottomBanner.png')}}"></a>
+            <a onClick="_hmt.push(['_trackEvent','event','click','bottom']);setTimeout(function(){window.location.href='http://touch.acer.com.cn/summer2016/'},500);" href="javascript:void(0);" class="bottomBanner2"><img src="{{cdn('assets/images/bottomBanner.png')}}"></a>
             <a href="javascript:void(0);" class="abs btn5" onClick="closeRule();"><img src="{{cdn('assets/images/btn5.png')}}"></a>
             <img src="{{cdn('assets/images/logo.png')}}" class="logo2">
         </div>
@@ -95,7 +95,7 @@
                 	<div class="abs eNumb"></div>
                     <img src="{{cdn('assets/images/ai12.png')}}" class="abs aiImg">
                     <div class="abs aiTxt">携程旅行 优惠大礼包</div>
-                    <a href="https://contents.ctrip.com/activitysetupapp/mkt/index/Acer?popup=close" class="abs btn8"><img src="{{cdn('assets/images/btn8.png')}}"></a>
+                    <a onClick="_hmt.push(['_trackEvent','event','click','ctrip']);setTimeout(function(){window.location.href='https://contents.ctrip.com/activitysetupapp/mkt/index/Acer?popup=close'},500);" href="javascript:void(0);" class="abs btn8"><img src="{{cdn('assets/images/btn8.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn17" onClick="showShareNote();"><img src="{{cdn('assets/images/btn17.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn18" onClick="playAgain();"><img src="{{cdn('assets/images/btn18.png')}}"></a>
                     <a href="javascript:void(0);" class="abs btn19" onClick="showAwardRule();"><img src="{{cdn('assets/images/btn19.png')}}"></a>
@@ -182,7 +182,7 @@
 <div class="awardInit">
 	<div class="innerDiv">
     	<span class="abs awdTime">中奖时间：{{date('Y-m-d', strtotime($lottery_ctrip->lottery_time))}}</span>
-		<a href="https://contents.ctrip.com/activitysetupapp/mkt/index/Acer?popup=close" class="abs awdImg"><img src="{{cdn('assets/images/awd'.$lottery_ctrip->prize.'.png')}}"></a>
+		<a onClick="_hmt.push(['_trackEvent','event','click','ctrip']);setTimeout(function(){window.location.href='https://contents.ctrip.com/activitysetupapp/mkt/index/Acer?popup=close'},500);" href="javascript:void(0);" class="abs awdImg"><img src="{{cdn('assets/images/awd'.$lottery_ctrip->prize.'.png')}}"></a>
 	</div>
 </div>
 @endif
@@ -234,7 +234,7 @@
     </div>
 
 </div>
-<a href="http://touch.acer.com.cn/summer2016/" class="bottomBanner" style="display:none;"><img src="{{cdn('assets/images/bottomBanner.png')}}"></a>
+<a onClick="_hmt.push(['_trackEvent','event','click','bottom']);setTimeout(function(){window.location.href='http://touch.acer.com.cn/summer2016/'},500);" href="javascript:void(0);" class="bottomBanner" style="display:none;"><img src="{{cdn('assets/images/bottomBanner.png')}}"></a>
 
 <img src="{{cdn('assets/images/shareNote.png')}}" class="shareNote" onClick="closeShareNote();" style="display:none;">
 
