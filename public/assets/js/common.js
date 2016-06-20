@@ -134,7 +134,7 @@ function submitSnid(url) {
                     }
                 },
                 error: function() {
-                    showAlert('提交失败~请重新尝试~');
+                    //showAlert('提交失败~请重新尝试~');
                     canSubmitSnid = true;
                 }
 
