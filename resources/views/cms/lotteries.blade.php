@@ -46,6 +46,9 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>授权用户</th>
+                                        <th>用户姓名</th>
+                                        <th>用户手机号</th>
+                                        <th>用户地址</th>
                                         <th>抽奖方式</th>
                                         <th>SNID</th>
                                         <th>奖品</th>
@@ -57,6 +60,9 @@
                                     <tr>
                                         <td>{{$lottery->id}}</td>
                                         <td><a href="{{url('cms/wechat',['id'=>$lottery->user->id])}}">{{ json_decode($lottery->user->nick_name) }}</a></td>
+                                        <td>@if ($lottery->user->info == null)--@else{{$lottery->user->info->name}}@endif</td>
+                                        <td>@if ($lottery->user->info == null)--@else{{$lottery->user->info->mobile}}@endif</td>
+                                        <td>@if ($lottery->user->info == null)--@else{{$lottery->user->info->address}}@endif</td>
                                         <td>{{ $lottery->prize_type == 1 ? '普通' : '输码' }}</td>
                                         <td>{{ $lottery->snid ? : '--' }}</td>
                                         <td>
@@ -79,7 +85,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12">
                                         <div class="dataTables_paginate paging_bootstrap" id="basic-datatables_paginate">
-                                            {!! $lotteries->links() !!}
+                                            {!! $lotteries->appends(['prize'=>Request::get('prize')])->links() !!}
                                         </div>
                                     </div>
                                 </div>

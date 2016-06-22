@@ -10,6 +10,7 @@
     <script>
         var wxData = {};
         var wxShareUrl = '{{url("wx/share")}}';
+        wxData.link = '{{url("/")}}'
     </script>
     <script src="{{cdn('assets/js/jquery-1.9.1.min.js')}}"></script>
     <script src="{{cdn('assets/js/jquery.imgpreload.js')}}"></script>

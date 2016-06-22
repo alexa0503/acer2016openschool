@@ -111,7 +111,6 @@ class Lottery
         $count2 = \App\Lottery::where('user_id', $wechat_user->id)
         ->where('prize', $prize->id)
         ->sharedLock()
-        ->sharedLock()
         ->count();
         if( $count2 > 0){
             $this->prize_id = 0;

@@ -13,12 +13,12 @@ Route::get('/', 'HomeController@index');
 Route::post('snid', 'HomeController@snid');
 Route::any('lottery', 'HomeController@lottery');
 Route::post('info', 'HomeController@info');
-Route::get('/wx/share', function(){
+Route::get('/wx/share', function () {
     $url = urldecode(Request::get('url'));
     $options = [
       'app_id' => env('WECHAT_APPID'),
       'secret' => env('WECHAT_SECRET'),
-      'token' => env('WECHAT_TOKEN')
+      'token' => env('WECHAT_TOKEN'),
     ];
     $wx = new EasyWeChat\Foundation\Application($options);
     $js = $wx->js;
@@ -30,6 +30,7 @@ Route::get('/wx/share', function(){
       'link' => env('APP_URL'),
       'imgUrl' => asset(env('WECHAT_SHARE_IMG')),
     ];
+
     return json_encode(array_merge($share, $config));
 });
 /*
@@ -42,7 +43,6 @@ Route::get('login',function(){
     return redirect('/');
 });
 */
-
 
 //wechat auth
 Route::any('/wechat/auth', 'WechatController@auth');
@@ -63,7 +63,7 @@ Route::get('cms/login', 'Auth\AuthController@getLogin');
 Route::post('cms/login', 'Auth\AuthController@postLogin');
 Route::get('cms/logout', 'Auth\AuthController@logout');
 //屏蔽注册路由
-Route::any('/register', function(){
+Route::any('/register', function () {
 
 });
 //Route::get('/register', 'Auth\AuthController@getRegister');
@@ -94,16 +94,17 @@ Route::post('cms/prize/config/update/{id}', 'CmsLotteryController@prizeConfigUpd
 Route::get('cms/prize/config/add', 'CmsLotteryController@prizeConfigAdd');
 Route::post('cms/prize/config/add', 'CmsLotteryController@prizeConfigStore');
 Route::get('cms/prize/codes', 'CmsLotteryController@prizeCodes');
-
+Route::get('cms/export/{table}', 'CmsController@export');
 
 //初始化后台帐号
-Route::get('cms/account/init', function(){
-    if( 0 == \App\User::count()){
+Route::get('cms/account/init', function () {
+    if (0 == \App\User::count()) {
         $user = new \App\User();
         $user->name = 'admin';
         $user->email = 'admin@admin.com';
         $user->password = bcrypt('admin123');
         $user->save();
     }
+
     return redirect('/cms');
 });

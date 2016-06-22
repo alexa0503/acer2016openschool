@@ -13,6 +13,9 @@
                         <a href="{{url('/cms/lotteries')}}" class="{{ Request::is('cms/lotteries') ? 'active' : '' }}"><i class="l-basic-laptop"></i><span class="txt">抽奖记录</span></a>
                     </li>
                     <li>
+                        <a href="{{url('/cms/export/lottery')}}" class="{{ Request::is('cms/export/lottery') ? 'active' : '' }}"><i class="l-basic-laptop"></i><span class="txt">中奖记录导出</span></a>
+                    </li>
+                    <li>
                         <a href="{{url('/cms/wechat')}}" class="{{ Request::is('cms/wechat') ? 'active' : '' }}"><i class="l-basic-laptop"></i><span class="txt">用户授权记录</span></a>
                     </li>
                     <li>
