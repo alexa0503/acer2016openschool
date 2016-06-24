@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Helper;
+
 use Carbon\Carbon;
+
 class Lottery
 {
     private $prize_config_id = null;
@@ -32,9 +35,10 @@ class Lottery
             \DB::commit();
         } catch (\Exception $e) {
             \DB::rollBack();
-            echo $e->getMessage()."<br/>";
+            echo $e->getMessage().'<br/>';
             $this->prize_id = 0;
         }
+
         return $this->prize_id;
     }
     public function lottery()
@@ -50,26 +54,28 @@ class Lottery
         //判断当日是否中奖,已中奖则不发奖
         $count1 = \App\Lottery::where('user_id', $wechat_user->id)
             ->where('prize', '>', 0)
+            ->where('prize', '!=', 12)
             ->where('lottery_time', '>=', date('Y-m-d', $timestamp))
             ->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
             ->sharedLock()
             ->count();
-        if( $count1 > 0 ){
+        if ($count1 > 0) {
             $this->prize_id = 0;
+
             return;
         }
 
         //获取时间配置,当前为分配时间则不中奖,发默认奖
-        $config = \App\LotteryConfig::where('start_time','<=',$time)->where('shut_time','>',$time)->sharedLock()->first();
-        if( $config == null ){
+        $config = \App\LotteryConfig::where('start_time', '<=', $time)->where('shut_time', '>', $time)->sharedLock()->first();
+        if ($config == null) {
             return;
         }
 
         //获取中奖几率
-        $rand_max = ceil(1/$config->win_odds);
-        $rand1 = rand(1,$rand_max);
-        $rand2 = rand(1,$rand_max);
-        if( $rand1 != $rand2 ){
+        $rand_max = ceil(1 / $config->win_odds);
+        $rand1 = rand(1, $rand_max);
+        $rand2 = rand(1, $rand_max);
+        if ($rand1 != $rand2) {
             return;
         }
 
@@ -77,49 +83,78 @@ class Lottery
         //奖项分布情况,计算出中几等奖
         $prize_model = \App\Prize::where('seed_min', '<=', $seed)->where('seed_max', '>=', $seed)->sharedLock();
         //无配置情况
-        if( $prize_model->count() == 0 ){
+        if ($prize_model->count() == 0) {
             return;
         }
 
         $prize = $prize_model->first();
 
         //如果为12则不考虑
-        if( $prize->id == 12 ){
+        if ($prize->id == 12) {
             return;
         }
+        $count4 = \App\Lottery::where('user_id', $wechat_user->id)
+            ->where('lottery_time', '>=', date('Y-m-d', $timestamp))
+            ->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
+            ->where('prize', 12)
+            ->sharedLock()
+            ->count();
         //当日奖项设置
         $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize->id)->sharedLock();
-        if( $prize_config_model->count() == 0 ){
+        if ($prize_config_model->count() == 0) {
             //如果此奖品奖池为空则分配最低等奖奖池
-            $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize','!=',12 )->where('prize_num','>', \DB::raw('win_num'))->orderby('prize','desc')->sharedLock();
-            if( $prize_config_model->count() == 0){
+            $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', '!=', 12)->where('prize_num', '>', \DB::raw('win_num'))->orderby('prize', 'desc')->sharedLock();
+            if ($prize_config_model->count() == 0) {
+                if ($count4 > 0) {
+                    $this->prize_id = 0;
+                }
+
                 return;
             }
             $prize_config = $prize_config_model->first();
             $this->prize_config_id = $prize_config->id;
             $prize = \App\Prize::find($prize_config->prize);
-        }
-        else{
+        } else {
             $prize_config = $prize_config_model->first();
-            if( $prize_config->prize_num <= $prize_config->win_num ){
+            if ($prize_config->prize_num <= $prize_config->win_num) {
+                if ($count4 > 0) {
+                    $this->prize_id = 0;
+                }
+
                 return;
             }
             $this->prize_config_id = $prize_config->id;
         }
 
-        //判断该用户是否中过此奖项
+        //判断用户是否中过1~-11
         $count2 = \App\Lottery::where('user_id', $wechat_user->id)
-        ->where('prize', $prize->id)
-        ->sharedLock()
-        ->count();
-        if( $count2 > 0){
+            ->where('prize', '<', '12')
+            ->sharedLock()
+            ->count();
+        $count3 = \App\Lottery::where('user_id', $wechat_user->id)
+            ->where('prize', 13)
+            ->sharedLock()
+            ->count();
+        //1~11只能中一次
+        if ($prize->id < 12 && $count2 > 0) {
+            $this->prize_id = $count4 == 0 ? 12 : 0;
+
+            return;
+        }
+        //13只能中一次
+        if ($prize->id == 13 && $count3 > 0) {
+            $this->prize_id = $count4 == 0 ? 12 : 0;
+
+            return;
+        }
+        if ($count4 > 0 && $prize->id == 12) {
             $this->prize_id = 0;
+
             return;
         }
 
-
-
         $this->prize_id = $prize->id;
+
         return;
     }
     public function record()
@@ -142,7 +177,7 @@ class Lottery
         } else {
             $lottery = \App\Lottery::find($session->get('lottery.id'));
         }
-        if( $this->prize_id != 0){
+        if ($this->prize_id != 0) {
             //蜘蛛网
             if (in_array($prize_id, [9, 10, 13])) {
                 if ($prize_id == 9) {
@@ -164,13 +199,12 @@ class Lottery
                 }
             }
 
-            if( null == $this->prize_config_id){
+            if (null == $this->prize_config_id) {
                 $prize_config = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize_id)->first();
-            }
-            else{
+            } else {
                 $prize_config = \App\PrizeConfig::find($this->prize_config_id);
             }
-            if( null != $prize_config){
+            if (null != $prize_config) {
                 $prize_config->win_num += 1;
                 $prize_config->save();
             }
@@ -181,9 +215,11 @@ class Lottery
         $lottery->has_lottery = 1;
         $lottery->save();
         $session->set('lottery.id', null);
+
         return;
     }
-    public function getCode(){
+    public function getCode()
+    {
         return $this->prize_code;
     }
     public function getPrizeId()

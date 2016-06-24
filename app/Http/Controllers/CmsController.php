@@ -28,8 +28,34 @@ class CmsController extends Controller
     public function index()
     {
         $count = \App\WechatUser::count();
+        $prizes = \App\Prize::all();
+        $start_time = strtotime(date('2016-06-20'));
+        $n = ceil((time() - $start_time) / (3600 * 24));
+        $data = [];
+        for ($i = 0; $i < $n; ++$i) {
+            $num = [];
+            $timestamp = $start_time + $i * 24 * 3600;
+            $date1 = date('Y-m-d', $timestamp);
+            $date2 = date('Y-m-d 23:59:59', $timestamp);
+            $prize_count = $prizes->map(function ($prize) use ($date1, $date2) {
+                    $count = \App\Lottery::where('prize', $prize->id)
+                        ->where('lottery_time', '>=', $date1)
+                        ->where('lottery_time', '<=', $date2)
+                        ->count();
 
-        return view('cms/dashboard', ['count' => $count]);
+                return $count;
+            });
+            $data[$date1] = $prize_count;
+        }
+        $prize_count = $prizes->map(function ($prize) {
+                $count = \App\Lottery::where('prize', $prize->id)
+                    ->count();
+
+            return $count;
+        });
+        $data['Total'] = $prize_count;
+
+        return view('cms/dashboard', ['count' => $count, 'prizes' => $prizes, 'data' => $data]);
     }
 
     /**
