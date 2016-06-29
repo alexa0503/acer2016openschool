@@ -326,6 +326,10 @@ function endGame(url) {
     //alert('点击次数:'+cStep+' 地球转:'+cStep/20+'圈');
     $('.eNumb').text((cStep / 20));
 
+    wxData.title = '夏日大作战';
+    wxData.desc = '我用10秒绕了地球'+(cStep / 20)+'圈，快来打败我，新西兰冰雪游就是你的！';
+    wxShare();
+
     if (cStep == 0) {
         gameType = 1;
     }
@@ -358,10 +362,6 @@ function endGame(url) {
                     $('.page5').fadeIn(500); //未中奖
                 }, 10);
             }
-
-            wxData.title = '夏日大作战，拯救你的夏天！';
-            wxData.desc = '我已夺得超赞豪礼，这才是解暑的正确方式！更有新西兰冰雪游等你赢！';
-            wxShare();
             setTimeout(function() {
                 $('.page2').fadeOut(500);
                 window.scroll(0, 0);

@@ -65,9 +65,18 @@ class Lottery
             return;
         }
 
+        $count4 = \App\Lottery::where('user_id', $wechat_user->id)
+            ->where('lottery_time', '>=', date('Y-m-d', $timestamp))
+            ->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
+            ->where('prize', 12)
+            ->sharedLock()
+            ->count();
         //获取时间配置,当前为分配时间则不中奖,发默认奖
         $config = \App\LotteryConfig::where('start_time', '<=', $time)->where('shut_time', '>', $time)->sharedLock()->first();
         if ($config == null) {
+            if( $count4 > 0){
+                $this->prize_id = 0;
+            }
             return;
         }
 
@@ -76,6 +85,9 @@ class Lottery
         $rand1 = rand(1, $rand_max);
         $rand2 = rand(1, $rand_max);
         if ($rand1 != $rand2) {
+            if( $count4 > 0){
+                $this->prize_id = 0;
+            }
             return;
         }
 
@@ -93,12 +105,6 @@ class Lottery
         if ($prize->id == 12) {
             return;
         }
-        $count4 = \App\Lottery::where('user_id', $wechat_user->id)
-            ->where('lottery_time', '>=', date('Y-m-d', $timestamp))
-            ->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
-            ->where('prize', 12)
-            ->sharedLock()
-            ->count();
         //当日奖项设置
         $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize->id)->sharedLock();
         if ($prize_config_model->count() == 0) {
@@ -175,7 +181,7 @@ class Lottery
             $lottery->created_time = Carbon::now();
             $lottery->created_ip = \Request::getClientIp();
         } else {
-            $lottery = \App\Lottery::find($session->get('lottery.id'));
+            $lottery = \App\Lottery::sharedLock()->find($session->get('lottery.id'));
         }
         if ($this->prize_id != 0) {
             //蜘蛛网
@@ -187,7 +193,7 @@ class Lottery
                 } else {
                     $code_type = 3;
                 }
-                $prize_code_model = \App\PrizeCode::where('is_active', 0)->where('type', $code_type);
+                $prize_code_model = \App\PrizeCode::where('is_active', 0)->where('type', $code_type)->sharedLock();
                 if ($prize_code_model->count() > 0) {
                     $prize_code = $prize_code_model->first();
                     $prize_code->is_active = 1;
@@ -200,9 +206,9 @@ class Lottery
             }
 
             if (null == $this->prize_config_id) {
-                $prize_config = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize_id)->first();
+                $prize_config = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize_id)->sharedLock()->first();
             } else {
-                $prize_config = \App\PrizeConfig::find($this->prize_config_id);
+                $prize_config = \App\PrizeConfig::sharedLock()->find($this->prize_config_id);
             }
             if (null != $prize_config) {
                 $prize_config->win_num += 1;

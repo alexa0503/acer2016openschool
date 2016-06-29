@@ -24,6 +24,7 @@ $('document').ready(function () {
     })
 })
 function wxShare(){
+    console.log(wxData);
     wx.ready(function () {
         wx.onMenuShareAppMessage({
             title: wxData.title,
