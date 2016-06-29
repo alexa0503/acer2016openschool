@@ -326,8 +326,8 @@ function endGame(url) {
     //alert('点击次数:'+cStep+' 地球转:'+cStep/20+'圈');
     $('.eNumb').text((cStep / 20));
 
-    wxData.title = '夏日大作战';
-    wxData.desc = '我用10秒绕了地球'+(cStep / 20)+'圈，快来打败我，新西兰冰雪游就是你的！';
+    wxData.title = '火超大？Acer夏日大作战！';
+    wxData.desc = '【夏日大作战】我用10秒绕了地球'+(cStep / 20)+'圈，快来打败我，新西兰冰雪游就是你的！';
     wxShare();
 
     if (cStep == 0) {
