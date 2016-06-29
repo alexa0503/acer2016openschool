@@ -94,21 +94,36 @@ class HomeController extends Controller
         return json_encode($result);
     }
     //抽奖
-    public function lottery()
+    public function lottery(Request $request)
     {
-        $result = ['ret' => 0, 'prize' => [], 'msg' => ''];
-        $lottery = new Helper\Lottery();
-        $lottery->run();
-        $prize_code = $lottery->getCode();
-        $prize_id = $lottery->getPrizeId();
-        //$lottery->record();
-        $result['prize']['id'] = $prize_id;
-        if( $prize_id != 0){
-            $prize = \App\Prize::find($prize_id);
-            $result['prize']['title'] = $prize->title;
-            $result['prize']['imgUrl'] = asset('assets/images/ai'.$prize_id.'.png');
-            $result['prize']['code'] = $prize_code;
+        //ip黑名单
+        $ips = ['183.9.43.55'];
+        if( in_array($request->getClientIp(), $ips) ){
+            return ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
         }
+        $result = ['ret' => 0, 'prize' => [], 'msg' => ''];
+        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+        $lottery = \App\Lottery::where('user_id', $wechat_user->id)->orderBy('created_time', 'DESC')->first();
+        $lottery_timestamp = strtotime($lottery->created_time);
+        $count = \App\Lottery::where('user_id', $wechat_user->id)->count();
+        if( $lottery_timestamp + 15 > time() || $count >= 100){
+            $result = ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
+        }
+        else{
+            $lottery = new Helper\Lottery();
+            $lottery->run();
+            $prize_code = $lottery->getCode();
+            $prize_id = $lottery->getPrizeId();
+            //$lottery->record();
+            $result['prize']['id'] = $prize_id;
+            if( $prize_id != 0){
+                $prize = \App\Prize::find($prize_id);
+                $result['prize']['title'] = $prize->title;
+                $result['prize']['imgUrl'] = asset('assets/images/ai'.$prize_id.'.png');
+                $result['prize']['code'] = $prize_code;
+            }
+        }
+
 
         return json_encode($result);
     }
