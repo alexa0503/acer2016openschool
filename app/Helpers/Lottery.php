@@ -72,14 +72,16 @@ class Lottery
             ->sharedLock()
             ->count();
         //获取时间配置,当前为分配时间则不中奖,发默认奖
-        $config = \App\LotteryConfig::where('start_time', '<=', $time)->where('shut_time', '>', $time)->sharedLock()->first();
-        if ($config == null) {
+        $count5 = \App\LotteryConfig::where('start_time', '<=', $time)->where('shut_time', '>', $time)->sharedLock()->count();
+        //奖池情况
+        $count6 = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->sharedLock()->count();
+        if ($count5 == 0 || $count6 == 0) {
             if( $count4 > 0){
                 $this->prize_id = 0;
             }
             return;
         }
-
+        $config = \App\LotteryConfig::where('start_time', '<=', $time)->where('shut_time', '>', $time)->sharedLock()->first();
         //获取中奖几率
         $rand_max = ceil(1 / $config->win_odds);
         $rand1 = rand(1, $rand_max);

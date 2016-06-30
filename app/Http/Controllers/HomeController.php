@@ -97,9 +97,17 @@ class HomeController extends Controller
     public function lottery(Request $request)
     {
         //ip黑名单
-        $ips = ['183.9.43.55'];
+        $ips = ['183.9.43.55','113.117.70.183','113.86.28.30','113.86.14.60'];
+        $lotteries = \App\Lottery::select(\DB::raw('count(*) as ip_count, created_ip'))->groupBy('created_ip')->get();
+        foreach( $lotteries as $lottery){
+            if($lottery->ip_count > 50){
+                $ips[] = $lottery->created_ip;
+            }
+        }
+
         if( in_array($request->getClientIp(), $ips) ){
-            return ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
+            //return ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
+            return ['ret' => 0, 'prize' => [], 'msg' => ''];
         }
         $result = ['ret' => 0, 'prize' => [], 'msg' => ''];
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
@@ -107,7 +115,8 @@ class HomeController extends Controller
         $lottery_timestamp = strtotime($lottery->created_time);
         $count = \App\Lottery::where('user_id', $wechat_user->id)->count();
         if( $lottery_timestamp + 15 > time() || $count >= 100){
-            $result = ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
+            //$result = ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
+            return ['ret' => 0, 'prize' => [], 'msg' => ''];
         }
         else{
             $lottery = new Helper\Lottery();
