@@ -143,18 +143,20 @@ class Lottery
             ->where('prize', 13)
             ->sharedLock()
             ->count();
-        //1~11只能中一次
-        if ($prize->id < 12 && $count2 > 0) {
+        //1~9只能中一次
+        if ($prize->id < 10 && $count2 > 0) {
             $this->prize_id = $count4 == 0 ? 12 : 0;
 
             return;
         }
         //13只能中一次
+        /*
         if ($prize->id == 13 && $count3 > 0) {
             $this->prize_id = $count4 == 0 ? 12 : 0;
 
             return;
         }
+        */
         if ($count4 > 0 && $prize->id == 12) {
             $this->prize_id = 0;
 
