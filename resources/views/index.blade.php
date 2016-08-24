@@ -20,8 +20,8 @@
                 </div>
             </div>
             <div class="abs page1BtnLine">
-            	<a href="javascript:void(0);" onClick="goPage2a();"><img src="{{cdn('assets/images/btn1.png')}}"></a><br>
-                <a href="javascript:void(0);" onClick="snidShow();"><img src="{{cdn('assets/images/btn2.png')}}"></a>
+            	<a href="javascript:void(0);" onClick="showAlert('活动已结束');"><img src="{{cdn('assets/images/btn1.png')}}"></a><br>
+                <a href="javascript:void(0);" onClick="showAlert('活动已结束');"><img src="{{cdn('assets/images/btn2.png')}}"></a>
                 <div style="padding-top:25px;">
                 	<a href="javascript:void(0);" onClick="showRule();"><img src="{{cdn('assets/images/btn3.png')}}"></a>
                     <a href="javascript:void(0);" onClick="showList();"><img src="{{cdn('assets/images/btn4.png')}}"></a>
@@ -36,7 +36,7 @@
             <div class="abs snidBlock">
             	<div class="innerDiv">
                 	<input type="tel" class="abs snidTxt">
-                    <a href="javascript:void(0);" class="abs snidBtn" onClick="submitSnid('{{url("snid")}}');"><img src="{{cdn('assets/images/btn6.png')}}"></a>
+                    <a href="javascript:void(0);" class="abs snidBtn" onClick="showAlert('活动已结束');"><img src="{{cdn('assets/images/btn6.png')}}"></a>
                     <a href="javascript:void(0);" class="abs snidClose" onClick="snidClose();"><img src="{{cdn('assets/images/closeBtn.png')}}"></a>
                 </div>
             </div>

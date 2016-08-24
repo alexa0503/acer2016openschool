@@ -108,7 +108,8 @@ function submitSnid(url) {
         if (canSubmitSnid) {
             //ajax提交验证snid
             canSubmitSnid = false; //加锁防止重复提交
-            $.ajax(url, {
+            showAlert('活动已结束');
+            /*$.ajax(url, {
                 data: {
                     _token: $('input[name="_token"]').val(),
                     snid: snid
@@ -124,10 +125,10 @@ function submitSnid(url) {
                         goPage2b();
                     } else {
                         //测试
-                        /*if (wHeight >= 980) {
-                            window.scroll(0, ((1139 - wHeight) / 2 + 20));
-                        }
-                        goPage2b();*/
+                        //if (wHeight >= 980) {
+                        //    window.scroll(0, ((1139 - wHeight) / 2 + 20));
+                        //}
+                        //goPage2b();
 
                         showAlert(json.msg);
                         canSubmitSnid = true; //解锁
@@ -138,7 +139,7 @@ function submitSnid(url) {
                     canSubmitSnid = true;
                 }
 
-            });
+            });*/
             //ajax验证失败
 
 
@@ -426,7 +427,8 @@ function submitInfo() {
 		$('.infoTxt1').prop('disabled','disabled');
 		$('.infoTxt2').prop('disabled','disabled');
 		$('.infoTxt3').prop('disabled','disabled');
-        $.ajax(url, {
+        showAlert('活动已结束');
+        /*$.ajax(url, {
             data: {
                 name: iName,
                 mobile: iTel,
@@ -454,7 +456,7 @@ function submitInfo() {
                 showAlert('提交失败，请联系管理员~');
                 canSubmitInfo = true;
             }
-        });
+        });*/
     }
 }
 
@@ -481,7 +483,8 @@ function submitInfo2(url) {
 		$('.infoTxtB1').prop('disabled','disabled');
 		$('.infoTxtB2').prop('disabled','disabled');
 		$('.infoTxtB3').prop('disabled','disabled');
-        $.ajax(url, {
+        showAlert('活动已结束');
+        /*$.ajax(url, {
             data: {
                 name: iName,
                 mobile: iTel,
@@ -507,9 +510,7 @@ function submitInfo2(url) {
                 showAlert('提交失败，请联系管理员~');
                 canSubmitInfo2 = true;
             }
-        });
-
-
+        });*/
     }
 }
 
