@@ -2,7 +2,7 @@
 
 // global CDN link helper function
 function cdn( $asset ){
-    if(env('APP_ENV') == 'local' ){
+    if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev' ){
         return asset($asset);
     }
 

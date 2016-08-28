@@ -42,7 +42,7 @@ class HomeController extends Controller
         #测试
         $url = env('SNID_API');
         $response = Helper\HttpClient::post($url, ['snid' => $snid]);
-        if( env('APP_ENV') == 'local' ){
+        if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev' ){
             $response = 1;
         }
 
