@@ -16,13 +16,17 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))
-            ->with(['lotteries' => function ($query) {
-                $query->where('prize', '!=', 12)->where('prize', '!=', 0)->orderBy('created_time', 'desc');
-            }],'info')->first();
-        $lottery_ctrip = \App\Lottery::where('prize', 12)->where('user_id',$wechat_user->id)->first();
+        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+        $lottery = \App\Lottery::where('user_id', $wechat_user->id)->where('prize', '>', 0)->first();
 
-        return view('index', ['lotteries' => $wechat_user->lotteries, 'lottery_ctrip'=>$lottery_ctrip, 'info' => $wechat_user->info]);
+        $prize_id = null == $lottery ? 0 : $lottery->prize;
+        $has_lottery = null == $lottery ? true : false;
+        $info = \App\Info::find($wechat_user->id);
+        return view('index', [
+            'prize_id' => $prize_id,
+            'has_lottery' => $has_lottery,
+            'info' => $info,
+        ]);
     }
 
     //snid提交
@@ -38,7 +42,10 @@ class HomeController extends Controller
         #测试
         $url = env('SNID_API');
         $response = Helper\HttpClient::post($url, ['snid' => $snid]);
-        //$response = 1;
+        if( env('APP_ENV') == 'local' ){
+            $response = 1;
+        }
+
         if ($response == 1) {
             $row = \App\Lottery::where('snid', $snid);
             $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
@@ -112,7 +119,8 @@ class HomeController extends Controller
         $result = ['ret' => 0, 'prize' => [], 'msg' => ''];
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
         $lottery = \App\Lottery::where('user_id', $wechat_user->id)->orderBy('created_time', 'DESC')->first();
-        $lottery_timestamp = strtotime($lottery->created_time);
+
+        $lottery_timestamp = null == $lottery ? 0 : strtotime($lottery->created_time);
         $count = \App\Lottery::where('user_id', $wechat_user->id)->count();
         if( $lottery_timestamp + 15 > time() || $count >= 100){
             //$result = ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
@@ -121,16 +129,11 @@ class HomeController extends Controller
         else{
             $lottery = new Helper\Lottery();
             $lottery->run();
-            $prize_code = $lottery->getCode();
+            //$prize_code = $lottery->getCode();
             $prize_id = $lottery->getPrizeId();
-            //$lottery->record();
-            $result['prize']['id'] = $prize_id;
-            if( $prize_id != 0){
-                $prize = \App\Prize::find($prize_id);
-                $result['prize']['title'] = $prize->title;
-                $result['prize']['imgUrl'] = asset('assets/images/ai'.$prize_id.'.png');
-                $result['prize']['code'] = $prize_code;
-            }
+            //$result['prize']['id'] = $prize_id;
+            $result['prize_id'] = $prize_id;
+
         }
 
 

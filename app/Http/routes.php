@@ -28,12 +28,12 @@ Route::get('/wx/share', function () {
       'title' => env('WECHAT_SHARE_TITLE'),
       'desc' => env('WECHAT_SHARE_DESC'),
       'link' => env('APP_URL'),
-      'imgUrl' => asset(env('WECHAT_SHARE_IMG')),
+      'imgUrl' => cdn(env('WECHAT_SHARE_IMG')),
     ];
 
     return json_encode(array_merge($share, $config));
 });
-/*
+
 Route::get('logout',function(){
     Request::session()->set('wechat.openid',null);
     return redirect('/');
@@ -42,7 +42,7 @@ Route::get('login',function(){
     Request::session()->set('wechat.openid','o2-sBj0oOQJCIq6yR7I9HtrqxZcY');
     return redirect('/');
 });
-*/
+
 
 //wechat auth
 Route::any('/wechat/auth', 'WechatController@auth');

@@ -8,6 +8,7 @@
     <title>{{env("PAGE_TITLE")}}</title>
     <link rel="stylesheet" href="{{cdn('assets/css/common.css')}}">
     <script>
+        var lotteryUrl = '{{url("lottery")}}';
         var wxData = {};
         var wxShareUrl = '{{url("wx/share")}}';
         wxData.link = '{{url("/")}}'
@@ -40,15 +41,6 @@
 @yield('content')
 @yield('scripts')
 
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?409597573fc6f07354aa60faa56b7cf6";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
 
 </body>
 </html>

@@ -7,7 +7,7 @@ use Carbon\Carbon;
 class Lottery
 {
     private $prize_config_id = null;
-    private $prize_id = 12;
+    private $prize_id = 0;
     private $time;
     private $date;
     private $prize_type;
@@ -51,17 +51,15 @@ class Lottery
         $timestamp = $this->timestamp;
         $wechat_user = $this->wechat_user;
 
-        //判断当日是否中奖,已中奖则不发奖
+        //一个人只能中一次奖
         $count1 = \App\Lottery::where('user_id', $wechat_user->id)
             ->where('prize', '>', 0)
-            ->where('prize', '!=', 12)
-            ->where('lottery_time', '>=', date('Y-m-d', $timestamp))
-            ->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
+            //->where('lottery_time', '>=', date('Y-m-d', $timestamp))
+            //->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
             ->sharedLock()
             ->count();
         if ($count1 > 0) {
             $this->prize_id = 0;
-
             return;
         }
 

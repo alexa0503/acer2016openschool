@@ -14,25 +14,29 @@ function randomNumb(minNumb, maxNumb) {
     return rn;
 }
 
-
-var wHeight;
+var wHeight, oHeight;
 $(document).ready(function() {
-    wHeight = $(window).height();
-    if (wHeight >= 980) {
-        //$('.page').css('margin-top',((wHeight-1139)/2-20)+'px');
-        window.scroll(0, ((1139 - wHeight) / 2 + 20));
-        $('.page1,.page2,.page3,.pageRule').on('touchmove', function(e) {
-            e.preventDefault();
-        });
+    wHeight = oHeight = $(window).height();
+    if (wHeight < 832) {
+        wHeight = 832;
     }
-    $('#touchCanvas,.shareNote,.pageSnid').on('touchmove', function(e) {
+    if (oHeight < 950) {
+        $('.pageRule').css('padding-bottom', (950 - oHeight) + 'px');
+        $('.pageMyAward').css('padding-bottom', (950 - oHeight) + 'px');
+    }
+    $('.pageOuter').height(wHeight);
+    $('.page').height(wHeight);
+    $('.h832').css('padding-top', (wHeight - 832) / 2 + 'px');
+    $('.page2').on('touchmove', function(e) {
         e.preventDefault();
     });
     //loadImg();
 });
 
-
 function loadImg(images) {
+    //var images=[];
+
+
     /*图片预加载*/
     var imgNum = 0;
     $.imgpreload(images, {
@@ -54,381 +58,271 @@ function goPage1() {
     $('.page1').fadeIn(500);
 }
 
-function goPage2a() {
-    gameType = 1;
-    $('.man').removeClass('man1Act').removeClass('man2Act');
-    $('.man').addClass('man1').addClass('man1Act');
-    $('.page1').fadeOut(500);
-    $('.page2').fadeIn(500);
-    earthZr();
+function showSnid() {
+    $('.snidPage').show();
 }
 
-function goPage2b() {
-    gameType = 2;
-    $('.man').removeClass('man1Act').removeClass('man2Act');
-    $('.man').addClass('man2').addClass('man2Act');
-    $('.page1').fadeOut(500);
-    $('.pageSnid').fadeOut(500);
-    $('.page2').fadeIn(500);
-    earthZr();
+function closeSnid() {
+    $('.snidPage').hide();
 }
 
-function snidShow() {
-    $('.pageSnid').fadeIn(500);
+function showLoading() {
+    $('.loadingBg').show();
+    $('.loadingGif').show();
 }
 
-function snidClose() {
-    $('.pageSnid').fadeOut(500);
+function closeLoading() {
+    $('.loadingBg').hide();
+    $('.loadingGif').hide();
 }
 
-function showRule() {
-    //window.scroll(0, 0);
-    $('.page1').fadeOut(500);
+function pageAlert(txt) {
+    $('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
+    $('.alertTxt').html(txt);
+    if (txt.length > 12 && txt.length <= 24) {
+        $('.alertTxt').addClass('alertTxt1');
+    } else if (txt.length > 24) {
+        $('.alertTxt').addClass('alertTxt2');
+    }
+    $('.pageAlert').show();
+}
+
+function closeAlert() {
+    $('.pageAlert').hide();
+}
+
+var ruleBack = 1;
+
+function showRule(e) {
+    ruleBack = e;
+    $('.page').hide();
+    window.scroll(0, 0);
     $('.pageRule').show();
-    //$('.bottomBanner').fadeIn(500);
     $('#scrollbar').tinyscrollbar();
 }
 
 function closeRule() {
-    $('.pageRule').fadeOut(500);
-    //$('.bottomBanner').fadeOut(500);
-    $('.page1').fadeIn(500);
-    if (wHeight >= 980) {
-        window.scroll(0, ((1139 - wHeight) / 2 + 20));
+    $('.pageRule').hide();
+    window.scroll(0, 0);
+    if (ruleBack == 1) {
+        $('.page1').show();
+    } else if (ruleBack == 2) {
+        //$('.pageMyAward').show();
+        $('.page1').show();
+    } else {
+        $('.page1').show();
     }
 }
 
-var canSubmitSnid = true; //提交snid码的锁
+function showAward() {
+    $('.page').hide();
+    $('.pageMyAward').show();
+}
+
+function closeAward() {
+    $('.page1').show();
+    $('.pageMyAward').hide();
+}
+
+function showShare() {
+
+}
+
 function submitSnid(url) {
-    var snid = $.trim($('.snidTxt').val());
-    if (snid == '') {
-        showAlert('请输入SNID码');
+    var snidCode = $.trim($('.snidCode').val());
+    if (snidCode == '') {
+        pageAlert('请输入SN码');
         return false;
     } else {
-        if (canSubmitSnid) {
-            //ajax提交验证snid
-            canSubmitSnid = false; //加锁防止重复提交
-            showAlert('活动已结束');
-            /*$.ajax(url, {
-                data: {
-                    _token: $('input[name="_token"]').val(),
-                    snid: snid
-                },
-                type: 'post',
-                dataType: 'json',
-                success: function(json) {
-                    if (json.ret == 0) {
-                        //ajax验证成功
-                        if (wHeight >= 980) {
-                            window.scroll(0, ((1139 - wHeight) / 2 + 20));
-                        }
-                        goPage2b();
-                    } else {
-                        //测试
-                        //if (wHeight >= 980) {
-                        //    window.scroll(0, ((1139 - wHeight) / 2 + 20));
-                        //}
-                        //goPage2b();
-
-                        showAlert(json.msg);
-                        canSubmitSnid = true; //解锁
-                    }
-                },
-                error: function() {
-                    //showAlert('提交失败~请重新尝试~');
-                    canSubmitSnid = true;
+        showLoading();
+        $.ajax(url, {
+            data: {
+                _token: $('input[name="_token"]').val(),
+                snid: snidCode
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function(json) {
+                if (json.ret == 0) {
+                    //提交成功
+                    closeLoading();
+                    goPage2();
+                } else {
+                    closeLoading();
+                    alert(json.msg);
                 }
+            },
+            error: function() {
+                closeLoading();
+                alert('提交失败~请联系管理员')
+                    //pageAlert('提交失败~请重新尝试~');
+                    //canSubmitSnid = true;
+            }
+        });
+        //ajax提交snid码
 
-            });*/
-            //ajax验证失败
-
-
-
-
-        }
     }
 }
 
-var gameType = 1;
-var canTouch = true; //是否可以触摸
-var cTick = true; //触摸后 释放前开关
-var cSpeedSetp = 1; //行走间隔 1-120
-var cTime = 10.5; //游戏时间 10s
-var ctimeout; //倒计时timeout
-var cStep = 0; //触摸次数 20次一圈
-var c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20;
-var earthZrTime; //地球自转time
-var colddown; //倒计时
-function addSpeed() {
-    if (canTouch) {
-        if (cTick) {
-            cTick = false;
-            cStep++;
-            clearInterval(earthZrTime);
-            clearTimeout(c1);
-            clearTimeout(c2);
-            clearTimeout(c3);
-            clearTimeout(c4);
-            clearTimeout(c5);
-            clearTimeout(c6);
-            clearTimeout(c7);
-            clearTimeout(c8);
-            clearTimeout(c9);
-            clearTimeout(c10);
-            clearTimeout(c11);
-            clearTimeout(c12);
-            clearTimeout(c13);
-            clearTimeout(c14);
-            clearTimeout(c15);
-            clearTimeout(c16);
-            clearTimeout(c17);
-            clearTimeout(c18);
-            clearTimeout(c19);
-            clearTimeout(c20);
+function goPage2() {
+    $('.snidPage').hide();
+    $('.page1').hide();
+    $('.page2').show();
+}
 
-            speedGo();
-            c1 = setTimeout(function() {
-                speedGo();
-                c2 = setTimeout(function() {
-                    speedGo();
-                    c3 = setTimeout(function() {
-                        speedGo();
-                        c4 = setTimeout(function() {
-                            speedGo();
-                            c5 = setTimeout(function() {
-                                speedGo();
-                                c6 = setTimeout(function() {
-                                    speedGo();
-                                    c7 = setTimeout(function() {
-                                        speedGo();
-                                        c8 = setTimeout(function() {
-                                            speedGo();
-                                            c9 = setTimeout(function() {
-                                                speedGo();
-                                                c10 = setTimeout(function() {
-                                                    speedGo();
-                                                    c11 = setTimeout(function() {
-                                                        speedGo();
-                                                        c12 = setTimeout(function() {
-                                                            speedGo();
-                                                            earthZr();
-                                                            c13 = setTimeout(function() {
-                                                                speedGo();
-                                                                c14 = setTimeout(function() {
-                                                                    speedGo();
-                                                                    c15 = setTimeout(function() {
-                                                                        speedGo();
-                                                                        c16 = setTimeout(function() {
-                                                                            speedGo();
-                                                                            c17 = setTimeout(function() {
-                                                                                speedGo();
-                                                                                c18 = setTimeout(function() {
-                                                                                    speedGo();
-                                                                                    c19 = setTimeout(function() {
-                                                                                        speedGo();
-                                                                                        c20 = setTimeout(function() {
-                                                                                            speedGo();
-                                                                                        }, 5);
-                                                                                    }, 5);
-                                                                                }, 5);
-                                                                            }, 5);
-                                                                        }, 5);
-                                                                    }, 5);
-                                                                }, 5);
-                                                            }, 5);
-                                                        }, 5);
-                                                    }, 5);
-                                                }, 5);
-                                            }, 5);
-                                        }, 5);
-                                    }, 5);
-                                }, 5);
-                            }, 5);
-                        }, 5);
-                    }, 5);
-                }, 5);
-            }, 5);
-        }
+var hp = 476;
+var lighta, lightb, delaya, delayb;
+var attackNumb = 0;
+var attackMax = 80;
+var isFirstTouch = true;
+var gameTime = 10;
+var gameCurrent = 0;
+var gameInterval;
+var endType = 0; //1时间到 2打完
+function attack(e) {
+    if (isFirstTouch) {
+        isFirstTouch = false;
+        $('.page2Img2').fadeOut(500);
+        $('.gameTime').fadeIn(500);
+        gameInterval = setInterval(function() {
+            gameRunTime();
+        }, 1000);
+    }
+    attackNumb++;
+    $('.page2Img1').removeClass('page2Img1Act');
+    setTimeout(function() {
+        $('.page2Img1').addClass('page2Img1Act');
+    }, 100);
+    if (e == 1) {
+        clearTimeout(lighta, delaya);
+        $('.page2Img6a').hide();
+        delaya = setTimeout(function() {
+            $('.page2Img6a').fadeIn(200);
+        }, 10);
+        lighta = setTimeout(function() {
+            $('.page2Img6a').fadeOut(200);
+        }, 150);
+    } else {
+        clearTimeout(lightb, delayb);
+        $('.page2Img6b').hide();
+        delayb = setTimeout(function() {
+            $('.page2Img6b').fadeIn(200);
+        }, 10);
+        lightb = setTimeout(function() {
+            $('.page2Img6b').fadeOut(200);
+        }, 150);
+    }
+    $('.page2Img9').width((attackMax - attackNumb) / attackMax * hp);
+    if (attackMax == attackNumb) {
+        clearInterval(gameInterval);
+        endType = 2;
+        showLoading();
+        getLottery();
     }
 }
 
-function speedGo() {
-    cSpeedSetp++;
-    if (cSpeedSetp > 720) {
-        cSpeedSetp = 1;
+function gameRunTime() {
+    gameCurrent++;
+    $('.gameTime').html(gameTime - gameCurrent);
+    if (gameCurrent == gameTime) {
+        clearInterval(gameInterval);
+        endType = 1;
+        showLoading();
+        getLottery();
     }
-    $('.earth').css('-webkit-transform', 'rotate(' + (-(cSpeedSetp - 1) * 0.5) + 'deg)');
 }
 
-function reSpeed() {
-    cTick = true;
-}
+function gameInit() {
+    attackNumb = 0;
+    gameCurrent = 0;
+    $('.gameTime').html('0').hide();
+    $('.page2Img2').show();
+    $('.page2Img6a').hide();
+    $('.page2Img6b').hide();
+    $('.page2Img9').width(hp);
+    $('.page2Img1').removeClass('page2Img1Act');
+    isFirstTouch = true;
+};
 
-function earthZr() {
-    earthZrTime = setInterval(function() {
-        speedGo();
-    }, 50);
-}
+function getLottery() {
 
-function startGame() { //绑定触摸事件
-    $('#touchCanvas').on('touchstart', function() {
-        addSpeed();
-    });
-    $('#touchCanvas').on('touchend', function() {
-        reSpeed();
-    });
-}
-
-function gameStart(url) { //点击按钮后开始游戏
-    $('.btn7').hide();
-    $('#touchCanvas').show();
-    $('.page2Img2').removeClass('page2Img2Act1').addClass('page2Img2Act2');
-    $('.page2Img1').addClass('page2Img1Act');
-    $('.colddownTime').fadeIn(500);
-    startGame();
-    colddown = setInterval(function() {
-        var tt = parseInt($('.colddownTime font').html());
-        if (tt > 0) {
-            tt = tt - 1;
-        }
-        $('.colddownTime font').html(tt);
-    }, 1000);
-    ctimeout = setTimeout(function() {
-        endGame(url);
-    }, cTime * 1000);
-}
-
-function endGame(url) {
-    canTouch = false;
-    clearInterval(earthZrTime);
-    clearInterval(colddown);
-    $('.man1').removeClass('man1Act');
-    $('.man2').removeClass('man2Act');
-    clearTimeout(c1);
-    clearTimeout(c2);
-    clearTimeout(c3);
-    clearTimeout(c4);
-    clearTimeout(c5);
-    clearTimeout(c6);
-    clearTimeout(c7);
-    clearTimeout(c8);
-    clearTimeout(c9);
-    clearTimeout(c10);
-    clearTimeout(c11);
-    clearTimeout(c12);
-    clearTimeout(c13);
-    clearTimeout(c14);
-    clearTimeout(c15);
-    clearTimeout(c16);
-    clearTimeout(c17);
-    clearTimeout(c18);
-    clearTimeout(c19);
-    clearTimeout(c20);
-    //alert('点击次数:'+cStep+' 地球转:'+cStep/20+'圈');
-    $('.eNumb').text((cStep / 20));
-
-    wxData.title = '火超大？Acer夏日大作战！';
-    wxData.desc = '【夏日大作战】我用10秒绕了地球'+(cStep / 20)+'圈，快来打败我，新西兰冰雪游就是你的！';
-    wxShare();
-
-    if (cStep == 0) {
-        gameType = 1;
-    }
-
-    $.ajax(url, {
-        type: 'post',
-        dataType: 'json',
+    //ajax抽奖
+    $.ajax(lotteryUrl, {
         data: {
             _token: $('input[name="_token"]').val()
         },
+        type: 'post',
+        dataType: 'json',
         success: function(json) {
-            if (json && json.ret == 0 && json.prize.id != 0 && json.prize.id != 12) {
-                setTimeout(function() {
-                    //{{asset('assets/images/ai13.png')}}
-                    var html = '<img src="' + json.prize.imgUrl + '" class="abs aiImg2"><div class="abs aiTxt2">' + json.prize.title;
-                    if (json.prize.code != null) {
-                        html += '<br><span>' + json.prize.code + '</span>';
-                    }
-                    html += '</div>';
-                    //var html = json.html;
-                    $('#prizeInfo').html(html);
-                    $('.page3b').fadeIn(500); //1-11、13 等奖
-                }, 10);
-            } else if (json && json.ret == 0 && json.prize.id == 12) {
-                setTimeout(function() {
-                    $('.page3').fadeIn(500); //人人有奖
-                }, 10);
+            if (json.ret != 0 || json.prize_id == null) {
+                var lotteryNumb = 0;
             } else {
-                setTimeout(function() {
-                    $('.page5').fadeIn(500); //未中奖
-                }, 10);
+                var lotteryNumb = json.prize_id; //1-5等奖
             }
-            setTimeout(function() {
-                $('.page2').fadeOut(500);
-                window.scroll(0, 0);
-                $('.bottomBanner').fadeIn(500);
-            }, 10);
+            //成功中奖
+            closeLoading();
+
+            $('.awardImg').attr('src', 'assets/images/award' + lotteryNumb + '.png');
+            $('.page2').hide();
+            $('.pageMyAward').show();
+            if (lotteryNumb == 0) {
+                if (endType == 2) {
+                    pageAlert('你一定拥有尽洪荒之力<br>很遗憾，未中奖，请再接再厉。');
+                } else {
+                    pageAlert('你的攻击力达到了' + parseInt((attackMax - attackNumb) / attackMax * 100) + '%<br>很遗憾，未中奖，请再接再厉。');
+                }
+            } else {
+                if (endType == 2) {
+                    pageAlert('你一定拥有尽洪荒之力<br>恭喜你，获得了' + lotteryNumb);
+                } else {
+                    pageAlert('你的攻击力达到了' + parseInt((attackMax - attackNumb) / attackMax * 100) + '%<br>恭喜你，获得了' + lotteryNumb);
+                }
+            }
+            gameInit();
+            wxData.desc = '{{env("WECHAT_SHARE_DESC_2")}}';
+            wxShare();
         },
         error: function() {
-            showAlert('请求服务器失败~');
-            $('.page5').fadeIn(500); //未中奖
+            closeLoading();
+            pageAlert('提交失败，请联系管理员~');
+            //canSubmitInfo2 = true;
         }
     });
-    /*
-    $('.page2').fadeOut(500);
-    if (gameType == 2) {
-        $('.page3b').fadeIn(500); //1-11、13 等奖
-    } else {
-        $('.page3').fadeIn(500); //12等奖
-    }
-    $('.bottomBanner').fadeIn(500);
-    */
+
+
+    //成功为中间或者失败
+    /*closeLoading();
+    $('.awardImg').attr('src','images/award0.png');
+    $('.page2').hide();
+    $('.pageMyAward').show();
+    if(endType==2){
+    	pageAlert('你一定拥有尽洪荒之力<br>很遗憾，未中奖，请再接再厉。');
+    	}
+    	else{
+    		pageAlert('你的攻击力达到了'+parseInt((attackMax-attackNumb)/attackMax*100)+'%<br>很遗憾，未中奖，请再接再厉。');
+    		}
+    gameInit();*/
 }
 
-function showAwardRule() {
-    //window.scroll(0, 0);
-    $('.pageAwardRule').fadeIn(500);
-}
-
-function closeAwardRule() {
-    //window.scroll(0, 0);
-    $('.pageAwardRule').fadeOut(500);
-}
-
-function showInfo() {
-    $('.page3').fadeOut(500);
-    $('.page3b').fadeIn(500);
-}
-
-function playAgain() {
-    window.location.reload();
-}
-
-var canSubmitInfo = true;
-
-function submitInfo() {
+function submitInfo(url) {
     var iName = $.trim($('.infoTxt1').val());
     var iTel = $.trim($('.infoTxt2').val());
     var iAddress = $.trim($('.infoTxt3').val());
     var pattern = /^1[3456789]\d{9}$/;
+
     if (iName == '') {
-        showAlert('请输入姓名');
+        pageAlert('请输入姓名');
         return false;
     } else if (iTel == '' || !pattern.test(iTel)) {
-        showAlert('请输入正确的手机号码');
+        pageAlert('请输入正确的手机号码');
         return false;
     } else if (iAddress == '') {
-        showAlert('请输入地址');
+        pageAlert('请输入地址');
         return false;
-    }
-    //ajax提交信息
-    if (canSubmitInfo) {
-        canSubmitInfo = false;
-		$('.infoTxt1').prop('disabled','disabled');
-		$('.infoTxt2').prop('disabled','disabled');
-		$('.infoTxt3').prop('disabled','disabled');
-        showAlert('活动已结束');
-        /*$.ajax(url, {
+    } else {
+        //ajax提交信息
+        showLoading();
+        $.ajax(url, {
             data: {
                 name: iName,
                 mobile: iTel,
@@ -438,125 +332,24 @@ function submitInfo() {
             type: 'post',
             dataType: 'json',
             success: function(json) {
+                //提交成功
+                closeLoading();
                 if (json.ret == 0) {
-                    showAlert('信息提交成功');
-                    //window.scroll(0, 0);
-                    $('.page3b').fadeOut(500);
-                    $('.page4').show();
-                    $('#scrollbar2').tinyscrollbar();
+                    pageAlert('信息提交成功');
+                    $('.infoTxt').attr('disabled', 'disabled');
+                    $('.pageMyAwardBtn3').hide();
+                    $('.infoSubmited').show();
                 } else {
-                    showAlert(json.msg);
-					$('.infoTxt1').prop('disabled','false');
-					$('.infoTxt2').prop('disabled','false');
-					$('.infoTxt3').prop('disabled','false');
-                    canSubmitInfo = true;
+                    pageAlert(json.msg);
+                    //canSubmitInfo2 = true;
                 }
             },
             error: function() {
-                showAlert('提交失败，请联系管理员~');
-                canSubmitInfo = true;
+                pageAlert('提交失败，请联系管理员~');
+                //canSubmitInfo2 = true;
             }
-        });*/
+        });
     }
+
+
 }
-
-var canSubmitInfo2 = true;
-
-function submitInfo2(url) {
-    var iName = $.trim($('.infoTxtB1').val());
-    var iTel = $.trim($('.infoTxtB2').val());
-    var iAddress = $.trim($('.infoTxtB3').val());
-    var pattern = /^1[3456789]\d{9}$/;
-    if (iName == '') {
-        showAlert('请输入姓名');
-        return false;
-    } else if (iTel == '' || !pattern.test(iTel)) {
-        showAlert('请输入正确的手机号码');
-        return false;
-    } else if (iAddress == '') {
-        showAlert('请输入地址');
-        return false;
-    }
-    //ajax提交信息
-    if (canSubmitInfo2) {
-        canSubmitInfo2 = false;
-		$('.infoTxtB1').prop('disabled','disabled');
-		$('.infoTxtB2').prop('disabled','disabled');
-		$('.infoTxtB3').prop('disabled','disabled');
-        showAlert('活动已结束');
-        /*$.ajax(url, {
-            data: {
-                name: iName,
-                mobile: iTel,
-                address: iAddress,
-                _token: $('input[name="_token"]').val()
-            },
-            type: 'post',
-            dataType: 'json',
-            success: function(json) {
-                if (json.ret == 0) {
-                    showAlert('信息提交成功');
-                    $('.btn15').hide();
-                    $('.infoSubmited2').show();
-                } else {
-                    showAlert(json.msg);
-					$('.infoTxtB1').prop('disabled','false');
-					$('.infoTxtB2').prop('disabled','false');
-					$('.infoTxtB3').prop('disabled','false');
-                    canSubmitInfo2 = true;
-                }
-            },
-            error: function() {
-                showAlert('提交失败，请联系管理员~');
-                canSubmitInfo2 = true;
-            }
-        });*/
-    }
-}
-
-function showList() {
-    //window.scroll(0, 0);
-    $('.page1').fadeOut(500);
-    $('.page4').show();
-    $('.bottomBanner').fadeIn(500);
-    $('#scrollbar2').tinyscrollbar();
-}
-
-function goHome() {
-    $('.page4').fadeOut(500);
-    $('.bottomBanner').fadeOut(500);
-    $('.page1').fadeIn(500);
-    if (wHeight >= 980) {
-        window.scroll(0, ((1139 - wHeight) / 2 + 20));
-    }
-}
-
-function showShareNote() {
-    $('.shareNote').fadeIn(500);
-}
-
-function closeShareNote() {
-    $('.shareNote').fadeOut(500);
-}
-
-function showCode(e) {
-    var sncode = $(e).siblings('.awdCode').html();
-    $('.snCode').html(sncode);
-    $('.pageCode').fadeIn(500);
-}
-
-function closeCode() {
-    $('.snCode').html('');
-    $('.pageCode').fadeOut(500);
-}
-
-function showAlert(e){
-	$('.alertBlock p').html(e);
-	$('.alertBg').fadeIn(500);
-	$('.alertBlock').fadeIn(500);
-	}
-
-function closeAlert(){
-	$('.alertBg').fadeOut(500);
-	$('.alertBlock').fadeOut(500);
-	}
