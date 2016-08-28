@@ -273,9 +273,9 @@ function getLottery() {
                 }
             } else {
                 if (endType == 2) {
-                    pageAlert('你一定拥有尽洪荒之力<br>恭喜你，获得了' + lotteryNumb);
+                    pageAlert('你一定拥有尽洪荒之力<br>恭喜你，获得了' + json.prize_title);
                 } else {
-                    pageAlert('你的攻击力达到了' + parseInt((attackMax - attackNumb) / attackMax * 100) + '%<br>恭喜你，获得了' + lotteryNumb);
+                    pageAlert('你的攻击力达到了' + parseInt((attackMax - attackNumb) / attackMax * 100) + '%<br>恭喜你，获得了' + json.prize_title);
                 }
             }
             gameInit();

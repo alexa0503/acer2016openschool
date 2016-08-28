@@ -131,8 +131,10 @@ class HomeController extends Controller
             $lottery->run();
             //$prize_code = $lottery->getCode();
             $prize_id = $lottery->getPrizeId();
+            $prize = \App\Prize::find($prize_id);
             //$result['prize']['id'] = $prize_id;
             $result['prize_id'] = $prize_id;
+            $result['prize_title'] = $prize->title;
 
         }
 
