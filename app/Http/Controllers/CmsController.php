@@ -29,7 +29,7 @@ class CmsController extends Controller
     {
         $count = \App\WechatUser::count();
         $prizes = \App\Prize::all();
-        $start_time = strtotime(date('2016-06-20'));
+        $start_time = strtotime(date('2016-08-28'));
         $n = ceil((time() - $start_time) / (3600 * 24));
         $data = [];
         for ($i = 0; $i < $n; ++$i) {
