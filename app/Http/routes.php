@@ -39,7 +39,8 @@ Route::get('logout',function(){
     return redirect('/');
 });
 Route::get('login',function(){
-    Request::session()->set('wechat.openid','o2-sBj0oOQJCIq6yR7I9HtrqxZcY');
+    $wechat_user = App\WechatUser::find(1);
+    Request::session()->set('wechat.openid', $wechat_user->open_id);
     return redirect('/');
 });
 
