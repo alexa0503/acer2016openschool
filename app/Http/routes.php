@@ -25,10 +25,10 @@ Route::get('/wx/share', function () {
     $js->setUrl($url);
     $config = json_decode($js->config(array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ'), false), true);
     $share = [
-      'title' => env('WECHAT_SHARE_TITLE'),
-      'desc' => env('WECHAT_SHARE_DESC'),
-      'link' => env('APP_URL'),
-      'imgUrl' => cdn(env('WECHAT_SHARE_IMG')),
+      //'title' => env('WECHAT_SHARE_TITLE'),
+      //'desc' => env('WECHAT_SHARE_DESC'),
+      //'link' => env('APP_URL'),
+      //'imgUrl' => cdn(env('WECHAT_SHARE_IMG')),
     ];
 
     return json_encode(array_merge($share, $config));
