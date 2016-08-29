@@ -282,7 +282,7 @@ function getLottery() {
                 }
             }
             gameInit();
-            wxData.desc = '{{env("WECHAT_SHARE_DESC_2")}}';
+            wxData.desc = wechat_share_desc_2;
             wxShare();
         },
         error: function() {

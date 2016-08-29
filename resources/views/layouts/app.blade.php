@@ -11,6 +11,7 @@
         var lotteryUrl = '{{url("lottery")}}';
         var wxData = {};
         var wxShareUrl = '{{url("wx/share")}}';
+        var wechat_share_desc_2 = '{{env("WECHAT_SHARE_DESC_2")}}';
         wxData.link = '{{url("/")}}'
     </script>
     <script src="{{cdn('assets/js/jquery-1.9.1.min.js')}}"></script>
