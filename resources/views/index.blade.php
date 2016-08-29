@@ -98,7 +98,11 @@
                 <input type="text" class="infoTxt infoTxt3" maxlength="40" value="{{$info->address}}" disabled="disabled">
 				@endif
                 <a href="javascript:void(0);" class="abs pageMyAwardBtn4" onClick="showRule(2);"><img src="{{cdn('assets/images/btn6.png')}}"></a>
+				@if (null == $info)
                 <img src="{{cdn('assets/images/infoSubmited.png')}}" class="abs infoSubmited" style="display:none;">
+				@else
+                <img src="{{cdn('assets/images/infoSubmited.png')}}" class="abs infoSubmited">
+				@endif
                 <a href="#" class="abs bottomImg"><img src="{{cdn('assets/images/bottomImg.png')}}"></a>
             </div>
         </div>
