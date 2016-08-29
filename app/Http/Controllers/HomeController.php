@@ -132,9 +132,11 @@ class HomeController extends Controller
             //$prize_code = $lottery->getCode();
             $prize_id = $lottery->getPrizeId();
             $prize = \App\Prize::find($prize_id);
+            if( $prize_id && $prize_id > 0){
+                $result['prize_title'] = $prize->title;
+            }
             //$result['prize']['id'] = $prize_id;
             $result['prize_id'] = $prize_id;
-            $result['prize_title'] = $prize->title;
 
         }
 
