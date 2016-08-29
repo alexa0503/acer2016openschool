@@ -79,11 +79,14 @@ function closeLoading() {
 function pageAlert(txt) {
     $('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
     $('.alertTxt').html(txt);
-    if (txt.length > 12 && txt.length <= 24) {
+    if (txt.length > 16 && txt.length <= 28) {
         $('.alertTxt').addClass('alertTxt1');
-    } else if (txt.length > 24) {
+    } else if (txt.length > 28) {
         $('.alertTxt').addClass('alertTxt2');
     }
+	else{
+		$('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
+		}
     $('.pageAlert').show();
 }
 
