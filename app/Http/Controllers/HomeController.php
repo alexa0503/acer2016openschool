@@ -20,7 +20,7 @@ class HomeController extends Controller
         $lottery = \App\Lottery::where('user_id', $wechat_user->id)->where('prize', '>', 0)->first();
 
         $prize_id = null == $lottery ? 0 : $lottery->prize;
-        $has_lottery = null == $lottery ? true : false;
+        $has_lottery = null == $lottery ? false : true;
         $info = \App\Info::find($wechat_user->id);
         return view('index', [
             'prize_id' => $prize_id,
