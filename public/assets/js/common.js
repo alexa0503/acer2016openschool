@@ -176,7 +176,7 @@ function goPage2() {
 var hp = 476;
 var lighta, lightb, delaya, delayb;
 var attackNumb = 0;
-var attackMax = 80;
+var attackMax = 200;
 var isFirstTouch = true;
 var gameTime = 10;
 var gameCurrent = 0;
