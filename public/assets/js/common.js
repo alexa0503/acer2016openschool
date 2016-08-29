@@ -79,9 +79,9 @@ function closeLoading() {
 function pageAlert(txt) {
     $('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
     $('.alertTxt').html(txt);
-    if (txt.length > 16 && txt.length <= 28) {
+    if (txt.length > 16 && txt.length <= 30) {
         $('.alertTxt').addClass('alertTxt1');
-    } else if (txt.length > 28) {
+    } else if (txt.length > 30) {
         $('.alertTxt').addClass('alertTxt2');
     }
 	else{
