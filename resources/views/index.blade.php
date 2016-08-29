@@ -114,8 +114,11 @@
             	<div class="bgImg pageAlertBlack"></div>
             	<div class="bgImg pageAlertBg"></div>
                 <p class="alertTxt"></p>
+                <div class="abs popAlertBtnLine">
+                	<a href="javascript:void(0);" onClick="closeAlert();"><img src="{{cdn('assets/images/btn10.png')}}"></a>
+                    <a href="javascript:void(0);" onClick="playAgain();" class="popAlertPlayAgain" style="display:none;"><img src="{{cdn('assets/images/btn11.png')}}"></a>
+                </div>
                 <a href="javascript:void(0);" class="abs pageAlertBtn1" onClick="closeAlert();"><img src="{{cdn('assets/images/closeBtn.png')}}"></a>
-                <a href="javascript:void(0);" class="abs pageAlertBtn2" onClick="closeAlert();"><img src="{{cdn('assets/images/btn10.png')}}"></a>
             </div>
         </div>
     </div>

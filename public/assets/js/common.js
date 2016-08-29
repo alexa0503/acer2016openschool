@@ -76,7 +76,7 @@ function closeLoading() {
     $('.loadingGif').hide();
 }
 
-function pageAlert(txt) {
+function pageAlert(txt,type) {
     $('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
     $('.alertTxt').html(txt);
     if (txt.length > 16 && txt.length <= 30) {
@@ -87,12 +87,25 @@ function pageAlert(txt) {
 	else{
 		$('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
 		}
+	if(type==2){
+		$('.popAlertPlayAgain').show();
+		}
+		else{
+			$('.popAlertPlayAgain').hide();
+			}
     $('.pageAlert').show();
 }
 
 function closeAlert() {
     $('.pageAlert').hide();
 }
+
+function playAgain(){
+	gameInit();
+	closeLoading();
+	$('.page').hide();
+	$('.page2').show();
+	}
 
 var ruleBack = 1;
 
@@ -238,7 +251,7 @@ function gameRunTime() {
 function gameInit() {
     attackNumb = 0;
     gameCurrent = 0;
-    $('.gameTime').html('0').hide();
+    $('.gameTime').html('10').hide();
     $('.page2Img2').show();
     $('.page2Img6a').hide();
     $('.page2Img6b').hide();
@@ -270,15 +283,15 @@ function getLottery() {
             $('.pageMyAward').show();
             if (lotteryNumb == 0) {
                 if (endType == 2) {
-                    pageAlert('你一定拥有尽洪荒之力<br>很遗憾，未中奖，请再接再厉。');
+                    pageAlert('你一定拥有尽洪荒之力<br>很遗憾，未中奖，请再接再厉。',2);
                 } else {
-                    pageAlert('你的攻击力达到了' + (100-parseInt((attackMax - attackNumb) / attackMax * 100)) + '%<br>很遗憾，未中奖，请再接再厉。');
+                    pageAlert('你的攻击力达到了' + (100-parseInt((attackMax - attackNumb) / attackMax * 100)) + '%<br>很遗憾，未中奖，请再接再厉。',2);
                 }
             } else {
                 if (endType == 2) {
-                    pageAlert('你一定拥有尽洪荒之力<br>恭喜你，获得了' + json.prize_title);
+                    pageAlert('你一定拥有尽洪荒之力<br>恭喜你，获得了' + json.prize_title,2);
                 } else {
-                    pageAlert('你的攻击力达到了' + (100-parseInt((attackMax - attackNumb) / attackMax * 100)) + '%<br>恭喜你，获得了' + json.prize_title);
+                    pageAlert('你的攻击力达到了' + (100-parseInt((attackMax - attackNumb) / attackMax * 100)) + '%<br>恭喜你，获得了' + json.prize_title,2);
                 }
             }
             gameInit();
