@@ -64,6 +64,7 @@ select,input,textarea{font-family:inherit; outline:none;}
 .rightTouch{ position:absolute; right:0; top:-104px; width:320px; height:1039px;}
 .page2Img9{ background:url(../images/page2Img9.png) left top no-repeat; width:476px; height:43px; position:absolute; left:81px; top:117px;}
 .gameTime{ color:#000000; font-size:32px; font-weight:bold; font-style:italic; width:100px; height:40px; line-height:40px; text-align:center; position:absolute; left:270px; top:620px;}
+.cdImg{ background:url(../images/cdImg.png) -1280px 0 no-repeat;}
 
 /*pageAlert*/
 .pageAlertBg{ background:url(../images/alertBg.png) 0 0 no-repeat;}
@@ -101,5 +102,7 @@ select,input,textarea{font-family:inherit; outline:none;}
 .infoTxt3{ top:575px;}
 .infoSubmited{ left:245px; top:640px;}
 .pageMyAwardBtn4{ left:222px; top:742px;}
+
+.pageShareImg{ background:url(../images/shareNote.png) 0 0 no-repeat;}
 
 

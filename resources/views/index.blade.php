@@ -12,7 +12,7 @@
         	<div class="innerDiv">
             	<div class="bgImg page1Img1"></div>
                 <a href="javascript:void(0);" class="abs btn1" onClick="showSnid();"><img src="{{cdn('assets/images/btn1.png')}}"></a>
-                <a href="javascript:void(0);" class="abs btn2" onClick="goPage2();"><img src="{{cdn('assets/images/btn2.png')}}"></a>
+                <!--<a href="javascript:void(0);" class="abs btn2" onClick="goPage2();"><img src="{{cdn('assets/images/btn2.png')}}"></a>-->
                 <a href="javascript:void(0);" class="abs btn3" onClick="showRule(1);"><img src="{{cdn('assets/images/btn3.png')}}"></a>
                 <a href="javascript:void(0);" class="abs btn4" onClick="showAward();"><img src="{{cdn('assets/images/btn4.png')}}"></a>
 
@@ -46,6 +46,7 @@
                 <div class="bgImg page2Img7b"></div>
                 <div class="leftTouch" ontouchend="attack(1);"></div>
                 <div class="rightTouch" ontouchend="attack(2);"></div>
+                <div class="bgImg cdImg"></div>
             </div>
         </div>
     </div>
@@ -73,7 +74,7 @@
                     </div>
                 </div>
                 <a href="javascript:void(0);" class="abs pageRuleBtn1" onClick="closeRule();"><img src="{{cdn('assets/images/btn9.png')}}"></a>
-                <a href="#" class="abs bottomImg"><img src="{{cdn('assets/images/bottomImg.png')}}"></a>
+                <a href="http://sale.jd.com/m/act/7geIPpkQLjh.html" class="abs bottomImg"><img src="{{cdn('assets/images/bottomImg.png')}}"></a>
             </div>
         </div>
     </div>
@@ -103,7 +104,7 @@
 				@else
                 <img src="{{cdn('assets/images/infoSubmited.png')}}" class="abs infoSubmited">
 				@endif
-                <a href="#" class="abs bottomImg"><img src="{{cdn('assets/images/bottomImg.png')}}"></a>
+                <a href="http://sale.jd.com/m/act/7geIPpkQLjh.html" class="abs bottomImg"><img src="{{cdn('assets/images/bottomImg.png')}}"></a>
             </div>
         </div>
     </div>
@@ -115,10 +116,20 @@
             	<div class="bgImg pageAlertBg"></div>
                 <p class="alertTxt"></p>
                 <div class="abs popAlertBtnLine">
-                	<a href="javascript:void(0);" onClick="closeAlert();"><img src="{{cdn('assets/images/btn10.png')}}"></a>
-                    <a href="javascript:void(0);" onClick="playAgain();" class="popAlertPlayAgain" style="display:none;"><img src="{{cdn('assets/images/btn11.png')}}"></a>
+                	<a href="javascript:void(0);" onClick="closeAlert();" class="btn10"><img src="{{cdn('assets/images/btn10.png')}}"></a>
+                	<a href="javascript:void(0);" onClick="showShare();" class="btn12" style="display:none;"><img src="{{cdn('assets/images/btn12.png')}}"></a>
+                    <a href="javascript:void(0);" onClick="playAgain();" class="btn11" style="display:none;"><img src="{{cdn('assets/images/btn11.png')}}"></a>
                 </div>
                 <a href="javascript:void(0);" class="abs pageAlertBtn1" onClick="closeAlert();"><img src="{{cdn('assets/images/closeBtn.png')}}"></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page pageShare" style="display:none;" ontouchend="closeShare();">
+    	<div class="h832">
+        	<div class="innerDiv">
+            	<div class="bgImg pageAlertBlack"></div>
+            	<div class="bgImg pageShareImg"></div>
             </div>
         </div>
     </div>
@@ -158,6 +169,9 @@ $(document).ready(function(){
 
 	images.push("{{cdn('assets/images/page3Img1.png')}}");
 	images.push("{{cdn('assets/images/page4Img1.png')}}");
+	
+	images.push("{{cdn('assets/images/cdImg.png')}}");
+	images.push("{{cdn('assets/images/shareNote.png')}}");
 
     loadImg(images);
 
