@@ -103,6 +103,11 @@ class HomeController extends Controller
     //抽奖
     public function lottery(Request $request)
     {
+        //未输入snid不给中奖
+        if( \Session::get('lottery.id') == null ){
+            return ['ret' => 0, 'prize' => [], 'msg' => ''];
+        }
+        
         //ip黑名单
         $ips = ['183.9.43.55','113.117.70.183','113.86.28.30','113.86.14.60'];
         $lotteries = \App\Lottery::select(\DB::raw('count(*) as ip_count, created_ip'))->groupBy('created_ip')->get();
