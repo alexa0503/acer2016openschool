@@ -317,8 +317,8 @@ function getLottery() {
                 } else {
                     var desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>就算战五渣，<br>别气馁，下次再战！'
                     pageAlert(desc,2);
-                    wxData.desc = desc;
-                    wxShare();
+                    //desc.replace('<br>','');
+                    wxData.desc = desc.replace(/<br>/g,'');
                 }
             } else {
                 if (endType == 2) {
@@ -326,12 +326,12 @@ function getLottery() {
                 } else {
                     var desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>十万伏特的洪荒之力MAX<br>恭喜你位列战神席位！';
                     pageAlert(desc,2);
-                    wxData.desc = desc;
-                    wxShare();
+                    //desc.replace('<br>','');
+                    wxData.desc = desc.replace(/<br>/g,'');
                 }
             }
             gameInit();
-            wxData.desc = wechat_share_desc_2;
+            //wxData.desc = wechat_share_desc_2;
             wxShare();
         },
         error: function() {
