@@ -13,6 +13,7 @@ Route::get('/', 'HomeController@index');
 Route::post('snid', 'HomeController@snid');
 Route::post('lottery', 'HomeController@lottery');
 Route::post('info', 'HomeController@info');
+Route::post('award', 'HomeController@award');
 Route::get('/wx/share', function () {
     $url = urldecode(Request::get('url'));
     $options = [

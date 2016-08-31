@@ -28,6 +28,13 @@ class HomeController extends Controller
             'info' => $info,
         ]);
     }
+    public function award(Request $request){
+        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+        $lottery = \App\Lottery::where('user_id', $wechat_user->id)->where('prize', '>', 0)->first();
+        $prize_id = null == $lottery ? 0 : $lottery->prize;
+        $imgUrl = cdn('assets/images/award'.$prize_id.'.png');
+        return ['ret'=>0, 'imgUrl'=>$imgUrl];
+    }
 
     //snid提交
     public function snid(Request $request)
@@ -117,9 +124,11 @@ class HomeController extends Controller
             $lottery->save();
             $request->session()->set('lottery.id', $lottery->id);
         }
+        $lottery = \App\Lottery::where('user_id', $wechat_user->id)->where('prize', '>', 0)->first();
+        $history_prize = null == $lottery ? 0 : $lottery->prize;
         //未输入snid不给中奖
         if( \Session::get('lottery.id') == null ){
-            return ['ret' => 0,  'msg' => '1000'];
+            return ['ret' => 0, 'history_prize'=>$history_prize, 'msg' => '1000'];
         }
 
         //ip黑名单
@@ -132,7 +141,7 @@ class HomeController extends Controller
         }
 
         if( in_array($request->getClientIp(), $ips) ){
-            return ['ret' => 0, 'msg' => '1002'];
+            return ['ret' => 0, 'history_prize'=>$history_prize, 'msg' => '1002'];
         }
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
         $lottery = \App\Lottery::where('user_id', $wechat_user->id)->orderBy('created_time', 'DESC')->first();
@@ -141,7 +150,7 @@ class HomeController extends Controller
         //$lottery_timestamp = null == $lottery ? 0 : strtotime($lottery->created_time);
         //$lottery_timestamp + 15 > time()
         if( $count >= 100){
-            return ['ret' => 0, 'msg' => '1001'];
+            return ['ret' => 0, 'history_prize'=>$history_prize, 'msg' => '1001'];
         }
         else{
             $result = ['ret' => 0, 'msg' => ''];
@@ -155,6 +164,7 @@ class HomeController extends Controller
             }
             //$result['prize']['id'] = $prize_id;
             $result['prize_id'] = $prize_id;
+            $result['history_prize'] = $prize_id > 0 ? $prize_id : $history_prize;
             return json_encode($result);
         }
 

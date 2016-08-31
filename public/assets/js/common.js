@@ -140,8 +140,22 @@ function closeRule() {
 }
 
 function showAward() {
-    $('.page').hide();
-    $('.pageMyAward').show();
+    $.ajax('/award', {
+        data: {
+            _token: $('input[name="_token"]').val(),
+            snid: snid
+        },
+        type: 'post',
+        dataType: 'json',
+        success: function(json) {
+            $('.awardImg').attr('src', json.imgUrl);
+            $('.page').hide();
+            $('.pageMyAward').show();
+        },
+        error: function(){
+
+        }
+    });
 }
 
 function closeAward() {
@@ -312,7 +326,7 @@ function getLottery() {
             //json.prize_title
             closeLoading();
 
-            $('.awardImg').attr('src', 'assets/images/award' + lotteryNumb + '.png');
+            $('.awardImg').attr('src', 'assets/images/award' + json.history_prize + '.png');
             $('.page2').hide();
             $('.pageMyAward').show();
             var desc = '';
