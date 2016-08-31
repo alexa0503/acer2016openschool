@@ -311,27 +311,25 @@ function getLottery() {
             $('.awardImg').attr('src', 'assets/images/award' + lotteryNumb + '.png');
             $('.page2').hide();
             $('.pageMyAward').show();
+            var desc = '';
             if (lotteryNumb == 0) {
                 if (endType == 2) {
-                    pageAlert('你一定拥有尽洪荒之力<br>很遗憾，未中奖，请再接再厉。',2);
+                    desc = '你一定拥有尽洪荒之力<br>很遗憾，未中奖，请再接再厉。';
                 } else {
-                    var desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>就算战五渣，<br>别气馁，下次再战！'
-                    pageAlert(desc,2);
-                    //desc.replace('<br>','');
-                    wxData.desc = desc.replace(/<br>/g,'');
+                    desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>就算战五渣，<br>别气馁，下次再战！'
                 }
             } else {
                 if (endType == 2) {
-                    pageAlert('你一定拥有尽洪荒之力<br>恭喜你，获得了' + json.prize_title,2);
+                    desc = '你一定拥有尽洪荒之力<br>恭喜你，获得了' + json.prize_title;
                 } else {
-                    var desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>十万伏特的洪荒之力MAX<br>恭喜你位列战神席位！';
-                    pageAlert(desc,2);
-                    //desc.replace('<br>','');
-                    wxData.desc = desc.replace(/<br>/g,'');
+                    desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>十万伏特的洪荒之力MAX<br>恭喜你位列战神席位！';
+
                 }
             }
+            pageAlert(desc ,2);
             gameInit();
             //wxData.desc = wechat_share_desc_2;
+            wxData.desc = desc.replace(/<br>/g,'');
             wxShare();
         },
         error: function() {
