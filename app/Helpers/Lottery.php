@@ -15,6 +15,7 @@ class Lottery
     private $prize_code = null;
     private $wechat_user;
     private $timestamp;
+    private $snid = null;
     public function __construct()
     {
         $session = \Request::session();
@@ -23,6 +24,7 @@ class Lottery
         $this->timestamp = $timestamp;
         $this->time = date('H:i:s', $timestamp);
         $this->date = date('Y-m-d', $timestamp);
+        $this->snid = $session->get('lottery.snid');
         $this->prize_type = $session->get('lottery.id') == null ? 1 : 0;
         $this->wechat_user = \App\WechatUser::where('open_id', $session->get('wechat.openid'))->first();
     }
@@ -59,6 +61,20 @@ class Lottery
             ->sharedLock()
             ->count();
         if ($count1 > 0) {
+            return;
+        }
+
+        //一个snid只能中一次
+        if( $this->snid == null ){
+            return;
+        }
+        $count2 = \App\Lottery::where('snid', $this->snid)
+            ->where('prize', '>', 0)
+            //->where('lottery_time', '>=', date('Y-m-d', $timestamp))
+            //->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
+            ->sharedLock()
+            ->count();
+        if ($count2 > 0) {
             return;
         }
 
@@ -135,7 +151,7 @@ class Lottery
             $lottery->created_time = Carbon::now();
             $lottery->created_ip = \Request::getClientIp();
         } else {
-            $lottery = \App\Lottery::sharedLock()->find($session->get('lottery.id'));
+            $lottery = \App\Lottery::find($session->get('lottery.id'));
         }
         if ($this->prize_id != 0) {
             //蜘蛛网

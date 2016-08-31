@@ -57,6 +57,29 @@ class HomeController extends Controller
         }
 
         if ($response == 1) {
+            $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+            $model = \App\Lottery::where('snid', $snid)->where('prize','>', '0');
+            $row = $model->orderBy('created_time', 'ASC')->first();
+            if( $model->count() == 0 || $row->user_id == $wechat_user->id){
+                $lottery = new \App\Lottery();
+                $lottery->user_id = $wechat_user->id;
+                $lottery->snid = $snid;
+                $lottery->has_lottery = 0;
+                $lottery->prize = 0;
+                $lottery->prize_type = 0;
+                $lottery->prize_code_id = null;
+                $lottery->lottery_time = null;
+                $lottery->created_time = Carbon::now();
+                $lottery->created_ip = $request->getClientIp();
+                $lottery->save();
+                $request->session()->set('lottery.id', $lottery->id);
+                $request->session()->set('lottery.snid', $snid);
+            }
+            else{
+                $result = ['ret' => 1002, 'msg' => 'SNID不正确，请重新输入~'];
+            }
+
+            /*
             $row = \App\Lottery::where('snid', $snid)->where('prize','>', '0');
             $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
             //未使用或者当前用户使用未被兑换
@@ -76,6 +99,7 @@ class HomeController extends Controller
             } else {
                 $result = ['ret' => 1003, 'msg' => '此SNID已经中过奖啦~'];
             }
+            */
         } else {
             $result = ['ret' => 1002, 'msg' => 'SNID不正确，请重新输入~'];
         }

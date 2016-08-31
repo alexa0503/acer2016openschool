@@ -188,6 +188,7 @@ function submitSnid(url) {
             dataType: 'json',
             success: function(json) {
                 if (json.ret == 0) {
+                    playStatus = 0;
                     snid = snidCode;
                     //提交成功
                     closeLoading();
