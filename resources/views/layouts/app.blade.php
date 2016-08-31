@@ -41,7 +41,14 @@
 <body>
 @yield('content')
 @yield('scripts')
-
-
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2774ab034e8c7edb7a7de7d96e5ff2d5";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 </body>
 </html>
