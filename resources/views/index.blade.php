@@ -18,7 +18,7 @@
 
                 <div class="snidPage" style="display:none;">
                 	<div class="bgImg page1Img2"></div>
-                    <input type="text" class="abs snidCode" maxlength="30">
+                    <input type="text" class="abs snidCode" value="{{$snid}}" maxlength="30">
                     <a href="javascript:void(0);" class="abs btn5" onClick="submitSnid('{{url("snid")}}');"><img src="{{cdn('assets/images/btn5.png')}}"></a>
                     <a href="javascript:void(0);" class="abs page1CloseBtn" onClick="closeSnid();"><img src="{{cdn('assets/images/closeBtn.png')}}"></a>
                 </div>
@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="page pageShare" style="display:none;" ontouchend="closeShare();">
     	<div class="h832">
         	<div class="innerDiv">
@@ -169,7 +169,7 @@ $(document).ready(function(){
 
 	images.push("{{cdn('assets/images/page3Img1.png')}}");
 	images.push("{{cdn('assets/images/page4Img1.png')}}");
-	
+
 	images.push("{{cdn('assets/images/cdImg.png')}}");
 	images.push("{{cdn('assets/images/shareNote.png')}}");
 

@@ -17,15 +17,19 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+        //中奖情况
         $lottery = \App\Lottery::where('user_id', $wechat_user->id)->where('prize', '>', 0)->first();
-
         $prize_id = null == $lottery ? 0 : $lottery->prize;
+        //最近使用的snid
+        $lottery = \App\Lottery::where('user_id', $wechat_user->id)->orderBy('created_time', 'DESC')->first();
+        $snid = null == $lottery ? '' : $lottery->snid;
         $has_lottery = null == $lottery ? false : true;
         $info = \App\Info::find($wechat_user->id);
         return view('index', [
             'prize_id' => $prize_id,
             'has_lottery' => $has_lottery,
             'info' => $info,
+            'snid' => $snid
         ]);
     }
     public function award(Request $request){
@@ -109,8 +113,8 @@ class HomeController extends Controller
     //抽奖
     public function lottery(Request $request)
     {
-        if( null != $request->get('snid')){
-            $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+        $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+        if( null != $request->get('snid') && 1 == $request->get('playStatus')){
             $lottery = new \App\Lottery();
             $lottery->user_id = $wechat_user->id;
             $lottery->snid = $request->get('snid');
@@ -124,6 +128,7 @@ class HomeController extends Controller
             $lottery->save();
             $request->session()->set('lottery.id', $lottery->id);
         }
+
         $lottery = \App\Lottery::where('user_id', $wechat_user->id)->where('prize', '>', 0)->first();
         $history_prize = null == $lottery ? 0 : $lottery->prize;
         //未输入snid不给中奖
@@ -167,8 +172,5 @@ class HomeController extends Controller
             $result['history_prize'] = $prize_id > 0 ? $prize_id : $history_prize;
             return json_encode($result);
         }
-
-
-
     }
 }

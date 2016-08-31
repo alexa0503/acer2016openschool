@@ -107,6 +107,7 @@ function closeAlert() {
 }
 
 function playAgain() {
+    playStatus = 1;
     gameInit();
     closeLoading();
     $('.page').hide();
@@ -312,7 +313,8 @@ function getLottery() {
     $.ajax(lotteryUrl, {
         data: {
             _token: $('input[name="_token"]').val(),
-            snid: snid
+            snid: snid,
+            playStatus: playStatus
         },
         type: 'post',
         dataType: 'json',
