@@ -39,7 +39,6 @@ class HomeController extends Controller
             return json_encode($result);
         }
 
-        #测试
         $url = env('SNID_API');
         $response = Helper\HttpClient::post($url, ['snid' => $snid]);
         if(env('APP_ENV') == 'local' || env('APP_ENV') == 'dev' ){
@@ -47,10 +46,10 @@ class HomeController extends Controller
         }
 
         if ($response == 1) {
-            $row = \App\Lottery::where('snid', $snid);
-            $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+            $row = \App\Lottery::where('snid', $snid)->where('prize','>', '0');
+            //$wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
             //未使用或者当前用户使用未被兑换
-            if ($row->count() == 0 || $row->first()->user_id == $wechat_user->id) {
+            if ($row->count() == 0 ) {
                 $lottery = new \App\Lottery();
                 $lottery->user_id = $wechat_user->id;
                 $lottery->snid = $snid;
@@ -64,7 +63,7 @@ class HomeController extends Controller
                 $lottery->save();
                 $request->session()->set('lottery.id', $lottery->id);
             } else {
-                $result = ['ret' => 1003, 'msg' => '此SNID已经使用过了~'];
+                $result = ['ret' => 1003, 'msg' => '此SNID已经中过奖啦~'];
             }
         } else {
             $result = ['ret' => 1002, 'msg' => 'SNID不正确，请重新输入~'];
