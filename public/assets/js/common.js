@@ -24,6 +24,10 @@ $(document).ready(function() {
         $('.pageRule').css('padding-bottom', (950 - oHeight) + 'px');
         $('.pageMyAward').css('padding-bottom', (950 - oHeight) + 'px');
     }
+	else{
+		$('.pageRuleBtn1').css('z-index','20');
+		$('.pageMyAwardBtn4').css('z-index','20');
+		}
     $('.pageOuter').height(wHeight);
     $('.page').height(wHeight);
     $('.h832').css('padding-top', (wHeight - 832) / 2 + 'px');
