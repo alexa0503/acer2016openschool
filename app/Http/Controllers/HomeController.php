@@ -47,7 +47,7 @@ class HomeController extends Controller
 
         if ($response == 1) {
             $row = \App\Lottery::where('snid', $snid)->where('prize','>', '0');
-            //$wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+            $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
             //未使用或者当前用户使用未被兑换
             if ($row->count() == 0 ) {
                 $lottery = new \App\Lottery();
