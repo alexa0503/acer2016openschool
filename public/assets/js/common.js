@@ -194,12 +194,12 @@ function submitSnid(url) {
                     goPage2();
                 } else {
                     closeLoading();
-                    alert(json.msg);
+                    pageAlert(json.msg);
                 }
             },
             error: function() {
                 closeLoading();
-                alert('提交失败~请联系管理员')
+                pageAlert('提交失败~请联系管理员')
                     //pageAlert('提交失败~请重新尝试~');
                     //canSubmitSnid = true;
             }
