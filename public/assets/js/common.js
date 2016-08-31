@@ -114,7 +114,7 @@ function playAgain() {
     $('.page2').show();
     gameCd = setInterval(function() {
         gamecdFn();
-    }, 1000);
+    }, 1500);
 }
 
 var ruleBack = 1;
@@ -215,7 +215,7 @@ function goPage2() {
     $('.page2').show();
     gameCd = setInterval(function() {
         gamecdFn();
-    }, 1000);
+    }, 1500);
 }
 
 var gameCd;
