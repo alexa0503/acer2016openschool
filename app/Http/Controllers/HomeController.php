@@ -105,9 +105,9 @@ class HomeController extends Controller
     {
         //未输入snid不给中奖
         if( \Session::get('lottery.id') == null ){
-            return ['ret' => 0, 'prize' => [], 'msg' => ''];
+            return ['ret' => 0,  'msg' => '1000'];
         }
-        
+
         //ip黑名单
         $ips = ['183.9.43.55','113.117.70.183','113.86.28.30','113.86.14.60'];
         $lotteries = \App\Lottery::select(\DB::raw('count(*) as ip_count, created_ip'))->groupBy('created_ip')->get();
@@ -118,20 +118,18 @@ class HomeController extends Controller
         }
 
         if( in_array($request->getClientIp(), $ips) ){
-            //return ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
-            return ['ret' => 0, 'prize' => [], 'msg' => ''];
+            return ['ret' => 0, 'msg' => '1002'];
         }
-        $result = ['ret' => 0, 'prize' => [], 'msg' => ''];
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
         $lottery = \App\Lottery::where('user_id', $wechat_user->id)->orderBy('created_time', 'DESC')->first();
 
         $lottery_timestamp = null == $lottery ? 0 : strtotime($lottery->created_time);
         $count = \App\Lottery::where('user_id', $wechat_user->id)->count();
-        if( $lottery_timestamp + 15 > time() || $count >= 100){
-            //$result = ['ret' => 1001, 'prize' => [], 'msg' => '请通过正常方式抽奖~'];
-            return ['ret' => 0, 'prize' => [], 'msg' => ''];
+        if( $lottery_timestamp + 5 > time() || $count >= 100){
+            return ['ret' => 0, 'msg' => '1001'];
         }
         else{
+            $result = ['ret' => 0, 'msg' => ''];
             $lottery = new Helper\Lottery();
             $lottery->run();
             //$prize_code = $lottery->getCode();
@@ -142,10 +140,10 @@ class HomeController extends Controller
             }
             //$result['prize']['id'] = $prize_id;
             $result['prize_id'] = $prize_id;
-
+            return json_encode($result);
         }
 
 
-        return json_encode($result);
+
     }
 }

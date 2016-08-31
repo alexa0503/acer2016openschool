@@ -59,24 +59,16 @@ class Lottery
             ->sharedLock()
             ->count();
         if ($count1 > 0) {
-            $this->prize_id = 0;
             return;
         }
 
-        $count4 = \App\Lottery::where('user_id', $wechat_user->id)
-            ->where('lottery_time', '>=', date('Y-m-d', $timestamp))
-            ->where('lottery_time', '<=', date('Y-m-d 23:59:59', $timestamp))
-            ->where('prize', 12)
-            ->sharedLock()
-            ->count();
+
         //获取时间配置,当前为分配时间则不中奖,发默认奖
         $count5 = \App\LotteryConfig::where('start_time', '<=', $time)->where('shut_time', '>', $time)->sharedLock()->count();
         //奖池情况
         $count6 = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->sharedLock()->count();
         if ($count5 == 0 || $count6 == 0) {
-            if( $count4 > 0){
-                $this->prize_id = 0;
-            }
+            $this->prize_id = 0;
             return;
         }
         $config = \App\LotteryConfig::where('start_time', '<=', $time)->where('shut_time', '>', $time)->sharedLock()->first();
@@ -85,9 +77,6 @@ class Lottery
         $rand1 = rand(1, $rand_max);
         $rand2 = rand(1, $rand_max);
         if ($rand1 != $rand2) {
-            if( $count4 > 0){
-                $this->prize_id = 0;
-            }
             return;
         }
 
@@ -102,19 +91,15 @@ class Lottery
         $prize = $prize_model->first();
 
         //如果为12则不考虑
-        if ($prize->id == 12) {
+        if ($prize->id == 0) {
             return;
         }
         //当日奖项设置
         $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', $prize->id)->sharedLock();
         if ($prize_config_model->count() == 0) {
             //如果此奖品奖池为空则分配最低等奖奖池
-            $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize', '!=', 12)->where('prize_num', '>', \DB::raw('win_num'))->orderby('prize', 'desc')->sharedLock();
+            $prize_config_model = \App\PrizeConfig::where('type', $prize_type)->where('lottery_date', $date)->where('prize_num', '>', \DB::raw('win_num'))->orderby('prize', 'desc')->sharedLock();
             if ($prize_config_model->count() == 0) {
-                if ($count4 > 0) {
-                    $this->prize_id = 0;
-                }
-
                 return;
             }
             $prize_config = $prize_config_model->first();
@@ -123,42 +108,9 @@ class Lottery
         } else {
             $prize_config = $prize_config_model->first();
             if ($prize_config->prize_num <= $prize_config->win_num) {
-                if ($count4 > 0) {
-                    $this->prize_id = 0;
-                }
-
                 return;
             }
             $this->prize_config_id = $prize_config->id;
-        }
-
-        //判断用户是否中过1~-11
-        $count2 = \App\Lottery::where('user_id', $wechat_user->id)
-            ->where('prize', '<', '12')
-            ->sharedLock()
-            ->count();
-        $count3 = \App\Lottery::where('user_id', $wechat_user->id)
-            ->where('prize', 13)
-            ->sharedLock()
-            ->count();
-        //1~9只能中一次
-        if ($prize->id < 10 && $count2 > 0) {
-            $this->prize_id = $count4 == 0 ? 12 : 0;
-
-            return;
-        }
-        //13只能中一次
-        /*
-        if ($prize->id == 13 && $count3 > 0) {
-            $this->prize_id = $count4 == 0 ? 12 : 0;
-
-            return;
-        }
-        */
-        if ($count4 > 0 && $prize->id == 12) {
-            $this->prize_id = 0;
-
-            return;
         }
 
         $this->prize_id = $prize->id;
@@ -222,7 +174,7 @@ class Lottery
         $lottery->lottery_time = Carbon::now();
         $lottery->has_lottery = 1;
         $lottery->save();
-        $session->set('lottery.id', null);
+        //$session->set('lottery.id', null);
 
         return;
     }
