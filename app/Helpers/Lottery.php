@@ -174,7 +174,7 @@ class Lottery
         $lottery->lottery_time = Carbon::now();
         $lottery->has_lottery = 1;
         $lottery->save();
-        //$session->set('lottery.id', null);
+        $session->set('lottery.id', null);
 
         return;
     }

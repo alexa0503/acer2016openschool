@@ -103,6 +103,21 @@ class HomeController extends Controller
     //抽奖
     public function lottery(Request $request)
     {
+        if( null != $request->get('snid')){
+            $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
+            $lottery = new \App\Lottery();
+            $lottery->user_id = $wechat_user->id;
+            $lottery->snid = $request->get('snid');
+            $lottery->has_lottery = 0;
+            $lottery->prize = 0;
+            $lottery->prize_type = 0;
+            $lottery->prize_code_id = null;
+            $lottery->lottery_time = null;
+            $lottery->created_time = Carbon::now();
+            $lottery->created_ip = $request->getClientIp();
+            $lottery->save();
+            $request->session()->set('lottery.id', $lottery->id);
+        }
         //未输入snid不给中奖
         if( \Session::get('lottery.id') == null ){
             return ['ret' => 0,  'msg' => '1000'];
@@ -123,9 +138,10 @@ class HomeController extends Controller
         $wechat_user = \App\WechatUser::where('open_id', $request->session()->get('wechat.openid'))->first();
         $lottery = \App\Lottery::where('user_id', $wechat_user->id)->orderBy('created_time', 'DESC')->first();
 
-        $lottery_timestamp = null == $lottery ? 0 : strtotime($lottery->created_time);
         $count = \App\Lottery::where('user_id', $wechat_user->id)->count();
-        if( $lottery_timestamp + 5 > time() || $count >= 100){
+        //$lottery_timestamp = null == $lottery ? 0 : strtotime($lottery->created_time);
+        //$lottery_timestamp + 15 > time()
+        if( $count >= 100){
             return ['ret' => 0, 'msg' => '1001'];
         }
         else{

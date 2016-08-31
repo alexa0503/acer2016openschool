@@ -76,27 +76,25 @@ function closeLoading() {
     $('.loadingGif').hide();
 }
 
-function pageAlert(txt,type) {
+function pageAlert(txt, type) {
     $('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
     $('.alertTxt').html(txt);
     if (txt.length > 16 && txt.length <= 30) {
         $('.alertTxt').addClass('alertTxt1');
     } else if (txt.length > 30) {
         $('.alertTxt').addClass('alertTxt2');
+    } else {
+        $('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
     }
-	else{
-		$('.alertTxt').removeClass('alertTxt1', 'alertTxt2');
-		}
-	if(type==2){
-		$('.btn10').hide();
-		$('.btn11').show();
-		$('.btn12').show();
-		}
-		else{
-			$('.btn11').hide();
-			$('.btn12').hide();
-			$('.btn10').show();
-			}
+    if (type == 2) {
+        $('.btn10').hide();
+        $('.btn11').show();
+        $('.btn12').show();
+    } else {
+        $('.btn11').hide();
+        $('.btn12').hide();
+        $('.btn10').show();
+    }
     $('.pageAlert').show();
 }
 
@@ -104,15 +102,15 @@ function closeAlert() {
     $('.pageAlert').hide();
 }
 
-function playAgain(){
-	gameInit();
-	closeLoading();
-	$('.page').hide();
-	$('.page2').show();
-	gameCd=setInterval(function(){
-		gamecdFn();
-		},1000);
-	}
+function playAgain() {
+    gameInit();
+    closeLoading();
+    $('.page').hide();
+    $('.page2').show();
+    gameCd = setInterval(function() {
+        gamecdFn();
+    }, 1000);
+}
 
 var ruleBack = 1;
 
@@ -148,11 +146,11 @@ function closeAward() {
 }
 
 function showShare() {
-	$('.pageShare').show();
+    $('.pageShare').show();
 }
 
-function closeShare(){
-	$('.pageShare').hide();
+function closeShare() {
+    $('.pageShare').hide();
 }
 
 function submitSnid(url) {
@@ -171,6 +169,7 @@ function submitSnid(url) {
             dataType: 'json',
             success: function(json) {
                 if (json.ret == 0) {
+                    snid = snidCode;
                     //提交成功
                     closeLoading();
                     goPage2();
@@ -195,31 +194,31 @@ function goPage2() {
     $('.snidPage').hide();
     $('.page1').hide();
     $('.page2').show();
-	gameCd=setInterval(function(){
-		gamecdFn();
-		},1000);
+    gameCd = setInterval(function() {
+        gamecdFn();
+    }, 1000);
 }
 
 var gameCd;
-var gametime=3;
-function gamecdFn(){
-	gametime=gametime-1;
-	if(gametime==0){
-		$('.cdImg').hide();
-		clearInterval(gameCd);
-		if (isFirstTouch) {
-			isFirstTouch = false;
-			$('.page2Img2').fadeOut(500);
-			$('.gameTime').fadeIn(500);
-			gameInterval = setInterval(function() {
-				gameRunTime();
-				}, 1000);
-			}
-		}
-		else{
-			$('.cdImg').css('background-position',(1-gametime)*640+'px');
-			}
-	}
+var gametime = 3;
+
+function gamecdFn() {
+    gametime = gametime - 1;
+    if (gametime == 0) {
+        $('.cdImg').hide();
+        clearInterval(gameCd);
+        if (isFirstTouch) {
+            isFirstTouch = false;
+            $('.page2Img2').fadeOut(500);
+            $('.gameTime').fadeIn(500);
+            gameInterval = setInterval(function() {
+                gameRunTime();
+            }, 1000);
+        }
+    } else {
+        $('.cdImg').css('background-position', (1 - gametime) * 640 + 'px');
+    }
+}
 
 var hp = 476;
 var lighta, lightb, delaya, delayb;
@@ -278,8 +277,8 @@ function gameRunTime() {
 function gameInit() {
     attackNumb = 0;
     gameCurrent = 0;
-	$('.cdImg').css('background-position','-1280px').show();
-	gametime=3;
+    $('.cdImg').css('background-position', '-1280px').show();
+    gametime = 3;
     $('.gameTime').html('10').hide();
     $('.page2Img2').show();
     $('.page2Img6a').hide();
@@ -294,7 +293,8 @@ function getLottery() {
     //ajax抽奖
     $.ajax(lotteryUrl, {
         data: {
-            _token: $('input[name="_token"]').val()
+            _token: $('input[name="_token"]').val(),
+            snid: snid
         },
         type: 'post',
         dataType: 'json',
@@ -305,7 +305,7 @@ function getLottery() {
                 var lotteryNumb = json.prize_id; //1-5等奖
             }
             //成功中奖
-			//json.prize_title
+            //json.prize_title
             closeLoading();
 
             $('.awardImg').attr('src', 'assets/images/award' + lotteryNumb + '.png');
@@ -316,20 +316,20 @@ function getLottery() {
                 if (endType == 2) {
                     desc = '你一定拥有尽洪荒之力<br>很遗憾，未中奖，请再接再厉。';
                 } else {
-                    desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>就算战五渣，<br>别气馁，下次再战！'
+                    desc = '你的攻击力已达' + (100 - parseInt((attackMax - attackNumb) / attackMax * 100)) + '%<br>就算战五渣，<br>别气馁，下次再战！'
                 }
             } else {
                 if (endType == 2) {
                     desc = '你一定拥有尽洪荒之力<br>恭喜你，获得了' + json.prize_title;
                 } else {
-                    desc = '你的攻击力已达'+(100-parseInt((attackMax - attackNumb) / attackMax * 100))+'%<br>十万伏特的洪荒之力MAX<br>恭喜你位列战神席位！';
+                    desc = '你的攻击力已达' + (100 - parseInt((attackMax - attackNumb) / attackMax * 100)) + '%<br>十万伏特的洪荒之力MAX<br>恭喜你位列战神席位！';
 
                 }
             }
-            pageAlert(desc ,2);
+            pageAlert(desc, 2);
             gameInit();
             //wxData.desc = wechat_share_desc_2;
-            wxData.desc = desc.replace(/<br>/g,'');
+            wxData.desc = desc.replace(/<br>/g, '');
             wxShare();
         },
         error: function() {
